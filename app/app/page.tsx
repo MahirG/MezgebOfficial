@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { EmbeddedMezgebApp } from '@/components/embedded-mezgeb-app';
 import './app.css';
 
 export const metadata: Metadata = {
@@ -18,32 +19,26 @@ export default function MezgebAppPage() {
           reports, inventory, suppliers and application settings without leaving Mezgeb.
         </p>
         <div className="appRouteActions">
-          <a className="button primary" href="/mezgeb-app.html" target="_blank" rel="noreferrer">
-            Open full screen
-          </a>
+          <a className="button primary" href="#mezgeb-application">Open application</a>
           <Link className="textButton" href="/demo">Open quick demo →</Link>
           <Link className="textButton" href="/dashboard">Production dashboard →</Link>
         </div>
       </section>
 
-      <section className="container embeddedAppShell" aria-label="Embedded Mezgeb application">
+      <section
+        className="container embeddedAppShell"
+        id="mezgeb-application"
+        aria-label="Embedded Mezgeb application"
+      >
         <div className="embeddedAppBar">
           <div>
             <span className="embeddedStatusDot" aria-hidden="true" />
             <strong>Mezgeb መዝገብ</strong>
             <small>Interactive application · sample data</small>
           </div>
-          <a href="/mezgeb-app.html" target="_blank" rel="noreferrer">Full screen ↗</a>
+          <span>Website-branded application</span>
         </div>
-        <iframe
-          className="mezgebAppFrame"
-          src="/mezgeb-app.html?embedded=1"
-          title="Mezgeb application"
-          loading="eager"
-          allow="clipboard-read; clipboard-write"
-          referrerPolicy="same-origin"
-          allowFullScreen
-        />
+        <EmbeddedMezgebApp showFullscreenControl />
       </section>
 
       <section className="container appRouteNotice">
