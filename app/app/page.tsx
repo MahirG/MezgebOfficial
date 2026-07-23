@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { EmbeddedMezgebApp } from '@/components/embedded-mezgeb-app';
+import { getMezgebAppHtml } from '@/lib/mezgeb-app';
 import './app.css';
 
 export const metadata: Metadata = {
@@ -9,6 +10,8 @@ export const metadata: Metadata = {
 };
 
 export default function MezgebAppPage() {
+  const documentHtml = getMezgebAppHtml();
+
   return (
     <main id="main-content" className="embeddedAppPage">
       <section className="container appRouteIntro">
@@ -38,7 +41,7 @@ export default function MezgebAppPage() {
           </div>
           <span>Website-branded application</span>
         </div>
-        <EmbeddedMezgebApp showFullscreenControl />
+        <EmbeddedMezgebApp documentHtml={documentHtml} showFullscreenControl />
       </section>
 
       <section className="container appRouteNotice">
