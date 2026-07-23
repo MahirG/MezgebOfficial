@@ -25,15 +25,31 @@ export function BusinessOnboardingForm() {
 
     try {
       const supabase = createClient();
-      const { error } = await supabase.rpc('mezgeb_create_business', {
-        business_name: businessName,
-        business_city: String(form.get('city') ?? '').trim() || null,
-        business_phone: String(form.get('phone') ?? '').trim() || null,
-        business_tin: String(form.get('tin') ?? '').trim() || null,
-        is_vat_registered: form.get('vatRegistered') === 'on'
-      });
+      const { data: userData, error: userError } = await supabase.auth.getUser();
+      if (userError || !userData.user) throw userError ?? new Error('Your session has expired. Sign in again.');
 
-      if (error) throw error;
+      const { data: business, error: businessError } = await supabase
+        .from('mezgeb_businesses')
+        .insert({
+          owner_id: userData.user.id,
+          name: businessName,
+          city: String(form.get('city') ?? '').trim() || null,
+          phone: String(form.get('phone') ?? '').trim() || null,
+          tin: String(form.get('tin') ?? '').trim() || null,
+          vat_registered: form.get('vatRegistered') === 'on'
+        })
+        .select('id')
+        .single();
+
+      if (businessError) throw businessError;
+
+      const { error: profileError } = await supabase
+        .from('mezgeb_profiles')
+        .update({ last_business_id: business.id })
+        .eq('id', userData.user.id);
+
+      if (profileError) throw profileError;
+
       setStatus('Business created successfully. Loading your workspace…');
       event.currentTarget.reset();
       router.refresh();
