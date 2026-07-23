@@ -12,5 +12,12 @@ export default defineConfig([
       'react-hooks/set-state-in-effect': 'off'
     }
   },
+  {
+    files: ['components/pricing-plans.tsx'],
+    rules: {
+      // Pricing loads the authenticated subscription and may apply a plan intentionally chosen before auth.
+      'react-hooks/set-state-in-effect': 'off'
+    }
+  },
   globalIgnores(['.next/**', 'out/**', 'coverage/**', 'playwright-report/**'])
 ]);
