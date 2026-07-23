@@ -66,8 +66,8 @@ export function AuthForm({ mode }: { mode: 'sign-in' | 'sign-up' }) {
         return;
       }
 
-      setStatus('Account created. Check your email and confirm your address to continue.');
       formElement.reset();
+      window.location.assign(`/auth/check-email?email=${encodeURIComponent(email)}`);
     } catch (error) {
       setStatus(error instanceof Error ? error.message : 'Authentication could not be completed.');
     } finally {
