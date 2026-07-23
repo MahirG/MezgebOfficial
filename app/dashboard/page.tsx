@@ -2,6 +2,14 @@ import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { BusinessOnboardingForm } from '@/components/business-onboarding-form';
 import { createClient } from '@/lib/supabase/server';
+import styles from './dashboard.module.css';
+
+function formatDate(value: string | null) {
+  if (!value) return null;
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return null;
+  return new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).format(date);
+}
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -9,7 +17,11 @@ export default async function DashboardPage() {
   if (userError || !userData.user) redirect('/auth/sign-in');
 
   const user = userData.user;
-  const [{ data: profile }, { data: businesses, error: businessesError }] = await Promise.all([
+  const [
+    { data: profile },
+    { data: businesses, error: businessesError },
+    { data: subscription }
+  ] = await Promise.all([
     supabase
       .from('mezgeb_profiles')
       .select('full_name, preferred_language, last_business_id')
@@ -18,11 +30,30 @@ export default async function DashboardPage() {
     supabase
       .from('mezgeb_businesses')
       .select('id, name, city, tin, vat_registered, created_at')
-      .order('created_at', { ascending: true })
+      .order('created_at', { ascending: true }),
+    supabase
+      .from('mezgeb_subscriptions')
+      .select('plan_code, billing_cycle, status, amount_etb, currency, trial_ends_at, current_period_end')
+      .eq('user_id', user.id)
+      .maybeSingle()
   ]);
 
   const displayName = profile?.full_name || String(user.user_metadata?.full_name ?? '') || user.email?.split('@')[0] || 'Business owner';
   const businessList = businesses ?? [];
+  const planName = subscription?.plan_code === 'pro' ? 'Mezgeb Pro' : 'Free';
+  const subscriptionStatus = subscription?.status ?? 'available';
+  const billingCycle = subscription?.billing_cycle === 'annual' ? 'yearly' : 'monthly';
+  const trialEnd = formatDate(subscription?.trial_ends_at ?? null);
+  const periodEnd = formatDate(subscription?.current_period_end ?? null);
+  const planDescription = subscription
+    ? subscription.status === 'trialing' && trialEnd
+      ? `${billingCycle} plan · Trial ends ${trialEnd}`
+      : subscription.status === 'pending_payment'
+        ? `${billingCycle} selection saved · Payment provider connection required`
+        : periodEnd
+          ? `${billingCycle} plan · Current period ends ${periodEnd}`
+          : `${billingCycle} plan · ETB ${Number(subscription.amount_etb ?? 0).toLocaleString('en-US')}`
+    : 'No plan has been selected yet. Free access remains available.';
 
   return (
     <main id="main-content" className="accountDashboard">
@@ -41,6 +72,18 @@ export default async function DashboardPage() {
             </form>
           </div>
         </header>
+
+        <section className={styles.subscriptionCard} aria-label="Mezgeb subscription">
+          <div className={styles.copy}>
+            <small>Current plan</small>
+            <h2>{planName}</h2>
+            <p>{planDescription}</p>
+          </div>
+          <div className={styles.meta}>
+            <span className={`${styles.badge} ${subscriptionStatus === 'trialing' ? styles.trial : ''}`}>{subscriptionStatus.replace('_', ' ')}</span>
+            <Link className={`button white ${styles.action}`} href="/#pricing">Manage plan</Link>
+          </div>
+        </section>
 
         {businessesError ? (
           <section className="dashboardEmpty">
