@@ -13,7 +13,8 @@ export function BusinessOnboardingForm() {
     event.preventDefault();
     if (busy) return;
 
-    const form = new FormData(event.currentTarget);
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
     const businessName = String(form.get('businessName') ?? '').trim();
     if (businessName.length < 2) {
       setStatus('Enter your business name.');
@@ -51,7 +52,7 @@ export function BusinessOnboardingForm() {
       if (profileError) throw profileError;
 
       setStatus('Business created successfully. Loading your workspace…');
-      event.currentTarget.reset();
+      formElement.reset();
       router.refresh();
     } catch (error) {
       setStatus(error instanceof Error ? error.message : 'The business could not be created.');
