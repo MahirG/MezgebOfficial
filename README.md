@@ -10,20 +10,24 @@ The visual application at `/app` still uses browser-local prototype transactions
 
 ## Authentication routes
 
-- `/auth/sign-up` — full-name, email and password registration
+- `/auth/sign-up` — two-step Ethiopian registration with contact, location, language, role and limited ID details
+- `/auth/check-email` — mandatory email-confirmation guidance and resend control
 - `/auth/callback` — email-confirmation and recovery-code exchange
 - `/auth/sign-in` — password authentication with safe return paths
 - `/auth/forgot-password` — secure recovery email request
 - `/auth/update-password` — authenticated password replacement
 - `/auth/sign-out` — session termination
-- `/dashboard` — protected business onboarding and workspace selection
+- `/dashboard` — protected business onboarding, plan visibility and workspace selection
 
-Supabase SSR sessions are refreshed through `proxy.ts`. New Auth users automatically receive a `mezgeb_profiles` row through a locked database trigger.
+Supabase SSR sessions are refreshed through `proxy.ts`. New Auth users automatically receive a `mezgeb_profiles` row and an active Free subscription through locked database triggers.
+
+The registration form accepts Fayda, Ethiopian passport, Origin ID, Kebele/resident ID, driver’s license or another government-issued document. Only the document type and final four characters are stored. Registration does not claim that the identity is verified.
 
 ## Application routes
 
 - `/app` — native Next.js Mezgeb workspace with dashboard, ledger, receipts, Dube, reports and operations
 - `/demo` — lightweight public product demo
+- `/pricing` — Supabase-backed Free and Pro plan selection
 - `/dashboard` — authenticated account and business workspace selector
 
 ## Connected database
@@ -35,16 +39,24 @@ The connected project already contained unrelated live-streaming tables. Mezgeb 
 - `mezgeb_customers`
 - `mezgeb_transactions`
 - `mezgeb_receipts`
+- `mezgeb_plans`
+- `mezgeb_subscriptions`
 - `mezgeb_audit_logs`
 - `mezgeb_deletion_requests`
 
-All Mezgeb tables have Row Level Security enabled. Ownership policies restrict business data to the authenticated owner. The Supabase security advisor reports no unresolved findings after deployment.
+All Mezgeb tables have Row Level Security enabled. Ownership policies restrict business data to the authenticated owner. Column-level grants prevent users from self-verifying identity or marking a paid subscription active.
+
+Pricing is server-enforced: the browser may select only the plan and billing cycle. PostgreSQL recalculates the ETB amount, assigns the seven-day Pro trial once, and protects payment-provider and subscription-status fields.
+
+## Supabase advisor status
+
+Database RLS, foreign-key indexes and security-definer checks are clean. The only remaining Auth warning is **Leaked Password Protection Disabled**, which must be enabled in the Supabase Auth password-security settings before production launch.
 
 ## Stack
 
 - Next.js 16 App Router, React 19 and TypeScript
 - Supabase Auth with cookie-based SSR sessions
-- PostgreSQL Row Level Security
+- PostgreSQL Row Level Security and server-enforced subscription triggers
 - Vitest, Playwright, ESLint and Prettier
 - GitHub Actions CI, CodeQL and Dependabot
 
@@ -58,15 +70,9 @@ npm run dev
 
 Open `http://localhost:3000`. Authentication uses the connected Mezgeb Supabase project defined in `.env.example` and `lib/supabase/config.ts`.
 
-## Database migration
+## Database migrations
 
-The deployed schema is tracked at:
-
-```text
-supabase/migrations/202607230002_mezgeb_authentication_and_business_foundation.sql
-```
-
-The earlier `202607230001_initial_schema.sql` is intentionally retired because it assumed an empty project and conflicted with the existing `profiles` table.
+The deployed conflict-safe schema and subsequent authentication, pricing and hardening migrations are tracked in `supabase/migrations/`. The retired `202607230001_initial_schema.sql` assumed an empty project and should not be applied to the connected database.
 
 Never expose or commit `SUPABASE_SERVICE_ROLE_KEY`.
 
@@ -83,4 +89,4 @@ npm run test:e2e
 
 ## Data safety
 
-Authentication and business onboarding are backed by Supabase. The `/app` transaction screens remain browser-local until the next database-integration phase. Use sample data there only.
+Authentication, profile onboarding, pricing and business creation are backed by Supabase. The `/app` transaction screens remain browser-local until the next database-integration phase. Use sample data there only.
