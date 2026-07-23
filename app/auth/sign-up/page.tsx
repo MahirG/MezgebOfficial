@@ -1,14 +1,16 @@
 import Link from 'next/link';
-import { AuthForm } from '@/components/auth-form';
+import { EthiopianSignUpForm } from '@/components/ethiopian-sign-up-form';
 
 export default function SignUpPage() {
   return (
-    <main id="main-content" className="authPage">
+    <main id="main-content" className="authPage authPageWide">
       <section>
-        <p className="overline">Create your account</p>
+        <p className="overline">Create your Ethiopian business account</p>
         <h1>Start your secure business record.</h1>
-        <p>Create a Mezgeb account, confirm your email, and set up your first business workspace.</p>
-        <AuthForm mode="sign-up" />
+        <p>
+          Register with your contact, location, and limited identity details. Confirm your email before entering the protected Mezgeb workspace.
+        </p>
+        <EthiopianSignUpForm />
         <small>Already registered? <Link href="/auth/sign-in">Sign in</Link></small>
       </section>
     </main>
