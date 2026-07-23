@@ -1,10 +1,19 @@
 # Mezgeb መዝገብ
 
-Official Next.js production foundation for an Ethiopian small-business ledger covering sales, expenses, VAT-ready receipts, Dube customer credit, mobile money, reports, inventory and business operations.
+Official Next.js foundation for an Ethiopian small-business ledger covering sales, expenses, VAT-ready receipts, Dube customer credit, mobile money, reports, inventory and business operations.
 
 ## Status
 
-The marketing site and interactive demo are complete. Production authentication and database capabilities are scaffolded but require a **dedicated Mezgeb Supabase project**, migration deployment, environment variables, legal review and security verification before real financial data is used.
+The Apple-style marketing website includes a native Mezgeb application at `/app`, so users can operate the product without leaving the website. A smaller quick demo remains available at `/demo`. Production authentication and database capabilities are scaffolded but require a **dedicated Mezgeb Supabase project**, migration deployment, environment variables, legal review and security verification before real financial data is used.
+
+## Application routes
+
+- `/app` — native Next.js Mezgeb workspace with dashboard, ledger, receipts, Dube, reports and operations
+- `/demo` — lightweight quick demo
+- `/dashboard` — protected production dashboard foundation
+- `/auth/sign-in` and `/auth/sign-up` — Supabase SSR authentication routes
+
+The native application is implemented in `components/mezgeb-application.tsx`, uses the same branding as the marketing website and stores prototype entries locally in the browser.
 
 ## Stack
 
@@ -22,7 +31,7 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:3000`.
+Open `http://localhost:3000` and use `http://localhost:3000/app` for the integrated application.
 
 ## Supabase
 
@@ -47,4 +56,4 @@ npm run test:e2e
 
 ## Prototype safety
 
-The `/demo` route uses sample local data. Never enter real financial, customer, TIN or personal data into an unconfigured deployment.
+The `/app` and `/demo` routes use sample browser-local data. Never enter real financial, customer, TIN or personal data into an unconfigured deployment.
