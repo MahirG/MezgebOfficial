@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { FormEvent, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 
-export function ConfirmEmailCard({ initialEmail }: { initialEmail: string }) {
+export function ConfirmEmailCard({ initialEmail, nextPath }: { initialEmail: string; nextPath: string }) {
   const [email, setEmail] = useState(initialEmail);
   const [status, setStatus] = useState('');
   const [busy, setBusy] = useState(false);
@@ -21,7 +21,7 @@ export function ConfirmEmailCard({ initialEmail }: { initialEmail: string }) {
     setStatus('Sending a new confirmation email…');
     try {
       const callback = new URL('/auth/callback', window.location.origin);
-      callback.searchParams.set('next', '/dashboard');
+      callback.searchParams.set('next', nextPath);
       const supabase = createClient();
       const { error } = await supabase.auth.resend({
         type: 'signup',
@@ -70,7 +70,7 @@ export function ConfirmEmailCard({ initialEmail }: { initialEmail: string }) {
         <p className="authStatus" role="status" aria-live="polite">{status}</p>
       </form>
 
-      <Link className="button secondaryDark" href="/auth/sign-in">
+      <Link className="button secondaryDark" href={`/auth/sign-in?next=${encodeURIComponent(nextPath)}`}>
         I confirmed my email — sign in
       </Link>
       <small>The confirmation link may expire. Use resend to receive a fresh one.</small>
