@@ -71,7 +71,7 @@ export async function getPricingData(): Promise<{
       supabase.auth.getUser()
     ]);
 
-    const plans = !plansError && planRows?.length
+    const plans: PricingPlan[] = !plansError && planRows?.length
       ? planRows.map((plan) => ({
           code: String(plan.code),
           name: String(plan.name),
@@ -92,7 +92,7 @@ export async function getPricingData(): Promise<{
       .eq('user_id', userData.user.id)
       .maybeSingle();
 
-    const subscription = subscriptionRow
+    const subscription: SubscriptionSummary | null = subscriptionRow
       ? {
           planCode: String(subscriptionRow.plan_code),
           billingCycle: subscriptionRow.billing_cycle === 'annual' ? 'annual' : 'monthly',
