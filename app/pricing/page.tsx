@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { BillingCycle, PricingPlans } from '@/components/pricing-plans';
+import { PricingPlans, type BillingCycle } from '@/components/pricing-plans';
 
 export const metadata: Metadata = {
   title: 'Pricing',
