@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { MezgebApplication } from '@/components/mezgeb-application';
 import './app.css';
+import './mobile.css';
 
 export const metadata: Metadata = {
   title: 'Mezgeb application',
