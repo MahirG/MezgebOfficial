@@ -56,24 +56,54 @@ test('native app records a local sample transaction', async ({ page }) => {
   await expect(page.getByText('Test coffee sale')).toBeVisible();
 });
 
-test('authentication and password recovery pages are available', async ({ page }) => {
+test('Ethiopian registration is moderate and uses a two-step identity flow', async ({ page }) => {
   await page.goto('/auth/sign-up');
   await expect(page.getByRole('heading', { name: /secure business record/i })).toBeVisible();
-  await expect(page.getByLabel('Full name')).toBeVisible();
-  await expect(page.getByLabel('Email address')).toBeVisible();
-  await expect(page.getByLabel('Confirm password')).toBeVisible();
+  await expect(page.getByLabel('Full legal name')).toBeVisible();
+  await expect(page.getByLabel('Ethiopian mobile number')).toBeVisible();
+  await expect(page.getByLabel('Region / city administration')).toBeVisible();
+  await expect(page.getByLabel('City, sub-city, zone, or woreda')).toBeVisible();
+  await expect(page.getByLabel('Preferred language')).toBeVisible();
+  await expect(page.getByLabel('Your role')).toBeVisible();
 
+  await page.getByLabel('Full legal name').fill('Test Ethiopian User');
+  await page.getByLabel('Ethiopian mobile number').fill('0911234567');
+  await page.getByLabel('Email address').fill('test@example.com');
+  await page.getByLabel('Region / city administration').selectOption('Addis Ababa');
+  await page.getByLabel('City, sub-city, zone, or woreda').fill('Bole');
+  await page.getByRole('button', { name: 'Continue to security' }).click();
+
+  await expect(page.getByLabel('Ethiopian ID type')).toBeVisible();
+  await expect(page.getByLabel('12-digit Fayda number')).toBeVisible();
+  await expect(page.getByLabel('Password', { exact: true })).toBeVisible();
+  await expect(page.getByLabel('Confirm password')).toBeVisible();
+  await expect(page.getByText(/complete document number is not stored/i)).toBeVisible();
+});
+
+test('password recovery page is available', async ({ page }) => {
   await page.goto('/auth/forgot-password');
   await expect(page.getByRole('heading', { name: /Reset your Mezgeb password/i })).toBeVisible();
   await expect(page.getByRole('button', { name: /Send password-reset link/i })).toBeVisible();
 });
 
-test('post-registration page clearly requires email confirmation', async ({ page }) => {
-  await page.goto('/auth/check-email?email=newuser%40example.com');
+test('post-registration page clearly requires email confirmation and preserves plan return', async ({ page }) => {
+  await page.goto('/auth/check-email?email=newuser%40example.com&next=%2Fpricing%3Fplan%3Dpro%26cycle%3Dannual');
   await expect(page.getByRole('heading', { name: /Check your email/i })).toBeVisible();
   await expect(page.getByText('newuser@example.com').first()).toBeVisible();
   await expect(page.getByRole('button', { name: /Resend confirmation email/i })).toBeVisible();
-  await expect(page.getByRole('link', { name: /I confirmed my email/i })).toBeVisible();
+  await expect(page.getByRole('link', { name: /I confirmed my email/i })).toHaveAttribute('href', /next=%2Fpricing/);
+});
+
+test('Supabase-backed pricing supports monthly and annual plans', async ({ page }) => {
+  await page.goto('/pricing');
+  await expect(page.getByRole('heading', { name: /Start free/i })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Choose Free' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Select Mezgeb Pro' })).toBeVisible();
+  await expect(page.getByText('ETB 299')).toBeVisible();
+
+  await page.getByRole('button', { name: /Annual/i }).click();
+  await expect(page.getByText('ETB 2,990')).toBeVisible();
+  await expect(page.getByText(/does not charge a card or mobile wallet/i)).toBeVisible();
 });
 
 test('dashboard redirects signed-out visitors to authentication', async ({ page }) => {
