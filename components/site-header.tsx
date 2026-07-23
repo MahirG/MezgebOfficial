@@ -9,7 +9,7 @@ const links = [
   ['Features', '/#features'],
   ['Built for Ethiopia', '/#ethiopia'],
   ['Security', '/security'],
-  ['Pricing', '/#pricing'],
+  ['Pricing', '/pricing'],
   ['Quick demo', '/demo']
 ] as const;
 
