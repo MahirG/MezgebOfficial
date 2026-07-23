@@ -1,10 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 
-type BillingCycle = 'monthly' | 'annual';
+export type BillingCycle = 'monthly' | 'annual';
 type Plan = {
   code: string;
   name: string;
@@ -43,22 +43,24 @@ function normalizeFeatures(value: unknown): string[] {
   return Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : [];
 }
 
-export function PricingPlans({ standalone = false }: { standalone?: boolean }) {
+export function PricingPlans({
+  standalone = false,
+  requestedPlan = null,
+  initialCycle = 'monthly'
+}: {
+  standalone?: boolean;
+  requestedPlan?: string | null;
+  initialCycle?: BillingCycle;
+}) {
   const [plans, setPlans] = useState<Plan[]>(FALLBACK_PLANS);
-  const [billingCycle, setBillingCycle] = useState<BillingCycle>('monthly');
+  const [billingCycle, setBillingCycle] = useState<BillingCycle>(initialCycle);
   const [subscription, setSubscription] = useState<Subscription | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [busyPlan, setBusyPlan] = useState<string | null>(null);
   const [status, setStatus] = useState('');
-  const [requestedPlan, setRequestedPlan] = useState<string | null>(null);
   const autoApplied = useRef(false);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const cycle = params.get('cycle');
-    if (cycle === 'annual' || cycle === 'monthly') setBillingCycle(cycle);
-    setRequestedPlan(params.get('plan'));
-
     const supabase = createClient();
     void (async () => {
       const [{ data: planRows }, { data: authData }] = await Promise.all([
@@ -98,7 +100,7 @@ export function PricingPlans({ standalone = false }: { standalone?: boolean }) {
     [plans, requestedPlan]
   );
 
-  async function persistPlan(planCode: string, cycle: BillingCycle, ownerId: string) {
+  const persistPlan = useCallback(async (planCode: string, cycle: BillingCycle, ownerId: string) => {
     const plan = plans.find((item) => item.code === planCode);
     if (!plan) throw new Error('This plan is not available.');
 
@@ -122,7 +124,7 @@ export function PricingPlans({ standalone = false }: { standalone?: boolean }) {
         ? 'Free plan activated on your Mezgeb account.'
         : 'Mezgeb Pro selected. No payment has been charged; the subscription is pending a verified payment connection.'
     );
-  }
+  }, [plans]);
 
   useEffect(() => {
     if (!requestedPlan || !userId || autoApplied.current || !plans.some((plan) => plan.code === requestedPlan)) return;
@@ -131,7 +133,7 @@ export function PricingPlans({ standalone = false }: { standalone?: boolean }) {
     void persistPlan(requestedPlan, billingCycle, userId)
       .catch((error) => setStatus(error instanceof Error ? error.message : 'The selected plan could not be saved.'))
       .finally(() => setBusyPlan(null));
-  }, [billingCycle, plans, requestedPlan, userId]);
+  }, [billingCycle, persistPlan, plans, requestedPlan, userId]);
 
   async function choosePlan(plan: Plan) {
     setBusyPlan(plan.code);
