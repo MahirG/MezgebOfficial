@@ -56,6 +56,24 @@ test('native app records a local sample transaction', async ({ page }) => {
   await expect(page.getByText('Test coffee sale')).toBeVisible();
 });
 
+test('authentication and password recovery pages are available', async ({ page }) => {
+  await page.goto('/auth/sign-up');
+  await expect(page.getByRole('heading', { name: /secure business record/i })).toBeVisible();
+  await expect(page.getByLabel('Full name')).toBeVisible();
+  await expect(page.getByLabel('Email address')).toBeVisible();
+  await expect(page.getByLabel('Confirm password')).toBeVisible();
+
+  await page.goto('/auth/forgot-password');
+  await expect(page.getByRole('heading', { name: /Reset your Mezgeb password/i })).toBeVisible();
+  await expect(page.getByRole('button', { name: /Send password-reset link/i })).toBeVisible();
+});
+
+test('dashboard redirects signed-out visitors to authentication', async ({ page }) => {
+  await page.goto('/dashboard');
+  await expect(page).toHaveURL(/\/auth\/sign-in\?next=%2Fdashboard/);
+  await expect(page.getByRole('heading', { name: /Welcome back to Mezgeb/i })).toBeVisible();
+});
+
 test('quick demo is explicitly labeled', async ({ page }) => {
   await page.goto('/demo');
   await expect(page.getByText('Sample data only')).toBeVisible();
