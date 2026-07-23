@@ -98,7 +98,8 @@ test('Supabase-backed pricing supports monthly and annual plans', async ({ page 
   await page.goto('/pricing');
   await expect(page.getByRole('heading', { name: /Start free/i })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Choose Free' })).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Select Mezgeb Pro' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Start Pro trial' })).toBeVisible();
+  await expect(page.getByText('7-day trial')).toBeVisible();
   await expect(page.getByText('ETB 299')).toBeVisible();
 
   await page.getByRole('button', { name: /Annual/i }).click();
