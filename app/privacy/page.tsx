@@ -1,4 +1,28 @@
 import type { Metadata } from 'next';
 import { LegalPage } from '@/components/legal-page';
+
 export const metadata: Metadata = { title: 'Privacy policy' };
-export default function Privacy(){ return <LegalPage title="Privacy policy" updated="23 July 2026"><h2>Prototype and production distinction</h2><p>The interactive demo uses sample data and local browser state. Production accounts may process profile, business, transaction, customer, receipt and support information only after backend configuration and launch approval.</p><h2>Purposes</h2><p>Information is used to operate the ledger, provide authentication, generate reports, prevent abuse, support users and meet legal obligations.</p><h2>Retention and deletion</h2><p>Users may request deletion. Financial records may require legally permitted retention. The final retention schedule must be reviewed for Ethiopian law before launch.</p><h2>Contact</h2><p>Use the repository security channel or the official support contact configured for production.</p></LegalPage>; }
+
+export default function Privacy() {
+  return (
+    <LegalPage title="Privacy policy" updated="23 July 2026">
+      <h2>Prototype and production distinction</h2>
+      <p>The interactive demo uses sample data and local browser state. Production accounts may process profile, business, transaction, customer, receipt, subscription and support information after backend configuration and launch approval.</p>
+
+      <h2>Registration information</h2>
+      <p>Registration may collect a legal name, Ethiopian mobile number, email address, region, city or woreda, preferred language, business role and identity-document type. During registration, Mezgeb retains only the final four characters of the identity number. The complete document number is used for client-side format validation and is not sent to or stored in the Mezgeb database.</p>
+
+      <h2>Identity verification status</h2>
+      <p>Providing an identity type and final four characters does not mean that the identity has been verified. Accounts remain marked unverified until Mezgeb connects an approved verification provider and completes the required consent, security and legal review.</p>
+
+      <h2>Purposes</h2>
+      <p>Information is used to operate the ledger, provide authentication, localize the account, prevent abuse, manage plan access, generate reports, support users and meet legal obligations.</p>
+
+      <h2>Retention and deletion</h2>
+      <p>Users may request deletion. Financial records may require legally permitted retention. Identity fragments should be deleted or anonymized when no longer required for their stated purpose, subject to applicable legal obligations.</p>
+
+      <h2>Contact</h2>
+      <p>Use the repository security channel or the official support contact configured for production.</p>
+    </LegalPage>
+  );
+}
