@@ -3,6 +3,7 @@ import { SiteHeader } from '@/components/site-header';
 import { SiteFooter } from '@/components/site-footer';
 import { siteUrl } from '@/lib/env';
 import './globals.css';
+import './registration-pricing.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
