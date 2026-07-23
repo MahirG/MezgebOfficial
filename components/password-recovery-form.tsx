@@ -11,7 +11,8 @@ export function PasswordRecoveryForm() {
     event.preventDefault();
     if (busy) return;
 
-    const form = new FormData(event.currentTarget);
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
     const email = String(form.get('email') ?? '').trim().toLowerCase();
     if (!email) {
       setStatus('Enter your registered email address.');
@@ -30,7 +31,7 @@ export function PasswordRecoveryForm() {
       });
       if (error) throw error;
       setStatus('Check your email. A password-reset link has been sent when the account exists.');
-      event.currentTarget.reset();
+      formElement.reset();
     } catch (error) {
       setStatus(error instanceof Error ? error.message : 'The reset request could not be completed.');
     } finally {
