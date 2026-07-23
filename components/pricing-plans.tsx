@@ -11,6 +11,7 @@ type Plan = {
   description: string;
   monthlyPrice: number;
   annualPrice: number;
+  trialDays: number;
   features: string[];
 };
 
@@ -27,6 +28,7 @@ const FALLBACK_PLANS: Plan[] = [
     description: 'For starting a digital daily ledger.',
     monthlyPrice: 0,
     annualPrice: 0,
+    trialDays: 0,
     features: ['Sales and expense ledger', 'Dube credit book', 'Basic reports', 'Up to 30 VAT receipts']
   },
   {
@@ -35,12 +37,21 @@ const FALLBACK_PLANS: Plan[] = [
     description: 'For growing businesses needing more control.',
     monthlyPrice: 299,
     annualPrice: 2990,
+    trialDays: 7,
     features: ['Unlimited VAT receipts', 'Advanced reports', 'Cross-device sync', 'Up to 10 businesses', 'Priority support']
   }
 ];
 
 function normalizeFeatures(value: unknown): string[] {
   return Array.isArray(value) ? value.filter((item): item is string => typeof item === 'string') : [];
+}
+
+function subscriptionMessage(plan: Plan, subscription: Subscription) {
+  if (plan.code === 'free') return 'Free plan activated on your Mezgeb account.';
+  if (subscription.status === 'trialing') {
+    return `${plan.trialDays}-day Mezgeb Pro trial activated. No payment has been charged.`;
+  }
+  return 'Mezgeb Pro selected. No payment has been charged; the subscription is pending a verified payment connection.';
 }
 
 export function PricingPlans({
@@ -66,7 +77,7 @@ export function PricingPlans({
       const [{ data: planRows }, { data: authData }] = await Promise.all([
         supabase
           .from('mezgeb_plans')
-          .select('code,name,description,monthly_price_etb,annual_price_etb,features,sort_order')
+          .select('code,name,description,monthly_price_etb,annual_price_etb,trial_days,features,sort_order')
           .eq('is_active', true)
           .order('sort_order'),
         supabase.auth.getUser()
@@ -79,6 +90,7 @@ export function PricingPlans({
           description: row.description,
           monthlyPrice: Number(row.monthly_price_etb),
           annualPrice: Number(row.annual_price_etb),
+          trialDays: Number(row.trial_days ?? 0),
           features: normalizeFeatures(row.features)
         })));
       }
@@ -104,26 +116,18 @@ export function PricingPlans({
     const plan = plans.find((item) => item.code === planCode);
     if (!plan) throw new Error('This plan is not available.');
 
-    const amount = cycle === 'annual' ? plan.annualPrice : plan.monthlyPrice;
-    const nextStatus = plan.code === 'free' ? 'active' : 'pending_payment';
     const supabase = createClient();
-    const { error } = await supabase.from('mezgeb_subscriptions').upsert({
-      user_id: ownerId,
-      plan_code: plan.code,
-      billing_cycle: cycle,
-      status: nextStatus,
-      amount_etb: amount,
-      currency: 'ETB',
-      provider: null
-    }, { onConflict: 'user_id' });
+    const { data: updated, error } = await supabase
+      .from('mezgeb_subscriptions')
+      .update({ plan_code: plan.code, billing_cycle: cycle })
+      .eq('user_id', ownerId)
+      .select('plan_code,billing_cycle,status')
+      .single();
 
     if (error) throw error;
-    setSubscription({ plan_code: plan.code, billing_cycle: cycle, status: nextStatus });
-    setStatus(
-      plan.code === 'free'
-        ? 'Free plan activated on your Mezgeb account.'
-        : 'Mezgeb Pro selected. No payment has been charged; the subscription is pending a verified payment connection.'
-    );
+    const safeSubscription = updated as Subscription;
+    setSubscription(safeSubscription);
+    setStatus(subscriptionMessage(plan, safeSubscription));
   }, [plans]);
 
   useEffect(() => {
@@ -159,7 +163,7 @@ export function PricingPlans({
       <header className="sectionHeader">
         <p className="overline">Supabase-backed pricing</p>
         <h2>Start free. Upgrade when the business grows.</h2>
-        <p>Plan details are loaded from Mezgeb’s database. Paid subscriptions remain pending until an approved payment provider confirms payment.</p>
+        <p>Plan details are loaded from Mezgeb’s database. Supabase—not the browser—calculates the ETB price and controls trial and payment status.</p>
       </header>
 
       <div className="billingToggle" role="group" aria-label="Billing cycle">
@@ -179,6 +183,7 @@ export function PricingPlans({
               <small>{plan.name}</small>
               <h3>ETB {amount.toLocaleString()} <span>/ {billingCycle === 'annual' ? 'year' : 'month'}</span></h3>
               <p>{plan.description}</p>
+              {plan.trialDays > 0 ? <div className="trialBadge">{plan.trialDays}-day trial</div> : null}
               {isCurrent ? <div className="currentPlanBadge">Current · {subscription.status.replace('_', ' ')}</div> : null}
               <ul>{plan.features.map((feature) => <li key={feature}>{feature}</li>)}</ul>
               <button
@@ -187,14 +192,14 @@ export function PricingPlans({
                 disabled={busyPlan !== null || isCurrent}
                 onClick={() => void choosePlan(plan)}
               >
-                {busyPlan === plan.code ? 'Saving…' : isCurrent ? 'Current plan' : plan.code === 'free' ? 'Choose Free' : 'Select Mezgeb Pro'}
+                {busyPlan === plan.code ? 'Saving…' : isCurrent ? 'Current plan' : plan.code === 'free' ? 'Choose Free' : 'Start Pro trial'}
               </button>
             </article>
           );
         })}
       </div>
       <p className="pricingStatus" role="status" aria-live="polite">{status}</p>
-      <p className="pricingFootnote">Selecting Pro does not charge a card or mobile wallet. Payment activation will require a verified gateway and server-side confirmation.</p>
+      <p className="pricingFootnote">Starting Pro does not charge a card or mobile wallet. Any paid activation must be confirmed by a verified provider through a secure server-side process.</p>
       {standalone ? <Link className="textButton" href="/">← Return to the website</Link> : null}
     </div>
   );
