@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { FormEvent, useEffect, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 
 function safeNextPath() {
@@ -12,14 +12,6 @@ function safeNextPath() {
 export function AuthForm({ mode }: { mode: 'sign-in' | 'sign-up' }) {
   const [status, setStatus] = useState('');
   const [busy, setBusy] = useState(false);
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const error = params.get('error');
-    const message = params.get('message');
-    if (error) setStatus(error);
-    if (message === 'signed-out') setStatus('You have been signed out securely.');
-  }, []);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
