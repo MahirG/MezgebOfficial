@@ -1,0 +1,4 @@
+import type { Metadata } from 'next';
+import { LegalPage } from '@/components/legal-page';
+export const metadata: Metadata = { title: 'Terms of service' };
+export default function Terms(){ return <LegalPage title="Terms of service" updated="23 July 2026"><h2>Prototype limitation</h2><p>The demo is for evaluation only and must not be used as an official accounting, tax or government submission system.</p><h2>No government endorsement</h2><p>Mezgeb is designed to help organize business records. It is not presented as ERCA-approved, government-certified or a substitute for professional tax advice.</p><h2>User responsibility</h2><p>Users are responsible for accurate records, lawful processing of customer data, account security and independent verification of tax submissions.</p><h2>Subscriptions</h2><p>Displayed pricing is proposed until commercial terms, billing, refunds and renewal rules are formally published.</p></LegalPage>; }
