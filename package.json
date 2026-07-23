@@ -14,6 +14,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
+    "email:validate": "node scripts/apply-supabase-email-templates.mjs --dry-run",
+    "email:apply": "node scripts/apply-supabase-email-templates.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
