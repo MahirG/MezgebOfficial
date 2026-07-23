@@ -34,6 +34,8 @@ jobs:
         run: exit 1
       - run: npm run typecheck
       - run: npm test
+      - name: Validate Supabase email templates
+        run: npm run email:validate
       - name: Production build
         id: production-build
         shell: bash

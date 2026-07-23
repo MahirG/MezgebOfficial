@@ -6,6 +6,18 @@ test('home page presents Mezgeb and opens the integrated app', async ({ page }) 
   await expect(page.getByRole('link', { name: 'Open Mezgeb app' }).first()).toBeVisible();
 });
 
+test('pricing loads ETB plans and supports annual selection', async ({ page }) => {
+  await page.goto('/#pricing');
+  await expect(page.getByRole('heading', { name: /Start free/i })).toBeVisible();
+  await expect(page.getByText('ETB 299').first()).toBeVisible();
+
+  await page.getByRole('button', { name: /Yearly/i }).click();
+  await expect(page.getByText('ETB 2,990').first()).toBeVisible();
+
+  await page.getByRole('button', { name: /Start 7-day trial/i }).click();
+  await expect(page).toHaveURL(/\/auth\/sign-up\?next=%2Fdashboard/);
+});
+
 test('native Mezgeb app is available inside the website', async ({ page }, testInfo) => {
   await page.goto('/app');
 
