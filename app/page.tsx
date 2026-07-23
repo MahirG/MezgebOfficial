@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { HeroDashboard } from '@/components/hero-dashboard';
 import { EarlyAccessForm } from '@/components/early-access-form';
+import { PricingPlans } from '@/components/pricing-plans';
 
 const features = [
   ['Ledger', 'Record sales, expenses, supplier purchases and corrections in seconds.', '↗'],
@@ -25,7 +26,7 @@ export default function Home() {
 
     <section className="section securityPreview"><div className="container split"><div><p className="overline">Security and trust</p><h2>Records protected by a production-ready architecture.</h2><p>Cookie-based authentication, Row Level Security, encrypted transport, audit logging, data deletion workflows and secure environment-variable practices are included in the repository foundation.</p><Link className="textButton" href="/security">Read the security model →</Link></div><div className="securityTiles"><article><b>Cookie-based sessions</b><span>Supabase SSR and PKCE-ready auth.</span></article><article><b>Row Level Security</b><span>Users access only their business records.</span></article><article><b>Audit logs</b><span>Track sensitive business actions.</span></article><article><b>Integrated application</b><span>Open the complete prototype without leaving the website.</span></article></div></div></section>
 
-    <section className="section" id="pricing"><div className="container"><header className="sectionHeader"><p className="overline">Proposed launch pricing</p><h2>Start free. Upgrade when the business grows.</h2><p>Pricing remains subject to final commercial validation before production launch.</p></header><div className="pricing"><article><small>Free</small><h3>ETB 0 <span>/ month</span></h3><p>For starting a digital daily ledger.</p><ul><li>Sales and expense ledger</li><li>Dube credit book</li><li>Basic reports</li><li>Up to 30 VAT receipts</li></ul><Link className="button secondaryDark" href="/app">Open Mezgeb</Link></article><article className="featured"><small>Mezgeb Pro</small><h3>ETB 299 <span>/ month</span></h3><p>For growing businesses needing more control.</p><ul><li>Unlimited VAT receipts</li><li>Advanced reports</li><li>Cross-device sync</li><li>Up to 10 businesses</li><li>Priority support</li></ul><Link className="button white" href="#early-access">Join early access</Link></article></div></div></section>
+    <PricingPlans />
 
     <section className="section earlyAccess" id="early-access"><div className="container split"><div><p className="overline">Early access</p><h2>Help shape Mezgeb’s production launch.</h2><p>The public site is honest about its status: the product foundation is production-oriented, but live financial use should begin only after a dedicated Supabase project, legal review and deployment verification are complete.</p></div><EarlyAccessForm /></div></section>
   </main>;
