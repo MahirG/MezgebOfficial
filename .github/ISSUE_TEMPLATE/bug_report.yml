@@ -1,0 +1,15 @@
+name: Bug report
+description: Report a reproducible Mezgeb problem
+title: '[Bug]: '
+body:
+  - type: textarea
+    id: description
+    attributes: { label: What happened? }
+    validations: { required: true }
+  - type: textarea
+    id: steps
+    attributes: { label: Reproduction steps }
+    validations: { required: true }
+  - type: dropdown
+    id: device
+    attributes: { label: Device, options: [Android, iPhone, Desktop, Tablet] }
