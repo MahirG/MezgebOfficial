@@ -6,14 +6,44 @@ test('home page presents Mezgeb and opens the integrated app', async ({ page }) 
   await expect(page.getByRole('link', { name: 'Open Mezgeb app' }).first()).toBeVisible();
 });
 
-test('native Mezgeb app is available inside the website', async ({ page }) => {
+test('native Mezgeb app is available inside the website', async ({ page }, testInfo) => {
   await page.goto('/app');
-  await expect(page.getByRole('heading', { name: /business workspace/i })).toBeVisible();
+
+  if (testInfo.project.name === 'mobile') {
+    await expect(page.locator('.mezgebAppIdentity')).toBeVisible();
+  } else {
+    await expect(page.getByRole('heading', { name: /business workspace/i })).toBeVisible();
+  }
+
   await expect(page.getByRole('navigation', { name: 'Mezgeb application navigation' })).toBeVisible();
   await expect(page.getByText('Net balance')).toBeVisible();
 
   await page.getByRole('button', { name: 'Ledger' }).click();
   await expect(page.getByRole('heading', { name: 'Record a transaction' })).toBeVisible();
+});
+
+test('mobile app fills the phone viewport and uses bottom navigation', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name !== 'mobile', 'Mobile layout verification');
+
+  await page.goto('/app');
+  await expect(page.locator('.siteHeader')).toBeHidden();
+  await expect(page.locator('.siteFooter')).toBeHidden();
+
+  const shell = page.locator('.nativeAppShell');
+  await expect(shell).toBeVisible();
+
+  const shellBox = await shell.boundingBox();
+  const viewport = page.viewportSize();
+  expect(shellBox).not.toBeNull();
+  expect(viewport).not.toBeNull();
+  expect(shellBox?.x ?? 99).toBeLessThanOrEqual(1);
+  expect(Math.abs((shellBox?.width ?? 0) - (viewport?.width ?? 0))).toBeLessThanOrEqual(2);
+
+  const navigation = page.getByRole('navigation', { name: 'Mezgeb application navigation' });
+  await expect(navigation).toHaveCSS('position', 'fixed');
+
+  await page.getByRole('button', { name: 'Receipts' }).click();
+  await expect(page.getByRole('heading', { name: 'Receipt history' })).toBeVisible();
 });
 
 test('native app records a local sample transaction', async ({ page }) => {

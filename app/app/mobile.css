@@ -1,0 +1,461 @@
+@media (max-width: 800px) {
+  html:has(.mezgebAppPage),
+  body:has(.mezgebAppPage) {
+    width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+    background: #f4f6fa;
+    overscroll-behavior-y: none;
+  }
+
+  body:has(.mezgebAppPage) .siteHeader,
+  body:has(.mezgebAppPage) .siteFooter {
+    display: none;
+  }
+
+  .mezgebAppPage {
+    min-height: 100dvh;
+    padding: 0 !important;
+    background: #f4f6fa;
+  }
+
+  .appRouteIntro,
+  .appRouteNotice {
+    display: none;
+  }
+
+  .nativeAppShell.container {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
+  }
+
+  .nativeMezgebApp {
+    display: flex;
+    min-height: 100dvh;
+    flex-direction: column;
+    border-radius: 0;
+    overflow: visible;
+    box-shadow: none;
+    padding-bottom: calc(72px + env(safe-area-inset-bottom));
+  }
+
+  .mezgebAppSidebar {
+    position: sticky;
+    top: 0;
+    z-index: 60;
+    display: block;
+    min-height: 64px;
+    padding: calc(10px + env(safe-area-inset-top)) 16px 10px;
+    background: #101828;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.16);
+  }
+
+  .mezgebAppIdentity {
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+  }
+
+  .mezgebAppLogo {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+  }
+
+  .mezgebAppIdentity strong {
+    font-size: 1rem;
+  }
+
+  .mezgebAppIdentity small {
+    font-size: 0.64rem;
+  }
+
+  .mezgebBusinessSwitcher,
+  .mezgebAppSidebarFoot {
+    display: none;
+  }
+
+  .mezgebAppSidebar nav {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 90;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 2px;
+    padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
+    overflow: visible;
+    border-top: 1px solid rgba(15, 23, 42, 0.08);
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 -10px 30px rgba(15, 23, 42, 0.1);
+    backdrop-filter: saturate(180%) blur(18px);
+    -webkit-backdrop-filter: saturate(180%) blur(18px);
+  }
+
+  .mezgebAppSidebar nav button {
+    width: 100%;
+    min-width: 0;
+    min-height: 54px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    padding: 5px 2px;
+    border-radius: 12px;
+    color: #718096;
+    text-align: center;
+    font-size: 0.56rem;
+    line-height: 1.05;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mezgebAppSidebar nav button i {
+    width: auto;
+    font-size: 1.08rem;
+    line-height: 1;
+  }
+
+  .mezgebAppSidebar nav button span {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mezgebAppSidebar nav button:hover {
+    background: transparent;
+    color: #718096;
+  }
+
+  .mezgebAppSidebar nav button.active,
+  .mezgebAppSidebar nav button.active:hover {
+    background: #eaf4ff;
+    color: #0071e3;
+    box-shadow: none;
+  }
+
+  .mezgebAppWorkspace {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .mezgebAppTopbar {
+    position: sticky;
+    top: calc(64px + env(safe-area-inset-top));
+    z-index: 45;
+    min-height: 60px;
+    padding: 10px 14px;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .mezgebAppTopbar p {
+    font-size: 0.65rem;
+  }
+
+  .mezgebAppTopbar strong {
+    font-size: 1rem;
+  }
+
+  .mezgebTopActions span {
+    display: none;
+  }
+
+  .mezgebTopActions button {
+    min-height: 40px;
+    padding: 0 13px;
+    font-size: 0.66rem;
+    touch-action: manipulation;
+  }
+
+  .mezgebNotice {
+    margin: 10px 12px 0;
+    padding: 12px 14px;
+    border-radius: 14px;
+  }
+
+  .mezgebAppContent {
+    padding: 12px 12px 20px;
+    overflow: visible;
+  }
+
+  .mezgebMetricGrid,
+  .mezgebDashboardGrid,
+  .mezgebTwoColumn,
+  .receiptWorkspace,
+  .creditGrid,
+  .reportGrid,
+  .operationsGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .mezgebMetricGrid {
+    gap: 10px;
+  }
+
+  .mezgebMetricGrid .balanceMetric {
+    grid-column: auto;
+  }
+
+  .mezgebMetricGrid article,
+  .mezgebPanel,
+  .mezgebEntryForm,
+  .mezgebLedgerPanel,
+  .receiptDocument,
+  .creditGrid article {
+    border-radius: 18px;
+  }
+
+  .mezgebMetricGrid article {
+    padding: 17px;
+  }
+
+  .mezgebMetricGrid strong {
+    font-size: clamp(1.35rem, 7vw, 1.75rem);
+  }
+
+  .balanceMetric > div {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mezgebQuickActions {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 9px;
+    margin: 10px 0;
+  }
+
+  .mezgebQuickActions button {
+    min-height: 68px;
+    padding: 11px;
+    border-radius: 16px;
+    touch-action: manipulation;
+  }
+
+  .mezgebQuickActions i {
+    width: 36px;
+    height: 36px;
+  }
+
+  .mezgebDashboardGrid,
+  .mezgebTwoColumn,
+  .creditGrid,
+  .reportGrid,
+  .operationsGrid {
+    gap: 10px;
+  }
+
+  .mezgebPanel,
+  .mezgebEntryForm,
+  .mezgebLedgerPanel {
+    padding: 16px;
+  }
+
+  .mezgebPanel header,
+  .mezgebLedgerPanel header {
+    gap: 8px;
+  }
+
+  .mezgebEntryForm input,
+  .mezgebEntryForm select,
+  .mezgebLedgerPanel header input {
+    height: 48px;
+    border-radius: 13px;
+    font-size: 16px;
+  }
+
+  .typeSelector button,
+  .mezgebPrimaryAction {
+    min-height: 48px;
+    touch-action: manipulation;
+  }
+
+  .mezgebLedgerPanel header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .mezgebLedgerPanel header input {
+    max-width: none;
+  }
+
+  .fullLedger {
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
+  }
+
+  .mezgebTransactionRow {
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    gap: 4px 10px;
+    min-height: 60px;
+    padding: 10px 0;
+  }
+
+  .mezgebTransactionRow > i {
+    grid-row: 1 / 3;
+    align-self: center;
+  }
+
+  .mezgebTransactionRow > span {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    align-self: center;
+  }
+
+  .mezgebTransactionRow > strong {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: end;
+  }
+
+  .mezgebTransactionRow > button {
+    grid-column: 3;
+    grid-row: 2;
+    justify-self: end;
+    min-width: 32px;
+    min-height: 28px;
+  }
+
+  .mezgebTransactionRow b {
+    white-space: normal;
+    overflow: visible;
+  }
+
+  .mezgebTransactionRow small {
+    line-height: 1.4;
+  }
+
+  .mezgebSectionHeading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 15px;
+  }
+
+  .mezgebSectionHeading h2 {
+    font-size: 1.55rem;
+  }
+
+  .mezgebSectionHeading > strong {
+    text-align: left;
+  }
+
+  .receiptDocument {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .receiptItem,
+  .receiptMeta,
+  .receiptGrandTotal {
+    gap: 12px;
+  }
+
+  .receiptItem span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .creditGrid article > strong {
+    margin: 14px 0 11px;
+  }
+
+  .activityBars,
+  .reportBars {
+    height: 145px;
+    gap: 6px;
+  }
+
+  .operationRow {
+    gap: 12px;
+  }
+
+  .operationRow > b,
+  .operationRow > strong {
+    text-align: right;
+    overflow-wrap: anywhere;
+  }
+
+  button,
+  a,
+  input,
+  select {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@media (max-width: 430px) {
+  .mezgebAppSidebar {
+    padding-inline: 13px;
+  }
+
+  .mezgebAppIdentity small {
+    display: none;
+  }
+
+  .mezgebAppTopbar p {
+    display: none;
+  }
+
+  .mezgebAppTopbar {
+    min-height: 56px;
+  }
+
+  .mezgebAppSidebar nav {
+    padding-inline: 2px;
+  }
+
+  .mezgebAppSidebar nav button {
+    min-height: 52px;
+    padding-inline: 1px;
+    font-size: 0.52rem;
+  }
+
+  .mezgebAppContent {
+    padding-inline: 10px;
+  }
+
+  .mezgebQuickActions {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .mezgebQuickActions button {
+    gap: 8px;
+    font-size: 0.68rem;
+  }
+
+  .balanceMetric > div {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .mezgebMetricGrid article,
+  .mezgebPanel,
+  .mezgebEntryForm,
+  .mezgebLedgerPanel {
+    padding: 15px;
+  }
+
+  .receiptDocument {
+    padding: 17px;
+  }
+
+  .receiptDocument > header {
+    align-items: flex-start;
+  }
+
+  .activityBars,
+  .reportBars {
+    height: 132px;
+  }
+}
