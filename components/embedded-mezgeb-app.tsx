@@ -38,7 +38,7 @@ export function EmbeddedMezgebApp({
         const encoded = encodedParts.join('').replace(/\s/g, '');
         const binary = atob(encoded);
         const bytes = Uint8Array.from(binary, (character) => character.charCodeAt(0));
-        const decompressed = new Blob([bytes.buffer])
+        const decompressed = new Blob([bytes])
           .stream()
           .pipeThrough(new DecompressionStream('gzip'));
         const html = await new Response(decompressed).text();
