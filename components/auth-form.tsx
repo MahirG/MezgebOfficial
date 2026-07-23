@@ -25,7 +25,8 @@ export function AuthForm({ mode }: { mode: 'sign-in' | 'sign-up' }) {
     event.preventDefault();
     if (busy) return;
 
-    const form = new FormData(event.currentTarget);
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
     const email = String(form.get('email') ?? '').trim().toLowerCase();
     const password = String(form.get('password') ?? '');
     const confirmation = String(form.get('passwordConfirmation') ?? '');
@@ -74,7 +75,7 @@ export function AuthForm({ mode }: { mode: 'sign-in' | 'sign-up' }) {
       }
 
       setStatus('Account created. Check your email and confirm your address to continue.');
-      event.currentTarget.reset();
+      formElement.reset();
     } catch (error) {
       setStatus(error instanceof Error ? error.message : 'Authentication could not be completed.');
     } finally {
