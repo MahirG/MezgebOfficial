@@ -1,19 +1,19 @@
 # Mezgeb መዝገብ
 
-Official Next.js production foundation for an Ethiopian small-business ledger covering sales, expenses, VAT-ready receipts, Dube customer credit, mobile money, reports, inventory and business operations.
+Official Next.js foundation for an Ethiopian small-business ledger covering sales, expenses, VAT-ready receipts, Dube customer credit, mobile money, reports, inventory and business operations.
 
 ## Status
 
-The Apple-style marketing website now includes the complete interactive Mezgeb prototype at `/app`, so users can access the application without leaving the website. A smaller quick demo remains available at `/demo`. Production authentication and database capabilities are scaffolded but require a **dedicated Mezgeb Supabase project**, migration deployment, environment variables, legal review and security verification before real financial data is used.
+The Apple-style marketing website includes a native Mezgeb application at `/app`, so users can operate the product without leaving the website. A smaller quick demo remains available at `/demo`. Production authentication and database capabilities are scaffolded but require a **dedicated Mezgeb Supabase project**, migration deployment, environment variables, legal review and security verification before real financial data is used.
 
 ## Application routes
 
-- `/app` — complete embedded Mezgeb application with sample browser-local interactions
+- `/app` — native Next.js Mezgeb workspace with dashboard, ledger, receipts, Dube, reports and operations
 - `/demo` — lightweight quick demo
 - `/dashboard` — protected production dashboard foundation
 - `/auth/sign-in` and `/auth/sign-up` — Supabase SSR authentication routes
 
-The complete prototype is stored as four compressed payload parts in `public/` and decompressed in the browser by `components/embedded-mezgeb-app.tsx`. This preserves the existing standalone application while keeping it inside the Next.js product experience and aligned with the website branding.
+The native application is implemented in `components/mezgeb-application.tsx`, uses the same branding as the marketing website and stores prototype entries locally in the browser.
 
 ## Stack
 
