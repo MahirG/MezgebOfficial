@@ -1,0 +1,40 @@
+name: Bootstrap Mezgeb Next.js
+
+on:
+  push:
+    branches: [nextjs-production]
+    paths:
+      - repository-bootstrap.ready
+
+permissions:
+  contents: write
+
+jobs:
+  expand:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: nextjs-production
+      - name: Verify and expand project archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f repository-bootstrap.ready
+          test "$(find . -maxdepth 1 -name 'repository-bootstrap.part-*' | wc -l)" -eq 2
+          cat repository-bootstrap.part-* > repository-bootstrap.tar.gz.b64
+          base64 --decode repository-bootstrap.tar.gz.b64 > repository-bootstrap.tar.gz
+          tar -tzf repository-bootstrap.tar.gz >/dev/null
+          tar -xzf repository-bootstrap.tar.gz
+          rm -f repository-bootstrap.tar.gz repository-bootstrap.tar.gz.b64
+          rm -f repository-bootstrap.part-* repository-bootstrap.ready
+          rm -f .github/workflows/bootstrap-nextjs.yml
+      - name: Commit Next.js production foundation
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "feat: build Mezgeb Next.js production foundation"
+          git push origin nextjs-production
