@@ -5,5 +5,12 @@ import nextTs from 'eslint-config-next/typescript';
 export default defineConfig([
   ...nextVitals,
   ...nextTs,
+  {
+    files: ['components/mezgeb-application.tsx'],
+    rules: {
+      // The prototype restores browser-local transactions once after hydration.
+      'react-hooks/set-state-in-effect': 'off'
+    }
+  },
   globalIgnores(['.next/**', 'out/**', 'coverage/**', 'playwright-report/**'])
 ]);
