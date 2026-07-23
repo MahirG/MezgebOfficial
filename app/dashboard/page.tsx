@@ -3,26 +3,49 @@ import { redirect } from 'next/navigation';
 import { BusinessOnboardingForm } from '@/components/business-onboarding-form';
 import { createClient } from '@/lib/supabase/server';
 
+function identityLabel(type: string | null | undefined) {
+  const labels: Record<string, string> = {
+    fayda: 'Fayda National ID',
+    passport: 'Ethiopian passport',
+    origin_id: 'Ethiopian Origin ID',
+    kebele: 'Kebele / resident ID',
+    driver_license: 'Driver’s license',
+    other: 'Government-issued ID'
+  };
+  return type ? labels[type] ?? 'Identity document' : 'Not provided';
+}
+
 export default async function DashboardPage() {
   const supabase = await createClient();
   const { data: userData, error: userError } = await supabase.auth.getUser();
   if (userError || !userData.user) redirect('/auth/sign-in');
 
   const user = userData.user;
-  const [{ data: profile }, { data: businesses, error: businessesError }] = await Promise.all([
+  const [
+    { data: profile },
+    { data: businesses, error: businessesError },
+    { data: subscription }
+  ] = await Promise.all([
     supabase
       .from('mezgeb_profiles')
-      .select('full_name, preferred_language, last_business_id')
+      .select('full_name, preferred_language, last_business_id, region, city_woreda, account_role, id_type, id_last4, identity_status')
       .eq('id', user.id)
       .maybeSingle(),
     supabase
       .from('mezgeb_businesses')
       .select('id, name, city, tin, vat_registered, created_at')
-      .order('created_at', { ascending: true })
+      .order('created_at', { ascending: true }),
+    supabase
+      .from('mezgeb_subscriptions')
+      .select('plan_code, billing_cycle, status, amount_etb')
+      .eq('user_id', user.id)
+      .maybeSingle()
   ]);
 
   const displayName = profile?.full_name || String(user.user_metadata?.full_name ?? '') || user.email?.split('@')[0] || 'Business owner';
   const businessList = businesses ?? [];
+  const planName = subscription?.plan_code === 'pro' ? 'Mezgeb Pro' : subscription?.plan_code === 'free' ? 'Free' : 'No plan selected';
+  const planStatus = subscription?.status?.replace('_', ' ') ?? 'Choose a plan';
 
   return (
     <main id="main-content" className="accountDashboard">
@@ -41,6 +64,20 @@ export default async function DashboardPage() {
             </form>
           </div>
         </header>
+
+        <section className="dashboardPlanBar" aria-label="Account plan and identity status">
+          <div>
+            <small>Current plan</small>
+            <strong>{planName}</strong>
+            <span>{planStatus}{subscription ? ` · ${subscription.billing_cycle}` : ''}</span>
+          </div>
+          <Link className="button secondaryDark" href="/pricing">Manage plan</Link>
+          <div>
+            <small>Identity record</small>
+            <strong className="capitalize">{profile?.identity_status ?? 'unverified'}</strong>
+            <span>{identityLabel(profile?.id_type)}{profile?.id_last4 ? ` · ending ${profile.id_last4}` : ''}</span>
+          </div>
+        </section>
 
         {businessesError ? (
           <section className="dashboardEmpty">
