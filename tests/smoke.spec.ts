@@ -68,6 +68,14 @@ test('authentication and password recovery pages are available', async ({ page }
   await expect(page.getByRole('button', { name: /Send password-reset link/i })).toBeVisible();
 });
 
+test('post-registration page clearly requires email confirmation', async ({ page }) => {
+  await page.goto('/auth/check-email?email=newuser%40example.com');
+  await expect(page.getByRole('heading', { name: /Check your email/i })).toBeVisible();
+  await expect(page.getByText('newuser@example.com').first()).toBeVisible();
+  await expect(page.getByRole('button', { name: /Resend confirmation email/i })).toBeVisible();
+  await expect(page.getByRole('link', { name: /I confirmed my email/i })).toBeVisible();
+});
+
 test('dashboard redirects signed-out visitors to authentication', async ({ page }) => {
   await page.goto('/dashboard');
   await expect(page).toHaveURL(/\/auth\/sign-in\?next=%2Fdashboard/);
