@@ -26,6 +26,8 @@ export type SubscriptionSummary = {
   currentPeriodEnd: string | null;
 };
 
+const commercialPlanCodes = new Set(['starter', 'growth', 'business', 'enterprise']);
+
 const fallbackPlans: PricingPlan[] = [
   {
     code: 'starter',
@@ -116,7 +118,11 @@ export async function getPricingData(): Promise<{
       supabase.auth.getUser()
     ]);
 
-    const plans: PricingPlan[] = !plansError && planRows?.length
+    const commercialCatalogueReady = !plansError
+      && Boolean(planRows?.length)
+      && planRows?.every((plan) => commercialPlanCodes.has(String(plan.code)));
+
+    const plans: PricingPlan[] = commercialCatalogueReady && planRows
       ? planRows.map((plan) => {
           const limits = normalizeLimits(plan.limits);
           return {
