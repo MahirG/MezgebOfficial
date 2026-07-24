@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { calculateInclusiveVat, calculateLedgerTotals, isCustomerOverdue } from '@/lib/ledger';
+import { calculateInclusiveVat, calculateLedgerTotals, isCustomerOverdue } from './ledger';
 
 describe('production ledger calculations', () => {
   it('calculates VAT from a VAT-inclusive amount', () => {
