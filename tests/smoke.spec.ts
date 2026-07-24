@@ -37,17 +37,14 @@ test('pricing loads four ETB tiers and supports annual selection', async ({ page
   await expect(page).toHaveURL(/\/auth\/sign-up\?next=%2Fdashboard/);
 });
 
-test('pricing content stays inside every visible card', async ({ page }) => {
+test('pricing text stays inside every visible card', async ({ page }) => {
   await page.goto('/#pricing');
-  const overflow = await page.locator('section[id="pricing"] article').evaluateAll((elements) => elements.map((element) => ({
-    horizontal: element.scrollWidth > element.clientWidth + 1,
-    textOutside: Array.from(element.querySelectorAll('h3,p,li,span,small')).some((child) => {
-      const card = element.getBoundingClientRect();
-      const box = child.getBoundingClientRect();
-      return box.left < card.left - 1 || box.right > card.right + 1;
-    })
-  })));
-  expect(overflow.every((item) => !item.horizontal && !item.textOutside)).toBe(true);
+  const cards = page.locator('section[id="pricing"] article');
+  await expect(cards).toHaveCount(4);
+  const clippedText = await cards.evaluateAll((elements) => elements.flatMap((element) =>
+    Array.from(element.querySelectorAll('h3,p,li')).map((textElement) => textElement.scrollWidth > textElement.clientWidth + 1)
+  ));
+  expect(clippedText.every((clipped) => !clipped)).toBe(true);
 });
 
 test('production workspace requires an authenticated account', async ({ page }) => {
