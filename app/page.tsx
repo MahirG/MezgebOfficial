@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { EarlyAccessForm } from '@/components/early-access-form';
-import { HeroDashboard } from '@/components/hero-dashboard';
 import { HomeHero } from '@/components/home-hero';
 import { PricingSection } from '@/components/pricing-section';
 import { getPricingData } from '@/lib/pricing';
@@ -101,13 +100,6 @@ export default async function Home() {
           </div>
 
           <HomeHero />
-
-          <div className={styles.heroProduct}>
-            <div className={styles.productGlow} aria-hidden="true" />
-            <HeroDashboard />
-            <div className={styles.floatingCardLeft} aria-hidden="true"><small>Today’s sales</small><strong>ETB 3,840</strong><span>Recorded clearly</span></div>
-            <div className={styles.floatingCardRight} aria-hidden="true"><small>Dube collected</small><strong>ETB 1,200</strong><span>Balance updated</span></div>
-          </div>
         </div>
       </section>
 
@@ -140,9 +132,9 @@ export default async function Home() {
       <section className={styles.productSection} id="features">
         <div className="container">
           <header className={styles.sectionIntro}>
-            <p className={styles.eyebrow}>The Mezgeb workspace</p>
-            <h2>One system for the work<br />that keeps the business moving.</h2>
-            <p>Each capability is designed to connect with the same business record, so the owner can move from activity to understanding without switching tools.</p>
+            <p className={styles.eyebrow}>The Mezgeb mobile workspace</p>
+            <h2>One mobile system for the work<br />that keeps the business moving.</h2>
+            <p>Each capability connects to the same business record, so owners can move from daily activity to understanding without switching tools.</p>
           </header>
           <div className={styles.featureGrid}>
             {productCapabilities.map((feature) => (
