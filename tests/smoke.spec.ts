@@ -4,8 +4,9 @@ test('professional homepage presents Mezgeb and a clear account funnel', async (
   await page.goto('/');
   await expect(page.getByRole('heading', { name: /Run the business/i })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Start 14-day trial' }).first()).toBeVisible();
-  await expect(page.getByRole('heading', { name: /Your whole business, clear enough to carry/i })).toBeVisible();
   await expect(page.getByRole('img', { name: /Ethiopian woman/i })).toBeVisible();
+  await expect(page.getByText('Mezgeb mobile workspace')).toBeVisible();
+  await expect(page.getByText('Sales · Dube · Receipts · Reports')).toBeVisible();
   await expect(page.getByRole('heading', { name: /Local business reality is not an add-on/i })).toBeVisible();
   await expect(page.getByRole('heading', { name: /Your business deserves more than scattered notes/i })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Join product updates' })).toBeVisible();
@@ -17,9 +18,10 @@ test('marketing homepage fits the mobile viewport', async ({ page }, testInfo) =
   test.skip(testInfo.project.name !== 'mobile', 'Mobile marketing verification');
   await page.goto('/');
   await expect(page.getByRole('heading', { name: /Run the business/i })).toBeVisible();
+  await expect(page.getByRole('img', { name: /Ethiopian woman/i })).toBeVisible();
   const dimensions = await page.evaluate(() => ({ width: document.documentElement.scrollWidth, viewport: window.innerWidth }));
   expect(dimensions.width).toBeLessThanOrEqual(dimensions.viewport + 1);
-  await expect(page.getByRole('link', { name: 'Open public demo' })).toBeVisible();
+  await expect(page.getByRole('link', { name: /Explore the product/i })).toBeVisible();
 });
 
 test('pricing loads four ETB tiers and supports annual selection', async ({ page }) => {
