@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { NextResponse } from 'next/server';
 import { initializeChapaPayment, isChapaConfigured } from '@/lib/chapa';
 import { isPaymentMethodCode } from '@/lib/payment-methods';
+import { createAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 
 const supportedCycles = new Set(['monthly', 'annual']);
@@ -62,8 +63,22 @@ export async function POST(request: Request) {
     );
   }
 
+  let admin;
+  try {
+    admin = createAdminClient();
+  } catch {
+    return NextResponse.json(
+      {
+        error: 'The protected payment service is not configured on the server yet.',
+        code: 'PAYMENT_SERVER_NOT_CONFIGURED'
+      },
+      { status: 503 }
+    );
+  }
+
   const txRef = `MEZGEB-${Date.now().toString(36)}-${randomUUID().replaceAll('-', '').slice(0, 22)}`;
-  const { data: intentData, error: intentError } = await supabase.rpc('mezgeb_create_payment_intent', {
+  const { data: intentData, error: intentError } = await admin.rpc('mezgeb_create_payment_intent', {
+    p_user_id: userData.user.id,
     p_plan_code: planCode,
     p_billing_cycle: billingCycle,
     p_payment_method: paymentMethod,
@@ -112,7 +127,7 @@ export async function POST(request: Request) {
       billingCycle: intent?.billing_cycle === 'annual' ? 'annual' : 'monthly'
     });
 
-    const { error: attachError } = await supabase.rpc('mezgeb_attach_payment_checkout', {
+    const { error: attachError } = await admin.rpc('mezgeb_attach_payment_checkout', {
       p_tx_ref: resolvedTxRef,
       p_checkout_url: checkout.checkoutUrl,
       p_provider_reference: checkout.providerReference ?? '',
@@ -129,7 +144,7 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     const reason = error instanceof Error ? error.message : 'The secure checkout could not be started.';
-    await supabase.rpc('mezgeb_mark_payment_failed', {
+    await admin.rpc('mezgeb_mark_payment_failed', {
       p_tx_ref: resolvedTxRef,
       p_reason: reason
     });
