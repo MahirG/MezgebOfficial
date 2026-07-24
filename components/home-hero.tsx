@@ -6,7 +6,6 @@ export function HomeHero() {
   return (
     <div className={styles.homeHero}>
       <div className={styles.copy}>
-        <p className={styles.eyebrow}>Business management, built for Ethiopia</p>
         <h1>
           Run the business.
           <span>Know every birr.</span>
