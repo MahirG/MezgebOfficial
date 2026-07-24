@@ -25,7 +25,7 @@ export function SiteFooter() {
         </div>
         <div>
           <h3>Account</h3>
-          <Link href="/auth/sign-up">Create free account</Link>
+          <Link href="/auth/sign-up">Start 14-day trial</Link>
           <Link href="/auth/sign-in">Sign in</Link>
           <Link href="/dashboard">Account dashboard</Link>
           <Link href="/#updates">Product updates</Link>
@@ -34,6 +34,7 @@ export function SiteFooter() {
       <div className="container footerBottom">
         <span>© 2026 Mezgeb Technologies.</span>
         <span>መዝገብ — Every birr, clearly recorded.</span>
+        <span className="poweredByHisab">Powered by <a href="https://hisabtech.com" target="_blank" rel="noreferrer">Hisabtech.com</a></span>
       </div>
     </footer>
   );
