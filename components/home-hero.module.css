@@ -13,18 +13,9 @@
   text-align: left;
 }
 
-.eyebrow {
-  margin: 0;
-  color: #5f6470;
-  font-size: .75rem;
-  font-weight: 800;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-}
-
 .copy h1 {
   max-width: 760px;
-  margin: 24px 0 28px;
+  margin: 0 0 28px;
   font-size: clamp(4rem, 6.4vw, 7.25rem);
   font-weight: 770;
   letter-spacing: -.078em;
@@ -194,12 +185,7 @@
     gap: 30px;
   }
 
-  .eyebrow {
-    font-size: .67rem;
-  }
-
   .copy h1 {
-    margin-top: 18px;
     font-size: clamp(3.15rem, 15vw, 4.8rem);
     line-height: .91;
   }
