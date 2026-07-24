@@ -80,6 +80,8 @@ export function HomeHero() {
                   data-payment-brand={brand.name}
                   key={`${brand.name}-${index}`}
                 >
+                  {/* The brand assets are decorative and retain a text fallback beside each mark. */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={brand.source}
                     alt=""
