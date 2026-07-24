@@ -1,37 +1,38 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import styles from './home-hero.module.css';
+import flowStyles from './payment-flow.module.css';
 
 const paymentBrands = [
   {
     name: 'telebirr',
     source: 'https://raw.githubusercontent.com/Chapa-Et/ethiopianlogos/main/logos/tele_birr/tele_birr.svg',
-    className: styles.telebirr
+    className: flowStyles.telebirr
   },
   {
     name: 'M-PESA',
     source: 'https://upload.wikimedia.org/wikipedia/commons/1/15/M-PESA_LOGO-01.svg',
-    className: styles.mpesa
+    className: flowStyles.mpesa
   },
   {
     name: 'CBE Birr',
     source: 'https://raw.githubusercontent.com/Chapa-Et/ethiopianlogos/main/logos/cbe_birr_light/cbe_birr_light.svg',
-    className: styles.cbeBirr
+    className: flowStyles.cbeBirr
   },
   {
     name: 'Amole',
     source: 'https://raw.githubusercontent.com/Chapa-Et/ethiopianlogos/main/logos/amole/amole.svg',
-    className: styles.amole
+    className: flowStyles.amole
   },
   {
     name: 'Chapa',
     source: 'https://raw.githubusercontent.com/Chapa-Et/ethiopianlogos/main/logos/chapa/chapa.svg',
-    className: styles.chapa
+    className: flowStyles.chapa
   },
   {
     name: 'Kacha',
     source: 'https://raw.githubusercontent.com/Chapa-Et/ethiopianlogos/main/logos/kacha/kacha.svg',
-    className: styles.kacha
+    className: flowStyles.kacha
   }
 ] as const;
 
@@ -59,7 +60,7 @@ export function HomeHero() {
       </div>
 
       <div className={styles.visual}>
-        <div className={styles.presenterStage}>
+        <div className={flowStyles.presenterStage}>
           <Image
             className={styles.presenter}
             src="/images/mezgeb-presenter.webp"
@@ -71,11 +72,11 @@ export function HomeHero() {
             sizes="(max-width: 880px) 100vw, 52vw"
           />
 
-          <div className={styles.paymentFlow} aria-label="Ethiopian payment methods">
-            <div className={styles.paymentTrack} aria-hidden="true">
+          <div className={flowStyles.paymentFlow} aria-label="Ethiopian payment methods">
+            <div className={flowStyles.paymentTrack} aria-hidden="true">
               {[...paymentBrands, ...paymentBrands].map((brand, index) => (
                 <span
-                  className={`${styles.paymentChip} ${brand.className}`}
+                  className={`${flowStyles.paymentChip} ${brand.className}`}
                   data-payment-brand={brand.name}
                   key={`${brand.name}-${index}`}
                 >
