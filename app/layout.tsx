@@ -6,6 +6,7 @@ import { siteUrl } from '@/lib/env';
 import './globals.css';
 import './registration.css';
 import './experience.css';
+import './marketing-overrides.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
