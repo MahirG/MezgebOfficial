@@ -13,20 +13,25 @@ function formatEtb(amount: number) {
   return new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(amount);
 }
 
+function annualSaving(plan: PricingPlan) {
+  if (plan.customPricing) return 0;
+  return Math.max(0, plan.monthlyPriceEtb * 12 - plan.annualPriceEtb);
+}
+
 export function PricingSection({ plans, subscription }: PricingSectionProps) {
   const [billingCycle, setBillingCycle] = useState<BillingCycle>(subscription?.billingCycle ?? 'monthly');
   const [busyPlan, setBusyPlan] = useState<string | null>(null);
   const [message, setMessage] = useState('');
 
-  const proPlan = useMemo(() => plans.find((plan) => plan.code === 'pro'), [plans]);
-  const annualSaving = proPlan
-    ? Math.max(0, proPlan.monthlyPriceEtb * 12 - proPlan.annualPriceEtb)
-    : 0;
+  const maximumSaving = useMemo(
+    () => plans.reduce((largest, plan) => Math.max(largest, annualSaving(plan)), 0),
+    [plans]
+  );
 
   async function selectPlan(planCode: string) {
     if (busyPlan) return;
     setBusyPlan(planCode);
-    setMessage('Saving your plan securely…');
+    setMessage('Saving your Mezgeb plan securely…');
 
     try {
       const response = await fetch('/api/subscriptions/select', {
@@ -54,9 +59,9 @@ export function PricingSection({ plans, subscription }: PricingSectionProps) {
     <section className={styles.section} id="pricing">
       <div className="container">
         <header className={styles.header}>
-          <p className="overline">Simple pricing</p>
-          <h2>Start free. Upgrade when the business grows.</h2>
-          <p>Plans and ETB prices are loaded from Mezgeb’s secure billing catalogue. A verified payment provider will be connected before paid renewals are collected.</p>
+          <p className="overline">Transparent ETB pricing</p>
+          <h2>Choose the operating level that fits the business.</h2>
+          <p>Starter, Growth and Business prices are stored in Mezgeb’s protected Supabase catalogue. Enterprise is scoped around the organization. Paid activation will begin only through a verified payment provider.</p>
           <div className={styles.billingSwitch} aria-label="Billing interval">
             <button
               className={billingCycle === 'monthly' ? styles.active : ''}
@@ -73,7 +78,7 @@ export function PricingSection({ plans, subscription }: PricingSectionProps) {
               onClick={() => setBillingCycle('annual')}
             >
               Yearly
-              {annualSaving > 0 ? <span className={styles.saving}>Save ETB {formatEtb(annualSaving)}</span> : null}
+              {maximumSaving > 0 ? <span className={styles.saving}>Save up to ETB {formatEtb(maximumSaving)}</span> : null}
             </button>
           </div>
         </header>
@@ -81,45 +86,65 @@ export function PricingSection({ plans, subscription }: PricingSectionProps) {
         <div className={styles.grid}>
           {plans.map((plan) => {
             const amount = billingCycle === 'annual' ? plan.annualPriceEtb : plan.monthlyPriceEtb;
+            const saving = annualSaving(plan);
             const current = subscription?.planCode === plan.code;
             const trialActive = current && subscription?.status === 'trialing';
             const buttonLabel = current
               ? trialActive
                 ? 'Trial active'
                 : 'Current plan'
-              : plan.code === 'pro' && plan.trialDays > 0
+              : plan.trialDays > 0
                 ? `Start ${plan.trialDays}-day trial`
-                : `Choose ${plan.name}`;
+                : plan.code === 'business'
+                  ? 'Request Business setup'
+                  : `Choose ${plan.name}`;
 
             return (
               <article className={`${styles.card} ${plan.featured ? styles.featured : ''}`} key={plan.code}>
                 <div className={styles.planTop}>
-                  <small>{plan.name}</small>
+                  <div>
+                    <small>{plan.name}</small>
+                    {plan.featured ? <span className={styles.popular}>Most popular</span> : null}
+                  </div>
                   {current ? <span className={styles.badge}>Current plan</span> : null}
                 </div>
+
+                <p className={styles.audience}>{plan.audience}</p>
                 <h3 className={styles.price}>
-                  ETB {formatEtb(amount)} <span>/ {billingCycle === 'annual' ? 'year' : 'month'}</span>
+                  {plan.customPricing ? 'Custom' : <>ETB {formatEtb(amount)}</>}
+                  {!plan.customPricing ? <span>/ {billingCycle === 'annual' ? 'year' : 'month'}</span> : null}
                 </h3>
+                {billingCycle === 'annual' && saving > 0 ? <span className={styles.annualValue}>Save ETB {formatEtb(saving)} each year</span> : null}
                 <p className={styles.description}>{plan.description}</p>
-                {plan.trialDays > 0 ? <span className={styles.trial}>{plan.trialDays}-day Pro trial</span> : null}
+                <span className={styles.capacity}>{plan.capacity}</span>
+                {plan.trialDays > 0 ? <span className={styles.trial}>{plan.trialDays}-day trial · no charge from this screen</span> : null}
+
                 <ul className={styles.features}>
                   {plan.features.map((feature) => <li key={feature}>{feature}</li>)}
                 </ul>
-                <button
-                  className={`button ${plan.featured ? 'white' : 'secondaryDark'} ${styles.action}`}
-                  type="button"
-                  disabled={current || busyPlan !== null}
-                  onClick={() => selectPlan(plan.code)}
-                >
-                  {busyPlan === plan.code ? 'Please wait…' : buttonLabel}
-                </button>
+
+                {plan.customPricing ? (
+                  <a className={`button secondaryDark ${styles.action}`} href="mailto:info@hisabtech.com?subject=Mezgeb%20Enterprise%20pricing">Talk to enterprise sales</a>
+                ) : (
+                  <button
+                    className={`button ${plan.featured ? 'white' : 'secondaryDark'} ${styles.action}`}
+                    type="button"
+                    disabled={current || busyPlan !== null}
+                    onClick={() => selectPlan(plan.code)}
+                  >
+                    {busyPlan === plan.code ? 'Please wait…' : buttonLabel}
+                  </button>
+                )}
               </article>
             );
           })}
         </div>
 
         <p className={styles.status} role="status" aria-live="polite">{message}</p>
-        <p className={styles.billingNote}><strong>No payment is charged by this screen.</strong> Pro begins with one database-enforced trial. Paid activation will require a verified provider webhook and merchant credentials.</p>
+        <div className={styles.billingNote}>
+          <strong>Commercially clear and technically controlled.</strong>
+          <span>Subscription amounts are calculated by the database. A plan selection does not claim payment success; merchant credentials and a verified webhook are required before paid activation.</span>
+        </div>
       </div>
     </section>
   );
