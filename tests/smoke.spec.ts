@@ -1,8 +1,11 @@
 import { expect, test } from '@playwright/test';
 
+const releaseCopy = 'Persistent ledger, Dube, receipts, reports, onboarding and four-tier ETB pricing are connected.';
+
 test('professional homepage presents Mezgeb and a clear account funnel', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { name: /Run the business/i })).toBeVisible();
+  await expect(page.getByText('Business management, built for Ethiopia')).toHaveCount(0);
   await expect(page.getByRole('link', { name: 'Start 14-day trial' }).first()).toBeVisible();
   const presenter = page.getByRole('img', { name: /Ethiopian woman/i });
   await expect(presenter).toBeVisible();
@@ -20,10 +23,19 @@ test('professional homepage presents Mezgeb and a clear account funnel', async (
   await expect(page.getByRole('link', { name: 'Hisabtech.com' })).toHaveAttribute('href', 'https://hisabtech.com');
 });
 
+test('release announcement remains visible on desktop', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === 'mobile', 'Desktop release announcement verification');
+  await page.goto('/');
+  await expect(page.getByText(releaseCopy)).toBeVisible();
+  await expect(page.getByRole('link', { name: /Start the Starter trial/i })).toBeVisible();
+});
+
 test('marketing homepage fits the mobile viewport', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'mobile', 'Mobile marketing verification');
   await page.goto('/');
   await expect(page.getByRole('heading', { name: /Run the business/i })).toBeVisible();
+  await expect(page.getByText(releaseCopy)).toBeHidden();
+  await expect(page.getByText('Business management, built for Ethiopia')).toHaveCount(0);
   await expect(page.getByRole('img', { name: /Ethiopian woman/i })).toBeVisible();
   const dimensions = await page.evaluate(() => ({ width: document.documentElement.scrollWidth, viewport: window.innerWidth }));
   expect(dimensions.width).toBeLessThanOrEqual(dimensions.viewport + 1);
