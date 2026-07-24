@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { heroPresenterDataUrl } from '@/lib/hero-presenter-image';
 import styles from './home-hero.module.css';
 
 export function HomeHero() {
@@ -31,7 +30,7 @@ export function HomeHero() {
         <div className={styles.visualGlow} aria-hidden="true" />
         <Image
           className={styles.presenter}
-          src={heroPresenterDataUrl}
+          src="/api/media/mezgeb-campaign"
           alt="Smiling Ethiopian woman in modest traditional clothing presenting the Mezgeb business application on an iPhone"
           width={1600}
           height={900}
