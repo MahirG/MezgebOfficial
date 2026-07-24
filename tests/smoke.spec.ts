@@ -7,8 +7,10 @@ test('professional homepage presents Mezgeb and a clear account funnel', async (
   const presenter = page.getByRole('img', { name: /Ethiopian woman/i });
   await expect(presenter).toBeVisible();
   await expect(presenter).toHaveAttribute('src', /mezgeb-presenter/);
-  const imageWidth = await presenter.evaluate((image) => (image as HTMLImageElement).naturalWidth);
-  expect(imageWidth).toBeGreaterThanOrEqual(1000);
+  await expect(presenter).toHaveAttribute('width', '1100');
+  const staticAsset = await page.request.get('/images/mezgeb-presenter.webp');
+  expect(staticAsset.ok()).toBe(true);
+  expect(Number(staticAsset.headers()['content-length'] ?? 0)).toBeGreaterThan(80_000);
   await expect(page.getByLabel('Mezgeb dashboard product preview')).toHaveCount(0);
   await expect(page.getByRole('heading', { name: /Local business reality is not an add-on/i })).toBeVisible();
   await expect(page.getByRole('heading', { name: /Your business deserves more than scattered notes/i })).toBeVisible();
