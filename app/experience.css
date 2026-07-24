@@ -1,0 +1,191 @@
+/* Mezgeb premium interaction and visual layer. Loaded after the product styles. */
+:root{
+  --mezgeb-ink:#07111f;
+  --mezgeb-ink-2:#111d31;
+  --mezgeb-blue:#1666f5;
+  --mezgeb-blue-2:#6c63ff;
+  --mezgeb-cyan:#3dc8ff;
+  --mezgeb-success:#168a55;
+  --mezgeb-success-soft:#e9f8f0;
+  --mezgeb-error:#c9364f;
+  --mezgeb-error-soft:#fff0f3;
+  --mezgeb-warning:#b66b00;
+  --mezgeb-focus:0 0 0 4px rgba(22,102,245,.16);
+  --mezgeb-ease:cubic-bezier(.2,.8,.2,1);
+  --mezgeb-spring:cubic-bezier(.16,1,.3,1);
+}
+
+html{background:#f5f7fb;text-rendering:optimizeLegibility}
+body{overflow-x:hidden;background:linear-gradient(180deg,#fbfcff 0,#f4f6fa 38%,#f7f8fb 100%)}
+body :where(h1,h2,h3,h4,p,span,strong,small,label,a,button){overflow-wrap:anywhere}
+img,svg,video,canvas{max-width:100%}
+main{animation:mezgebPageIn .58s var(--mezgeb-spring) both}
+section{scroll-margin-top:90px}
+
+@keyframes mezgebPageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes mezgebFloat{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-8px,0)}}
+@keyframes mezgebPulse{0%,100%{opacity:.55;transform:scale(.96)}50%{opacity:1;transform:scale(1.04)}}
+@keyframes mezgebShimmer{from{transform:translateX(-135%)}to{transform:translateX(260%)}}
+@keyframes mezgebToastIn{from{opacity:0;transform:translate3d(0,-12px,0) scale(.96)}to{opacity:1;transform:none}}
+@keyframes mezgebProgress{0%{transform:scaleX(.06)}55%{transform:scaleX(.72)}100%{transform:scaleX(.93)}}
+
+.mezgebRouteProgress{position:fixed;z-index:9999;left:0;right:0;top:0;height:3px;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,var(--mezgeb-blue),var(--mezgeb-cyan),var(--mezgeb-blue-2));box-shadow:0 0 18px rgba(22,102,245,.48);opacity:0;pointer-events:none}
+html.mezgebNavigating .mezgebRouteProgress{opacity:1;animation:mezgebProgress 1.15s var(--mezgeb-ease) forwards}
+
+.mezgebSystemToast{position:fixed;z-index:9998;top:max(18px,env(safe-area-inset-top));right:18px;display:flex;align-items:center;gap:11px;width:min(410px,calc(100vw - 36px));padding:15px 17px;border:1px solid rgba(0,0,0,.06);border-radius:18px;background:rgba(255,255,255,.94);color:var(--mezgeb-ink);box-shadow:0 24px 70px rgba(7,17,31,.18);backdrop-filter:blur(22px) saturate(160%);font-size:.82rem;line-height:1.55;animation:mezgebToastIn .35s var(--mezgeb-spring) both}
+.mezgebSystemToast>span{display:grid;place-items:center;flex:0 0 30px;height:30px;border-radius:10px;color:#fff;font-weight:900}
+.mezgebSystemToast.success>span{background:var(--mezgeb-success)}
+.mezgebSystemToast.error>span{background:var(--mezgeb-error)}
+
+:where(.button,button,[role="button"],a[href]){transition:transform .22s var(--mezgeb-spring),box-shadow .22s var(--mezgeb-ease),background-color .2s ease,border-color .2s ease,color .2s ease,opacity .2s ease}
+:where(.button,button,[role="button"]).mezgebPressed,:where(a[href]).mezgebPressed{transform:scale(.975)!important}
+:where(.button,button,[role="button"]):focus-visible,:where(a[href],input,select,textarea):focus-visible{outline:0;box-shadow:var(--mezgeb-focus)}
+.button{position:relative;isolation:isolate;overflow:hidden;letter-spacing:-.01em}
+.button::after,.mezgebPrimaryAction::after{content:"";position:absolute;inset:-120% auto -120% -45%;width:32%;z-index:-1;transform:skewX(-18deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);opacity:0}
+.button:hover::after,.mezgebPrimaryAction:hover::after{opacity:1;animation:mezgebShimmer .78s ease}
+.button:hover,.mezgebPrimaryAction:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(7,17,31,.16)}
+.button:disabled,.mezgebPrimaryAction:disabled{transform:none;box-shadow:none;cursor:not-allowed;filter:saturate(.7)}
+.primary{background:linear-gradient(135deg,#1769f6,#4457ee 58%,#6f56e8);box-shadow:0 12px 28px rgba(22,102,245,.24)}
+.primary:hover{background:linear-gradient(135deg,#0f5ce9,#3548e4 58%,#6047dd)}
+
+input,select,textarea{transition:border-color .2s ease,box-shadow .2s ease,background-color .2s ease,transform .2s var(--mezgeb-ease)}
+input:hover,select:hover,textarea:hover{border-color:rgba(22,102,245,.34)!important}
+input:focus,select:focus,textarea:focus{border-color:var(--mezgeb-blue)!important;box-shadow:var(--mezgeb-focus)!important;background:#fff!important;outline:0}
+input:user-invalid,select:user-invalid,textarea:user-invalid,.mezgebInvalidField input,.mezgebInvalidField select,.mezgebInvalidField textarea{border-color:var(--mezgeb-error)!important;background:var(--mezgeb-error-soft)!important;box-shadow:0 0 0 4px rgba(201,54,79,.1)!important}
+input:user-valid:not(:placeholder-shown){border-color:rgba(22,138,85,.42)}
+label{min-width:0}
+
+[role="status"][data-feedback-state],.mezgebNotice[data-feedback-state]{transition:background-color .22s ease,border-color .22s ease,color .22s ease,transform .22s var(--mezgeb-spring)}
+[role="status"][data-feedback-state="success"],.mezgebNotice[data-feedback-state="success"]{background:var(--mezgeb-success-soft)!important;border-color:rgba(22,138,85,.2)!important;color:#126a43!important}
+[role="status"][data-feedback-state="error"],.mezgebNotice[data-feedback-state="error"]{background:var(--mezgeb-error-soft)!important;border-color:rgba(201,54,79,.22)!important;color:#a5243b!important}
+[role="status"][data-feedback-state="loading"],.mezgebNotice[data-feedback-state="loading"]{background:#edf4ff!important;border-color:rgba(22,102,245,.18)!important;color:#1c5bb4!important}
+
+.siteHeader{background:rgba(252,253,255,.82);border-bottom:1px solid rgba(7,17,31,.055);box-shadow:0 1px 0 rgba(255,255,255,.85);backdrop-filter:blur(24px) saturate(180%)}
+.siteHeader .navLinks a{position:relative}
+.siteHeader .navLinks a::after{content:"";position:absolute;left:0;right:100%;bottom:-7px;height:2px;border-radius:999px;background:linear-gradient(90deg,var(--mezgeb-blue),var(--mezgeb-blue-2));transition:right .26s var(--mezgeb-ease)}
+.siteHeader .navLinks a:hover::after{right:0}
+.brandMark{background:linear-gradient(145deg,#0b1730,#142f65 58%,#1666f5);box-shadow:0 10px 25px rgba(12,45,102,.25)}
+
+/* Campaign visual */
+.campaignSection{padding:34px 0 116px;background:linear-gradient(180deg,#f8faff,#eef3ff 55%,#f7f8fb)}
+.campaignGrid{position:relative;display:grid;grid-template-columns:minmax(0,.94fr) minmax(440px,1.06fr);align-items:center;gap:clamp(40px,7vw,96px);min-height:620px;padding:clamp(34px,5vw,72px);overflow:hidden;border:1px solid rgba(22,102,245,.09);border-radius:48px;background:radial-gradient(circle at 82% 18%,rgba(103,90,255,.18),transparent 36%),radial-gradient(circle at 14% 90%,rgba(61,200,255,.14),transparent 34%),rgba(255,255,255,.84);box-shadow:0 38px 110px rgba(35,61,118,.13);backdrop-filter:blur(28px)}
+.campaignGrid::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(22,102,245,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(22,102,245,.035) 1px,transparent 1px);background-size:30px 30px;mask-image:linear-gradient(90deg,#000,transparent 76%);pointer-events:none}
+.campaignCopy{position:relative;z-index:2}
+.campaignEyebrow{display:inline-flex;align-items:center;gap:8px;margin:0 0 18px;padding:8px 12px;border:1px solid rgba(22,102,245,.16);border-radius:999px;background:rgba(255,255,255,.76);color:#1555bd;font-size:.73rem;font-weight:800;letter-spacing:.035em;text-transform:uppercase}
+.campaignCopy h2{max-width:660px;margin:0;font-size:clamp(2.8rem,5vw,5.35rem);line-height:.98;letter-spacing:-.065em;color:var(--mezgeb-ink)}
+.campaignCopy>p{max-width:620px;margin:24px 0 0;color:#5b6475;font-size:clamp(1rem,1.45vw,1.18rem);line-height:1.75}
+.campaignSignals{display:flex;flex-wrap:wrap;gap:9px;margin:28px 0}
+.campaignSignals span{display:inline-flex;align-items:center;gap:7px;padding:9px 12px;border-radius:999px;background:#fff;color:#334157;box-shadow:0 8px 24px rgba(27,49,91,.07);font-size:.76rem;font-weight:750}
+.campaignSignals span::before{content:"✓";color:var(--mezgeb-success);font-weight:900}
+.campaignActions{display:flex;flex-wrap:wrap;gap:11px}
+.campaignVisual{position:relative;z-index:2;min-width:0;align-self:stretch;display:grid;place-items:end center}
+.campaignImageFrame{position:relative;width:min(100%,570px);overflow:hidden;border-radius:38px;background:#e9efff;box-shadow:0 34px 90px rgba(20,51,112,.24);animation:mezgebFloat 6s ease-in-out infinite}
+.campaignImage{display:block;width:100%;height:auto;object-fit:cover}
+.campaignFloat{position:absolute;z-index:3;display:grid;gap:3px;min-width:168px;padding:14px 16px;border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(255,255,255,.86);box-shadow:0 18px 50px rgba(16,42,90,.16);backdrop-filter:blur(18px);color:var(--mezgeb-ink)}
+.campaignFloat small{color:#6d7583;font-size:.65rem;text-transform:uppercase;letter-spacing:.06em}
+.campaignFloat strong{font-size:.88rem}
+.campaignFloatOne{left:-20px;top:17%}
+.campaignFloatTwo{right:-12px;bottom:12%}
+.campaignFloatTwo strong{color:var(--mezgeb-success)}
+
+/* Live application polish */
+.productionAppPage{background:radial-gradient(circle at 18% 0,rgba(22,102,245,.1),transparent 27%),radial-gradient(circle at 92% 5%,rgba(108,99,255,.09),transparent 28%),#edf1f7!important}
+.productionAppPage .nativeAppShell{padding-top:28px!important;padding-bottom:34px!important}
+.cloudMezgebApp{border-color:rgba(18,39,77,.08)!important;border-radius:34px!important;box-shadow:0 40px 120px rgba(14,30,60,.18)!important;transform:translateZ(0);animation:mezgebAppEnter .65s var(--mezgeb-spring) both}
+@keyframes mezgebAppEnter{from{opacity:0;transform:translateY(14px) scale(.988)}to{opacity:1;transform:none}}
+.cloudSidebar{position:relative;background:radial-gradient(circle at 22% 0,rgba(62,121,255,.26),transparent 30%),linear-gradient(180deg,#07111f,#101d32 56%,#0a1425)!important;border-right:1px solid rgba(255,255,255,.055)}
+.cloudSidebar::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 20%,rgba(255,255,255,.035) 46%,transparent 72%);pointer-events:none}
+.mezgebAppLogo{background:linear-gradient(145deg,#3dc8ff,#1666f5 48%,#7558ed)!important;box-shadow:0 10px 26px rgba(31,112,255,.36)!important}
+.cloudBusinessSwitcher{border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.065)!important;box-shadow:inset 0 1px rgba(255,255,255,.06)}
+.cloudSidebar nav button{position:relative;overflow:hidden;min-height:48px!important;border:1px solid transparent!important}
+.cloudSidebar nav button:hover{background:rgba(255,255,255,.08)!important;border-color:rgba(255,255,255,.06)!important;transform:translateX(3px)}
+.cloudSidebar nav button.active{background:linear-gradient(90deg,rgba(46,117,255,.28),rgba(103,86,235,.16))!important;border-color:rgba(105,166,255,.23)!important;color:#fff!important;box-shadow:inset 3px 0 #4dbdff,0 12px 28px rgba(0,0,0,.13)}
+.cloudSidebar nav button.active i{color:#6fd3ff;transform:scale(1.08)}
+.syncDot{animation:mezgebPulse 2.1s ease-in-out infinite}
+.cloudWorkspace{background:linear-gradient(180deg,#f9fbff,#f3f6fb 70%,#f6f8fc)!important}
+.cloudTopbar{position:sticky;top:0;z-index:50;min-height:82px!important;background:rgba(255,255,255,.84)!important;backdrop-filter:blur(24px) saturate(170%)!important;border-bottom-color:rgba(10,29,60,.06)!important}
+.cloudTopActions span{border:1px solid rgba(22,138,85,.12);box-shadow:0 6px 18px rgba(22,138,85,.08)}
+.cloudTopActions button{border:1px solid rgba(14,36,75,.06)!important}
+.cloudTopActions button:hover{background:#fff!important;box-shadow:0 10px 24px rgba(16,42,80,.1)}
+.cloudContent{animation:mezgebContentIn .42s var(--mezgeb-spring) both}
+@keyframes mezgebContentIn{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.cloudMetricGrid article,.cloudPanel,.cloudForm,.cloudLedger,.cloudReceipts,.cloudReports,.cloudOperations{border-color:rgba(17,39,78,.065)!important;box-shadow:0 12px 34px rgba(22,42,77,.055);transition:transform .28s var(--mezgeb-spring),box-shadow .28s ease,border-color .28s ease}
+.cloudMetricGrid article:hover,.cloudPanel:hover,.cloudReceiptGrid article:hover,.cloudReportGrid article:hover,.cloudOperationGrid article:hover{transform:translateY(-3px);border-color:rgba(22,102,245,.15)!important;box-shadow:0 20px 48px rgba(22,42,77,.09)}
+.cloudPrimaryMetric{position:relative;overflow:hidden;background:radial-gradient(circle at 86% 8%,rgba(74,202,255,.24),transparent 30%),linear-gradient(145deg,#07111f,#153365 55%,#3158d5)!important}
+.cloudPrimaryMetric::after{content:"";position:absolute;width:170px;height:170px;right:-60px;bottom:-90px;border-radius:50%;border:30px solid rgba(255,255,255,.045)}
+.cloudQuickActions button{position:relative;overflow:hidden;min-height:72px!important;border-color:rgba(15,39,81,.065)!important;box-shadow:0 10px 28px rgba(22,42,77,.045)}
+.cloudQuickActions button:hover{transform:translateY(-3px)!important;border-color:rgba(22,102,245,.17)!important;box-shadow:0 18px 38px rgba(22,69,145,.12)!important}
+.cloudQuickActions i{background:linear-gradient(145deg,#eaf3ff,#eef0ff)!important;color:#155fe1!important;box-shadow:inset 0 0 0 1px rgba(22,102,245,.08)}
+.cloudRows>.cloudRow,.cloudCustomerCard{animation:mezgebRowIn .35s var(--mezgeb-spring) both}
+@keyframes mezgebRowIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+.cloudRow:hover{background:#f8fbff;border-radius:13px;padding-inline:8px;margin-inline:-8px}
+.cloudCustomerCard:hover{transform:translateY(-2px)!important;box-shadow:0 13px 30px rgba(18,58,120,.09)}
+.cloudForm input,.cloudForm select,.cloudLedger header input{min-height:50px!important;border-color:#dbe2ed!important;background:#fbfcff!important}
+.cloudForm label{gap:8px!important}
+.mezgebPrimaryAction{position:relative;isolation:isolate;overflow:hidden;min-height:50px;border:0;border-radius:14px;background:linear-gradient(135deg,#1769f6,#4557ed 58%,#6a56e8);color:#fff;font-weight:800;box-shadow:0 12px 28px rgba(22,102,245,.22)}
+.cloudSegment{padding:5px!important;border:1px solid rgba(16,42,81,.04)}
+.cloudSegment button.active{box-shadow:0 6px 18px rgba(22,42,77,.09)!important}
+.mezgebNotice{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:18px 24px 0;padding:13px 15px;border:1px solid rgba(22,102,245,.16);border-radius:15px;background:#edf4ff;color:#1b579f;box-shadow:0 10px 28px rgba(20,55,110,.08);animation:mezgebToastIn .3s var(--mezgeb-spring) both}
+.mezgebNotice button{display:grid;place-items:center;flex:0 0 28px;height:28px;border:0;border-radius:9px;background:rgba(0,0,0,.055);color:inherit}
+.cloudTour{border:1px solid rgba(255,255,255,.09);background:radial-gradient(circle at 90% 0,rgba(57,127,255,.28),transparent 34%),linear-gradient(145deg,#07111f,#14233c)!important;box-shadow:0 34px 100px rgba(4,12,28,.42)!important;animation:mezgebToastIn .45s var(--mezgeb-spring) both}
+.cloudTour .button{box-shadow:0 12px 28px rgba(30,110,255,.28)}
+
+/* Marketing, forms and footer consistency */
+.accessForm,.authForm,.demoForm{border:1px solid rgba(20,47,91,.06);box-shadow:0 20px 54px rgba(26,45,82,.07)}
+.accessForm input,.accessForm select,.authForm input,.demoForm input{min-height:52px!important;border-radius:15px!important;background:#fff!important}
+.siteFooter{background:linear-gradient(180deg,#fff,#f8faff)!important;border-top:1px solid rgba(14,36,75,.055)}
+.footerGrid a:hover{color:var(--mezgeb-blue)!important;transform:translateX(2px)}
+.footerBottom{align-items:center;gap:18px;flex-wrap:wrap}
+.poweredByHisab{display:inline-flex;align-items:center;gap:6px;color:#657086}
+.poweredByHisab a{color:var(--mezgeb-blue);font-weight:800}
+.poweredByHisab a:hover{text-decoration:underline;text-underline-offset:4px}
+
+@media(max-width:1050px){
+  .campaignGrid{grid-template-columns:1fr;min-height:auto}
+  .campaignCopy{text-align:center}
+  .campaignCopy h2,.campaignCopy>p{margin-inline:auto}
+  .campaignSignals,.campaignActions{justify-content:center}
+  .campaignVisual{width:min(100%,650px);margin:auto}
+  .campaignFloatOne{left:8px}.campaignFloatTwo{right:8px}
+}
+
+@media(max-width:760px){
+  main{animation-duration:.38s}
+  .mezgebSystemToast{top:max(10px,env(safe-area-inset-top));right:10px;width:calc(100vw - 20px);border-radius:15px}
+  .campaignSection{padding:18px 0 78px}
+  .campaignGrid{width:min(calc(100% - 24px),var(--container));padding:28px 18px 22px;border-radius:30px;gap:30px}
+  .campaignCopy h2{font-size:clamp(2.5rem,13vw,4rem)}
+  .campaignCopy>p{font-size:.98rem;line-height:1.68}
+  .campaignActions{display:grid;grid-template-columns:1fr;width:100%}
+  .campaignActions .button{width:100%}
+  .campaignImageFrame{border-radius:25px;animation:none}
+  .campaignFloat{position:static;min-width:0;margin-top:10px;text-align:left}
+  .campaignVisual{display:block}
+  .cloudMezgebApp{border-radius:0!important;box-shadow:none!important}
+  .productionAppPage .nativeAppShell{padding:0!important}
+  .cloudWorkspace{padding-bottom:calc(82px + env(safe-area-inset-bottom))}
+  .cloudTopbar{top:0;min-height:68px!important;padding-inline:16px!important}
+  .cloudTopActions span{display:none!important}
+  .cloudContent{padding:16px!important}
+  .mezgebNotice{margin:12px 12px 0}
+  .cloudMetricGrid{grid-template-columns:1fr!important}
+  .cloudPrimaryMetric{grid-column:auto!important}
+  .cloudDashboardGrid,.cloudTwoColumn,.cloudDubeLayout{grid-template-columns:1fr!important}
+  .cloudQuickActions{grid-template-columns:1fr 1fr!important}
+  .cloudQuickActions button{min-height:64px!important;padding-inline:13px!important}
+  .cloudReceiptGrid,.cloudReportGrid,.cloudOperationGrid{grid-template-columns:1fr!important}
+  .cloudFormGrid{grid-template-columns:1fr!important}
+  .cloudTour{right:12px!important;bottom:calc(84px + env(safe-area-inset-bottom))!important;width:calc(100vw - 24px)!important;border-radius:22px!important}
+  .footerBottom{justify-content:center;text-align:center}
+}
+
+@media(max-width:390px){
+  .cloudQuickActions{grid-template-columns:1fr!important}
+  .campaignGrid{width:calc(100% - 16px);padding-inline:14px}
+  .campaignSignals span{width:100%;justify-content:center}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+  .campaignImageFrame,.syncDot{animation:none!important}
+}
