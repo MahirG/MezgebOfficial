@@ -1,7 +1,7 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { EarlyAccessForm } from '@/components/early-access-form';
 import { HeroDashboard } from '@/components/hero-dashboard';
+import { HomeHero } from '@/components/home-hero';
 import { PricingSection } from '@/components/pricing-section';
 import { getPricingData } from '@/lib/pricing';
 import styles from './marketing.module.css';
@@ -100,61 +100,13 @@ export default async function Home() {
             <Link href="/auth/sign-up">Start the Starter trial →</Link>
           </div>
 
-          <div className={styles.heroCopy}>
-            <p className={styles.eyebrow}>Business management, built for Ethiopia</p>
-            <h1>Run the business.<span>Know every birr.</span></h1>
-            <p className={styles.heroLead}>Mezgeb brings the daily ledger, Dube customer credit, receipts, payment channels and performance reporting into one focused operating system for Ethiopian businesses.</p>
-            <div className={styles.heroActions}>
-              <Link className="button primary" href="/auth/sign-up">Start 14-day trial</Link>
-              <Link className={styles.secondaryAction} href="/demo">Explore the product <span>↗</span></Link>
-            </div>
-            <div className={styles.heroSignals} aria-label="Product highlights">
-              <span><b>ETB</b> first</span>
-              <span><b>15%</b> VAT workflow</span>
-              <span><b>Dube</b> built in</span>
-              <span><b>Realtime</b> sync</span>
-            </div>
-          </div>
+          <HomeHero />
 
           <div className={styles.heroProduct}>
             <div className={styles.productGlow} aria-hidden="true" />
             <HeroDashboard />
             <div className={styles.floatingCardLeft} aria-hidden="true"><small>Today’s sales</small><strong>ETB 3,840</strong><span>Recorded clearly</span></div>
             <div className={styles.floatingCardRight} aria-hidden="true"><small>Dube collected</small><strong>ETB 1,200</strong><span>Balance updated</span></div>
-          </div>
-        </div>
-      </section>
-
-      <section className="campaignSection" aria-label="Mezgeb mobile campaign">
-        <div className="container campaignGrid">
-          <div className="campaignCopy">
-            <p className="campaignEyebrow">Made for Ethiopian businesses 🇪🇹</p>
-            <h2>Your whole business, clear enough to carry.</h2>
-            <p>Open Mezgeb on the phone already in your hand. Record the sale, follow Dube, issue a receipt and understand the day without returning to scattered notebooks.</p>
-            <div className="campaignSignals" aria-label="Mezgeb mobile benefits">
-              <span>Phone-first workspace</span>
-              <span>Secure Supabase records</span>
-              <span>Local payment methods</span>
-            </div>
-            <div className="campaignActions">
-              <Link className="button primary" href="/auth/sign-up">Start 14-day trial</Link>
-              <Link className="button secondaryDark" href="/demo">Open public demo</Link>
-            </div>
-          </div>
-          <div className="campaignVisual">
-            <div className="campaignImageFrame">
-              <Image
-                className="campaignImage"
-                src="/api/media/mezgeb-campaign"
-                alt="Smiling Ethiopian woman in modest traditional clothing presenting the Mezgeb mobile business dashboard on an iPhone"
-                width={540}
-                height={464}
-                sizes="(max-width: 1050px) 90vw, 46vw"
-                unoptimized
-              />
-            </div>
-            <div className="campaignFloat campaignFloatOne"><small>Workspace</small><strong>Sales · Dube · Reports</strong></div>
-            <div className="campaignFloat campaignFloatTwo"><small>Cloud status</small><strong>Synced securely</strong></div>
           </div>
         </div>
       </section>
