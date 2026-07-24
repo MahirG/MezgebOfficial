@@ -20,7 +20,7 @@ test('professional homepage presents Mezgeb and a clear account funnel', async (
   await expect(page.getByRole('heading', { name: /Local business reality is not an add-on/i })).toBeVisible();
   await expect(page.getByRole('heading', { name: /Your business deserves more than scattered notes/i })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Join product updates' })).toBeVisible();
-  await expect(page.getByText('Powered by')).toBeVisible();
+  await expect(page.getByText('Powered by Hisabtech.com', { exact: true })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Hisabtech.com' })).toHaveAttribute('href', 'https://hisabtech.com');
 });
 
