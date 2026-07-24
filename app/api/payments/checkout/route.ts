@@ -45,6 +45,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid checkout session.' }, { status: 400 });
   }
 
+  const supabase = await createClient();
+  const { data: userData, error: userError } = await supabase.auth.getUser();
+
+  if (userError || !userData.user) {
+    return NextResponse.json({ error: 'Create or sign in to your Mezgeb account before paying.' }, { status: 401 });
+  }
+
   if (!isChapaConfigured()) {
     return NextResponse.json(
       {
@@ -53,13 +60,6 @@ export async function POST(request: Request) {
       },
       { status: 503 }
     );
-  }
-
-  const supabase = await createClient();
-  const { data: userData, error: userError } = await supabase.auth.getUser();
-
-  if (userError || !userData.user) {
-    return NextResponse.json({ error: 'Create or sign in to your Mezgeb account before paying.' }, { status: 401 });
   }
 
   const txRef = `MEZGEB-${Date.now().toString(36)}-${randomUUID().replaceAll('-', '').slice(0, 22)}`;
