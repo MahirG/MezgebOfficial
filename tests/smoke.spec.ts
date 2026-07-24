@@ -3,10 +3,14 @@ import { expect, test } from '@playwright/test';
 test('professional homepage presents Mezgeb and a clear account funnel', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { name: /Run the business/i })).toBeVisible();
-  await expect(page.getByRole('link', { name: 'Create free account' }).first()).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Start 14-day trial' }).first()).toBeVisible();
+  await expect(page.getByRole('heading', { name: /Your whole business, clear enough to carry/i })).toBeVisible();
+  await expect(page.getByRole('img', { name: /Ethiopian woman/i })).toBeVisible();
   await expect(page.getByRole('heading', { name: /Local business reality is not an add-on/i })).toBeVisible();
   await expect(page.getByRole('heading', { name: /Your business deserves more than scattered notes/i })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Join product updates' })).toBeVisible();
+  await expect(page.getByText('Powered by')).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Hisabtech.com' })).toHaveAttribute('href', 'https://hisabtech.com');
 });
 
 test('marketing homepage fits the mobile viewport', async ({ page }, testInfo) => {
@@ -15,17 +19,31 @@ test('marketing homepage fits the mobile viewport', async ({ page }, testInfo) =
   await expect(page.getByRole('heading', { name: /Run the business/i })).toBeVisible();
   const dimensions = await page.evaluate(() => ({ width: document.documentElement.scrollWidth, viewport: window.innerWidth }));
   expect(dimensions.width).toBeLessThanOrEqual(dimensions.viewport + 1);
-  await expect(page.getByRole('link', { name: 'Explore the product' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Open public demo' })).toBeVisible();
 });
 
-test('pricing loads ETB plans and supports annual selection', async ({ page }) => {
+test('pricing loads four ETB tiers and supports annual selection', async ({ page }) => {
   await page.goto('/#pricing');
-  await expect(page.getByRole('heading', { name: /Start free/i })).toBeVisible();
-  await expect(page.getByText('ETB 299').first()).toBeVisible();
+  await expect(page.getByRole('heading', { name: /Choose the operating level/i })).toBeVisible();
+  await expect(page.getByText('ETB 1,500').first()).toBeVisible();
+  await expect(page.getByText('ETB 4,500').first()).toBeVisible();
+  await expect(page.getByText('ETB 9,500').first()).toBeVisible();
+  await expect(page.getByText('Custom').first()).toBeVisible();
   await page.getByRole('button', { name: /Yearly/i }).click();
-  await expect(page.getByText('ETB 2,990').first()).toBeVisible();
-  await page.getByRole('button', { name: /Start 7-day trial/i }).click();
+  await expect(page.getByText('ETB 15,000').first()).toBeVisible();
+  await expect(page.getByText('ETB 45,000').first()).toBeVisible();
+  await expect(page.getByText('ETB 95,000').first()).toBeVisible();
+  await page.getByRole('button', { name: /Start 14-day trial/i }).first().click();
   await expect(page).toHaveURL(/\/auth\/sign-up\?next=%2Fdashboard/);
+});
+
+test('pricing and campaign surfaces do not overflow their cards', async ({ page }) => {
+  await page.goto('/');
+  const overflow = await page.locator('section[id="pricing"] article, .campaignGrid').evaluateAll((elements) => elements.map((element) => ({
+    horizontal: element.scrollWidth > element.clientWidth + 1,
+    vertical: element.scrollHeight > element.clientHeight + 2 && getComputedStyle(element).overflowY === 'hidden'
+  })));
+  expect(overflow.every((item) => !item.horizontal && !item.vertical)).toBe(true);
 });
 
 test('production workspace requires an authenticated account', async ({ page }) => {
