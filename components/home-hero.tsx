@@ -31,10 +31,10 @@ export function HomeHero() {
           className={styles.presenter}
           src="/images/mezgeb-presenter.webp"
           alt="Smiling Ethiopian woman holding an iPhone that displays the Mezgeb mobile business application"
-          width={1100}
-          height={1040}
+          width={600}
+          height={567}
           priority
-          quality={92}
+          unoptimized
           sizes="(max-width: 880px) 100vw, 52vw"
         />
       </div>
