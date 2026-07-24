@@ -102,7 +102,7 @@ create or replace function public.mezgeb_complete_onboarding(
 )
 returns uuid
 language plpgsql
-security definer
+security invoker
 set search_path = public, pg_temp
 as $$
 declare
