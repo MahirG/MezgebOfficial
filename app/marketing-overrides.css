@@ -1,0 +1,5 @@
+@media (max-width: 760px) {
+  [class*="marketing-module"][class*="releaseBar"] {
+    display: none !important;
+  }
+}
