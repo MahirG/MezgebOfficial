@@ -24,7 +24,7 @@ export function SiteHeader() {
         </nav>
         <div className="navActions">
           <Link className="textButton desktopOnly" href="/auth/sign-in">Sign in</Link>
-          <Link className="button primary desktopOnly" href="/auth/sign-up">Create free account</Link>
+          <Link className="button primary desktopOnly" href="/auth/sign-up">Start 14-day trial</Link>
           <button className="menuButton" type="button" aria-label="Toggle menu" aria-expanded={open} onClick={() => setOpen(!open)}>
             {open ? '×' : '☰'}
           </button>
