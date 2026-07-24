@@ -22,6 +22,15 @@ function identityLabel(type: string | null | undefined) {
   return type ? labels[type] ?? 'Identity document' : 'Identity not added';
 }
 
+const planLabels: Record<string, string> = {
+  starter: 'Starter',
+  growth: 'Growth',
+  business: 'Business',
+  enterprise: 'Enterprise',
+  free: 'Legacy Free',
+  pro: 'Legacy Mezgeb Pro'
+};
+
 export default async function DashboardPage() {
   const supabase = await createClient();
   const { data: userData, error: userError } = await supabase.auth.getUser();
@@ -51,20 +60,21 @@ export default async function DashboardPage() {
 
   const displayName = profile?.full_name || String(user.user_metadata?.full_name ?? '') || user.email?.split('@')[0] || 'Business owner';
   const businessList = businesses ?? [];
-  const planName = subscription?.plan_code === 'pro' ? 'Mezgeb Pro' : 'Free';
+  const planCode = String(subscription?.plan_code ?? 'starter');
+  const planName = planLabels[planCode] ?? planCode.replaceAll('_', ' ');
   const subscriptionStatus = subscription?.status ?? 'available';
   const billingCycle = subscription?.billing_cycle === 'annual' ? 'yearly' : 'monthly';
   const trialEnd = formatDate(subscription?.trial_ends_at ?? null);
   const periodEnd = formatDate(subscription?.current_period_end ?? null);
   const planDescription = subscription
     ? subscription.status === 'trialing' && trialEnd
-      ? `${billingCycle} plan · Trial ends ${trialEnd}`
+      ? `${billingCycle} ${planName} plan · Trial ends ${trialEnd}`
       : subscription.status === 'pending_payment'
-        ? `${billingCycle} selection saved · Payment provider connection required`
+        ? `${billingCycle} ${planName} selection saved · Verified payment activation required`
         : periodEnd
-          ? `${billingCycle} plan · Current period ends ${periodEnd}`
-          : `${billingCycle} plan · ETB ${Number(subscription.amount_etb ?? 0).toLocaleString('en-US')}`
-    : 'No plan has been selected yet. Free access remains available.';
+          ? `${billingCycle} ${planName} plan · Current period ends ${periodEnd}`
+          : `${billingCycle} ${planName} plan · ETB ${Number(subscription.amount_etb ?? 0).toLocaleString('en-US')}`
+    : 'Choose Starter, Growth, Business or Enterprise pricing for this account.';
   const identityDescription = `${identityLabel(profile?.id_type)}${profile?.id_last4 ? ` · ending ${profile.id_last4}` : ''}`;
 
   return (
