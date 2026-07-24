@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { BusinessOnboardingForm } from '@/components/business-onboarding-form';
 import { createClient } from '@/lib/supabase/server';
 import styles from './dashboard.module.css';
 
@@ -41,7 +40,7 @@ export default async function DashboardPage() {
       .maybeSingle(),
     supabase
       .from('mezgeb_businesses')
-      .select('id, name, city, tin, vat_registered, created_at')
+      .select('id, name, city, tin, vat_registered, onboarding_completed_at, created_at')
       .order('created_at', { ascending: true }),
     supabase
       .from('mezgeb_subscriptions')
@@ -102,13 +101,13 @@ export default async function DashboardPage() {
           <section className="dashboardEmpty"><p className="overline">Connection error</p><h2>Your businesses could not be loaded.</h2><p>{businessesError.message}</p></section>
         ) : businessList.length === 0 ? (
           <section className="dashboardCard">
-            <header className="dashboardCardHeader"><div><p className="overline">First-time setup</p><h2>Create your first business.</h2><p>This becomes the protected workspace for your ledger, customers, Dube, VAT receipts, inventory and reports.</p></div><span className="workspaceStatus">Authentication active</span></header>
-            <BusinessOnboardingForm />
+            <header className="dashboardCardHeader"><div><p className="overline">First-time setup</p><h2>Create your first production workspace.</h2><p>The guided setup configures your business identity, opening balance, VAT preference and receipt numbering in one protected transaction.</p></div><span className="workspaceStatus">Authentication active</span></header>
+            <Link className="button primary" href="/onboarding">Start guided business setup</Link>
           </section>
         ) : (
           <section>
-            <header className="dashboardCardHeader"><div><p className="overline">Your businesses</p><h2>Choose a workspace.</h2><p>These records are loaded from the connected Mezgeb Supabase project and are visible only to your authenticated account.</p></div><span className="workspaceStatus">Securely connected</span></header>
-            <div className="businessWorkspaceGrid">{businessList.map((business) => <article className="businessWorkspaceCard" key={business.id}><small>{business.vat_registered ? 'VAT-registered business' : 'Standard business'}</small><strong>{business.name}</strong><span>{business.city || 'Location not added'}{business.tin ? ` · TIN ${business.tin}` : ''}</span><Link className="button primary" href={`/app?business=${business.id}`}>Open workspace</Link></article>)}</div>
+            <header className="dashboardCardHeader"><div><p className="overline">Your businesses</p><h2>Choose a workspace.</h2><p>Ledger, Dube, receipt and report records are loaded from Supabase and visible only to your authenticated account.</p></div><Link className="button" href="/onboarding?new=1">Add business</Link></header>
+            <div className="businessWorkspaceGrid">{businessList.map((business) => <article className="businessWorkspaceCard" key={business.id}><small>{business.vat_registered ? 'VAT-registered business' : 'Standard business'}</small><strong>{business.name}</strong><span>{business.city || 'Location not added'}{business.tin ? ` · TIN ${business.tin}` : ''}</span><Link className="button primary" href={`/app?business=${business.id}`}>Open live workspace</Link></article>)}</div>
           </section>
         )}
       </div>

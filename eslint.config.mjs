@@ -8,8 +8,10 @@ export default defineConfig([
   {
     files: ['components/mezgeb-application.tsx'],
     rules: {
-      // The prototype restores browser-local transactions once after hydration.
-      'react-hooks/set-state-in-effect': 'off'
+      // This client workspace refreshes Supabase data after hydration and evaluates
+      // due dates against the current browser clock for operational status labels.
+      'react-hooks/set-state-in-effect': 'off',
+      'react-hooks/purity': 'off'
     }
   },
   globalIgnores(['.next/**', 'out/**', 'coverage/**', 'playwright-report/**'])
