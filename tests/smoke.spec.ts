@@ -4,6 +4,8 @@ test('professional homepage presents Mezgeb and a clear account funnel', async (
   await page.goto('/');
   await expect(page.getByRole('heading', { name: /Run the business/i })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Start 14-day trial' }).first()).toBeVisible();
+  await expect(page.getByText('Persistent ledger, Dube, receipts, reports, onboarding and four-tier ETB pricing are connected.')).toBeVisible();
+  await expect(page.getByText('Business management, built for Ethiopia')).toHaveCount(0);
   const presenter = page.getByRole('img', { name: /Ethiopian woman/i });
   await expect(presenter).toBeVisible();
   await expect(presenter).toHaveAttribute('src', /mezgeb-presenter/);
@@ -25,6 +27,8 @@ test('marketing homepage fits the mobile viewport', async ({ page }, testInfo) =
   await page.goto('/');
   await expect(page.getByRole('heading', { name: /Run the business/i })).toBeVisible();
   await expect(page.getByRole('img', { name: /Ethiopian woman/i })).toBeVisible();
+  await expect(page.getByText('Persistent ledger, Dube, receipts, reports, onboarding and four-tier ETB pricing are connected.')).toBeHidden();
+  await expect(page.getByText('Business management, built for Ethiopia')).toHaveCount(0);
   const dimensions = await page.evaluate(() => ({ width: document.documentElement.scrollWidth, viewport: window.innerWidth }));
   expect(dimensions.width).toBeLessThanOrEqual(dimensions.viewport + 1);
   await expect(page.getByRole('link', { name: /Explore the mobile app/i })).toBeVisible();
