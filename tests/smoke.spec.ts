@@ -15,11 +15,12 @@ test('professional homepage presents Mezgeb and a clear account funnel', async (
   expect(staticAsset.ok()).toBe(true);
   expect(staticAsset.headers()['content-type']).toContain('image/webp');
   expect(Number(staticAsset.headers()['content-length'] ?? 0)).toBeGreaterThan(12_000);
+  await expect(page.getByLabel('Ethiopian payment methods', { exact: true })).toBeVisible();
   await expect(page.getByLabel('Mezgeb dashboard product preview')).toHaveCount(0);
   await expect(page.getByRole('heading', { name: /Local business reality is not an add-on/i })).toBeVisible();
   await expect(page.getByRole('heading', { name: /Your business deserves more than scattered notes/i })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Join product updates' })).toBeVisible();
-  await expect(page.getByText('Powered by')).toBeVisible();
+  await expect(page.getByText('Powered by Hisabtech.com', { exact: true })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Hisabtech.com' })).toHaveAttribute('href', 'https://hisabtech.com');
 });
 
@@ -30,21 +31,37 @@ test('release announcement remains visible on desktop', async ({ page }, testInf
   await expect(page.getByRole('link', { name: /Start the Starter trial/i })).toBeVisible();
 });
 
-test('marketing homepage fits the mobile viewport', async ({ page }, testInfo) => {
+test('marketing homepage fits the mobile viewport and keeps payments inline with the presenter', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'mobile', 'Mobile marketing verification');
   await page.goto('/');
   await expect(page.getByRole('heading', { name: /Run the business/i })).toBeVisible();
   await expect(page.getByText(releaseCopy)).toBeHidden();
   await expect(page.getByText('Business management, built for Ethiopia')).toHaveCount(0);
-  await expect(page.getByRole('img', { name: /Ethiopian woman/i })).toBeVisible();
+  const presenter = page.getByRole('img', { name: /Ethiopian woman/i });
+  const paymentFlow = page.getByLabel('Ethiopian payment methods', { exact: true });
+  await expect(presenter).toBeVisible();
+  await expect(paymentFlow).toBeVisible();
+
+  const [presenterBox, paymentBox] = await Promise.all([presenter.boundingBox(), paymentFlow.boundingBox()]);
+  expect(presenterBox).not.toBeNull();
+  expect(paymentBox).not.toBeNull();
+  if (presenterBox && paymentBox) {
+    const overlapsVertically = paymentBox.y < presenterBox.y + presenterBox.height
+      && paymentBox.y + paymentBox.height > presenterBox.y;
+    const overlapsHorizontally = paymentBox.x < presenterBox.x + presenterBox.width
+      && paymentBox.x + paymentBox.width > presenterBox.x;
+    expect(overlapsVertically && overlapsHorizontally).toBe(true);
+  }
+
   const dimensions = await page.evaluate(() => ({ width: document.documentElement.scrollWidth, viewport: window.innerWidth }));
   expect(dimensions.width).toBeLessThanOrEqual(dimensions.viewport + 1);
   await expect(page.getByRole('link', { name: /Explore the mobile app/i })).toBeVisible();
 });
 
-test('pricing loads four ETB tiers and supports annual selection', async ({ page }) => {
+test('pricing loads four ETB tiers and opens the secure payment selector', async ({ page }) => {
   await page.goto('/#pricing');
   await expect(page.getByRole('heading', { name: /Choose the operating level/i })).toBeVisible();
+  await expect(page.getByLabel(/Ethiopian payment methods available through secure checkout/i)).toBeVisible();
   await expect(page.getByText('ETB 1,500').first()).toBeVisible();
   await expect(page.getByText('ETB 4,500').first()).toBeVisible();
   await expect(page.getByText('ETB 9,500').first()).toBeVisible();
@@ -54,6 +71,14 @@ test('pricing loads four ETB tiers and supports annual selection', async ({ page
   await expect(page.getByText('ETB 45,000').first()).toBeVisible();
   await expect(page.getByText('ETB 95,000').first()).toBeVisible();
   await page.getByRole('button', { name: /Start 14-day trial/i }).first().click();
+
+  const dialog = page.getByRole('dialog', { name: /Starter · ETB 15,000/i });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByText(/Choose your preferred payment method/i)).toBeVisible();
+  await expect(dialog.locator('[data-payment-method="telebirr"]')).toHaveAttribute('aria-pressed', 'true');
+  await dialog.locator('[data-payment-method="mpesa"]').click();
+  await expect(dialog.locator('[data-payment-method="mpesa"]')).toHaveAttribute('aria-pressed', 'true');
+  await dialog.getByRole('button', { name: /Start 14-day trial/i }).click();
   await expect(page).toHaveURL(/\/auth\/sign-up\?next=%2Fdashboard/);
 });
 

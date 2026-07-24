@@ -156,7 +156,7 @@
   .homeHero {
     max-width: 720px;
     grid-template-columns: 1fr;
-    gap: 42px;
+    gap: 28px;
   }
 
   .copy {
@@ -170,7 +170,8 @@
   }
 
   .copy h1 {
-    font-size: clamp(3.7rem, 12vw, 6.4rem);
+    margin-bottom: 22px;
+    font-size: clamp(3.35rem, 11vw, 5.8rem);
   }
 
   .actions,
@@ -179,48 +180,128 @@
   }
 
   .visual {
-    width: min(100%, 680px);
+    width: min(100%, 640px);
     margin-inline: auto;
   }
 
   .presenter {
-    -webkit-mask-image: linear-gradient(180deg, #000 0, #000 93%, transparent 100%);
-    mask-image: linear-gradient(180deg, #000 0, #000 93%, transparent 100%);
+    -webkit-mask-image: linear-gradient(180deg, #000 0, #000 94%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 0, #000 94%, transparent 100%);
   }
 }
 
 @media (max-width: 560px) {
   .homeHero {
-    gap: 30px;
-  }
-
-  .eyebrow {
-    font-size: .67rem;
+    width: 100%;
+    max-width: none;
+    gap: 14px;
   }
 
   .copy h1 {
-    margin-top: 18px;
-    font-size: clamp(3.15rem, 15vw, 4.8rem);
-    line-height: .91;
+    max-width: 390px;
+    margin-top: 8px;
+    margin-bottom: 14px;
+    font-size: clamp(2.45rem, 11.7vw, 3.45rem);
+    line-height: .93;
+    letter-spacing: -.068em;
   }
 
   .lead {
-    font-size: 1rem;
+    max-width: 390px;
+    font-size: .88rem;
+    line-height: 1.48;
   }
 
   .actions {
+    width: 100%;
+    margin-top: 18px;
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
   }
 
   .actions :global(.button),
   .secondaryAction {
     width: 100%;
+    min-width: 0;
+    min-height: 42px;
+    padding: 0 10px;
+    gap: 6px;
+    font-size: .71rem;
+    white-space: nowrap;
+  }
+
+  .signals {
+    width: min(100%, 390px);
+    margin: 13px auto 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 5px;
+  }
+
+  .signals span {
+    min-width: 0;
+    padding: 7px 4px;
+    font-size: .56rem;
+    line-height: 1.15;
+    text-align: center;
+    white-space: nowrap;
   }
 
   .visual {
-    width: calc(100% + 24px);
-    margin-left: -12px;
+    width: 100%;
+    max-height: 330px;
+    margin: 0;
+    overflow: visible;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
+
+  .visual::before {
+    inset: 12% 1% 3% 18%;
+    filter: blur(24px);
+  }
+
+  .presenter {
+    width: 82%;
+    max-height: 326px;
+    margin-left: auto;
+    object-position: right bottom;
+    -webkit-mask-image: linear-gradient(180deg, #000 0, #000 96%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 0, #000 96%, transparent 100%);
+  }
+}
+
+@media (max-width: 400px) {
+  .copy h1 {
+    max-width: 340px;
+    font-size: clamp(2.2rem, 11.4vw, 2.85rem);
+  }
+
+  .lead {
+    max-width: 340px;
+    font-size: .82rem;
+  }
+
+  .actions :global(.button),
+  .secondaryAction {
+    min-height: 40px;
+    padding-inline: 7px;
+    font-size: .66rem;
+  }
+
+  .signals span {
+    padding-inline: 2px;
+    font-size: .51rem;
+  }
+
+  .visual {
+    max-height: 292px;
+  }
+
+  .presenter {
+    width: 80%;
+    max-height: 288px;
   }
 }
 
