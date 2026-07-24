@@ -1,9 +1,12 @@
 import { expect, test } from '@playwright/test';
 
+const releaseMessage = 'Persistent ledger, Dube, receipts, reports, onboarding and four-tier ETB pricing are connected.';
+
 test('professional homepage presents Mezgeb and a clear account funnel', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { name: /Run the business/i })).toBeVisible();
   await expect(page.getByRole('link', { name: 'Start 14-day trial' }).first()).toBeVisible();
+  await expect(page.getByText('Business management, built for Ethiopia', { exact: true })).toHaveCount(0);
   const presenter = page.getByRole('img', { name: /Ethiopian woman/i });
   await expect(presenter).toBeVisible();
   await expect(presenter).toHaveAttribute('src', /mezgeb-presenter/);
@@ -20,11 +23,26 @@ test('professional homepage presents Mezgeb and a clear account funnel', async (
   await expect(page.getByRole('link', { name: 'Hisabtech.com' })).toHaveAttribute('href', 'https://hisabtech.com');
 });
 
+test('release announcement stays desktop-only', async ({ page }, testInfo) => {
+  await page.goto('/');
+  const announcement = page.getByText(releaseMessage, { exact: true });
+
+  if (testInfo.project.name === 'mobile') {
+    await expect(announcement).toBeHidden();
+    await expect(page.getByRole('link', { name: 'Start the Starter trial →' })).toBeHidden();
+  } else {
+    await expect(announcement).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Start the Starter trial →' })).toBeVisible();
+  }
+});
+
 test('marketing homepage fits the mobile viewport', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'mobile', 'Mobile marketing verification');
   await page.goto('/');
   await expect(page.getByRole('heading', { name: /Run the business/i })).toBeVisible();
   await expect(page.getByRole('img', { name: /Ethiopian woman/i })).toBeVisible();
+  await expect(page.getByText(releaseMessage, { exact: true })).toBeHidden();
+  await expect(page.getByText('Business management, built for Ethiopia', { exact: true })).toHaveCount(0);
   const dimensions = await page.evaluate(() => ({ width: document.documentElement.scrollWidth, viewport: window.innerWidth }));
   expect(dimensions.width).toBeLessThanOrEqual(dimensions.viewport + 1);
   await expect(page.getByRole('link', { name: /Explore the mobile app/i })).toBeVisible();
