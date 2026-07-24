@@ -36,7 +36,6 @@ export function HomeHero() {
           height={900}
           priority
           unoptimized
-          quality={90}
           sizes="(max-width: 900px) 94vw, 52vw"
         />
         <div className={styles.topBadge}>
