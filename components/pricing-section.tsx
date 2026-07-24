@@ -3,7 +3,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import { paymentMethods, type PaymentMethodCode } from '@/lib/payment-methods';
 import type { BillingCycle, PricingPlan, SubscriptionSummary } from '@/lib/pricing';
-import styles from './pricing-section.module.css';
+import pricingStyles from './pricing-section.module.css';
+import checkoutStyles from './pricing-checkout.module.css';
+
+const styles = { ...pricingStyles, ...checkoutStyles };
 
 type PricingSectionProps = {
   plans: PricingPlan[];
