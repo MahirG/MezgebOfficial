@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 
-const supportedPlans = new Set(['free', 'pro']);
 const supportedCycles = new Set(['monthly', 'annual']);
+const planCodePattern = /^[a-z0-9_-]{2,40}$/;
 
 export const dynamic = 'force-dynamic';
 
@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     ? String(body.billingCycle)
     : '';
 
-  if (!supportedPlans.has(planCode) || !supportedCycles.has(billingCycle)) {
+  if (!planCodePattern.test(planCode) || !supportedCycles.has(billingCycle)) {
     return NextResponse.json({ error: 'Choose a valid Mezgeb plan and billing interval.' }, { status: 400 });
   }
 
@@ -31,6 +31,24 @@ export async function POST(request: Request) {
 
   if (userError || !userData.user) {
     return NextResponse.json({ error: 'Sign in before choosing a plan.' }, { status: 401 });
+  }
+
+  const { data: plan, error: planError } = await supabase
+    .from('mezgeb_plans')
+    .select('code, limits')
+    .eq('code', planCode)
+    .eq('is_active', true)
+    .maybeSingle();
+
+  if (planError) return NextResponse.json({ error: planError.message }, { status: 500 });
+  if (!plan) return NextResponse.json({ error: 'That Mezgeb plan is not currently available.' }, { status: 400 });
+
+  const limits = plan.limits && typeof plan.limits === 'object' && !Array.isArray(plan.limits)
+    ? plan.limits as Record<string, unknown>
+    : {};
+
+  if (limits.custom_pricing === true) {
+    return NextResponse.json({ error: 'Enterprise pricing requires a scoped commercial conversation.' }, { status: 400 });
   }
 
   const { data: existing, error: existingError } = await supabase
@@ -59,10 +77,10 @@ export async function POST(request: Request) {
   const { data: subscription, error } = await operation;
 
   if (error) {
-    const duplicateTrial = error.code === '23505';
+    const duplicateSubscription = error.code === '23505';
     return NextResponse.json(
-      { error: duplicateTrial ? 'A Mezgeb subscription already exists for this account.' : error.message },
-      { status: duplicateTrial ? 409 : 400 }
+      { error: duplicateSubscription ? 'A Mezgeb subscription already exists for this account.' : error.message },
+      { status: duplicateSubscription ? 409 : 400 }
     );
   }
 
