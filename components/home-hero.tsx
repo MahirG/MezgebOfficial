@@ -2,6 +2,39 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './home-hero.module.css';
 
+const paymentBrands = [
+  {
+    name: 'telebirr',
+    source: 'https://raw.githubusercontent.com/Chapa-Et/ethiopianlogos/main/logos/tele_birr/tele_birr.svg',
+    className: styles.telebirr
+  },
+  {
+    name: 'M-PESA',
+    source: 'https://upload.wikimedia.org/wikipedia/commons/1/15/M-PESA_LOGO-01.svg',
+    className: styles.mpesa
+  },
+  {
+    name: 'CBE Birr',
+    source: 'https://raw.githubusercontent.com/Chapa-Et/ethiopianlogos/main/logos/cbe_birr_light/cbe_birr_light.svg',
+    className: styles.cbeBirr
+  },
+  {
+    name: 'Amole',
+    source: 'https://raw.githubusercontent.com/Chapa-Et/ethiopianlogos/main/logos/amole/amole.svg',
+    className: styles.amole
+  },
+  {
+    name: 'Chapa',
+    source: 'https://raw.githubusercontent.com/Chapa-Et/ethiopianlogos/main/logos/chapa/chapa.svg',
+    className: styles.chapa
+  },
+  {
+    name: 'Kacha',
+    source: 'https://raw.githubusercontent.com/Chapa-Et/ethiopianlogos/main/logos/kacha/kacha.svg',
+    className: styles.kacha
+  }
+] as const;
+
 export function HomeHero() {
   return (
     <div className={styles.homeHero}>
@@ -26,16 +59,39 @@ export function HomeHero() {
       </div>
 
       <div className={styles.visual}>
-        <Image
-          className={styles.presenter}
-          src="/images/mezgeb-presenter.webp"
-          alt="Smiling Ethiopian woman holding an iPhone that displays the Mezgeb mobile business application"
-          width={600}
-          height={567}
-          priority
-          unoptimized
-          sizes="(max-width: 880px) 100vw, 52vw"
-        />
+        <div className={styles.presenterStage}>
+          <Image
+            className={styles.presenter}
+            src="/images/mezgeb-presenter.webp"
+            alt="Smiling Ethiopian woman holding an iPhone that displays the Mezgeb mobile business application"
+            width={600}
+            height={567}
+            priority
+            unoptimized
+            sizes="(max-width: 880px) 100vw, 52vw"
+          />
+
+          <div className={styles.paymentFlow} aria-label="Ethiopian payment methods">
+            <div className={styles.paymentTrack} aria-hidden="true">
+              {[...paymentBrands, ...paymentBrands].map((brand, index) => (
+                <span
+                  className={`${styles.paymentChip} ${brand.className}`}
+                  data-payment-brand={brand.name}
+                  key={`${brand.name}-${index}`}
+                >
+                  <img
+                    src={brand.source}
+                    alt=""
+                    loading="eager"
+                    decoding="async"
+                    referrerPolicy="no-referrer"
+                  />
+                  <strong>{brand.name}</strong>
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
