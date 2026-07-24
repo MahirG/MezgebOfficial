@@ -51,7 +51,25 @@ jobs:
       - name: Enforce TypeScript result
         if: steps.typecheck.outputs.exit_code != '0'
         run: exit 1
-      - run: npm test
+      - name: Unit tests
+        id: unit-tests
+        shell: bash
+        run: |
+          set +e
+          npm test > unit-tests.log 2>&1
+          code=$?
+          echo "exit_code=$code" >> "$GITHUB_OUTPUT"
+          exit 0
+      - name: Upload unit-test diagnostics
+        if: steps.unit-tests.outputs.exit_code != '0'
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-diagnostics
+          path: unit-tests.log
+          retention-days: 3
+      - name: Enforce unit-test result
+        if: steps.unit-tests.outputs.exit_code != '0'
+        run: exit 1
       - name: Validate Supabase email templates
         run: npm run email:validate
       - name: Production build
