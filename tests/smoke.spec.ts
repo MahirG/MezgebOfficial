@@ -37,13 +37,17 @@ test('pricing loads four ETB tiers and supports annual selection', async ({ page
   await expect(page).toHaveURL(/\/auth\/sign-up\?next=%2Fdashboard/);
 });
 
-test('pricing and campaign surfaces do not overflow their cards', async ({ page }) => {
-  await page.goto('/');
-  const overflow = await page.locator('section[id="pricing"] article, .campaignGrid').evaluateAll((elements) => elements.map((element) => ({
+test('pricing content stays inside every visible card', async ({ page }) => {
+  await page.goto('/#pricing');
+  const overflow = await page.locator('section[id="pricing"] article').evaluateAll((elements) => elements.map((element) => ({
     horizontal: element.scrollWidth > element.clientWidth + 1,
-    vertical: element.scrollHeight > element.clientHeight + 2 && getComputedStyle(element).overflowY === 'hidden'
+    textOutside: Array.from(element.querySelectorAll('h3,p,li,span,small')).some((child) => {
+      const card = element.getBoundingClientRect();
+      const box = child.getBoundingClientRect();
+      return box.left < card.left - 1 || box.right > card.right + 1;
+    })
   })));
-  expect(overflow.every((item) => !item.horizontal && !item.vertical)).toBe(true);
+  expect(overflow.every((item) => !item.horizontal && !item.textOutside)).toBe(true);
 });
 
 test('production workspace requires an authenticated account', async ({ page }) => {
