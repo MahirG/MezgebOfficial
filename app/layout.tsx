@@ -1,9 +1,11 @@
 import type { Metadata, Viewport } from 'next';
+import { ExperienceOrchestrator } from '@/components/experience-orchestrator';
 import { SiteHeader } from '@/components/site-header';
 import { SiteFooter } from '@/components/site-footer';
 import { siteUrl } from '@/lib/env';
 import './globals.css';
 import './registration.css';
+import './experience.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -27,7 +29,7 @@ export const metadata: Metadata = {
   icons: { icon: '/icon.svg', apple: '/icon.svg' }
 };
 
-export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: '#f5f5f7', colorScheme: 'light' };
+export const viewport: Viewport = { width: 'device-width', initialScale: 1, themeColor: '#07111f', colorScheme: 'light' };
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -38,11 +40,23 @@ const jsonLd = {
   operatingSystem: 'Web',
   description: 'A business management and ledger application designed around Ethiopian sales, expenses, Dube customer credit, receipts and reporting.',
   offers: [
-    { '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'ETB' },
-    { '@type': 'Offer', name: 'Mezgeb Pro', price: '299', priceCurrency: 'ETB' }
+    { '@type': 'Offer', name: 'Starter', price: '1500', priceCurrency: 'ETB', description: 'ETB 1,500 monthly or ETB 15,000 annually.' },
+    { '@type': 'Offer', name: 'Growth', price: '4500', priceCurrency: 'ETB', description: 'ETB 4,500 monthly or ETB 45,000 annually.' },
+    { '@type': 'Offer', name: 'Business', price: '9500', priceCurrency: 'ETB', description: 'ETB 9,500 monthly or ETB 95,000 annually.' }
   ]
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <html lang="en"><body><a className="skipLink" href="#main-content">Skip to content</a><SiteHeader />{children}<SiteFooter /><script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} /></body></html>;
+  return (
+    <html lang="en">
+      <body>
+        <a className="skipLink" href="#main-content">Skip to content</a>
+        <ExperienceOrchestrator />
+        <SiteHeader />
+        {children}
+        <SiteFooter />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      </body>
+    </html>
+  );
 }
