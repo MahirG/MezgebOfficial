@@ -4,6 +4,7 @@ import { HomeHero } from '@/components/home-hero';
 import { PricingSection } from '@/components/pricing-section';
 import { getPricingData } from '@/lib/pricing';
 import styles from './marketing.module.css';
+import releaseStyles from './release-bar.module.css';
 
 const businessOutcomes = [
   {
@@ -93,7 +94,7 @@ export default async function Home() {
     <main id="main-content" className={styles.marketing}>
       <section className={styles.hero}>
         <div className="container">
-          <div className={styles.releaseBar}>
+          <div className={`${styles.releaseBar} ${releaseStyles.desktopOnly}`}>
             <span>Mezgeb 2.0</span>
             <p>Persistent ledger, Dube, receipts, reports, onboarding and four-tier ETB pricing are connected.</p>
             <Link href="/auth/sign-up">Start the Starter trial →</Link>
