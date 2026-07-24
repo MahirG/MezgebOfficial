@@ -12,11 +12,11 @@ export function HomeHero() {
           <span>Know every birr.</span>
         </h1>
         <p className={styles.lead}>
-          Mezgeb brings the daily ledger, Dube customer credit, receipts, payment channels and performance reporting into one focused operating system for Ethiopian businesses.
+          Mezgeb brings the daily ledger, Dube customer credit, receipts, payment channels and performance reporting into one focused mobile operating system for Ethiopian businesses.
         </p>
         <div className={styles.actions}>
           <Link className="button primary" href="/auth/sign-up">Start 14-day trial</Link>
-          <Link className={styles.secondaryAction} href="/demo">Explore the product <span>↗</span></Link>
+          <Link className={styles.secondaryAction} href="/demo">Explore the mobile app <span>↗</span></Link>
         </div>
         <div className={styles.signals} aria-label="Product highlights">
           <span><b>ETB</b> first</span>
@@ -27,25 +27,16 @@ export function HomeHero() {
       </div>
 
       <div className={styles.visual}>
-        <div className={styles.visualGlow} aria-hidden="true" />
         <Image
           className={styles.presenter}
-          src="/api/media/mezgeb-campaign"
-          alt="Smiling Ethiopian woman in modest traditional clothing presenting the Mezgeb business application on an iPhone"
-          width={1600}
-          height={900}
+          src="/images/mezgeb-presenter.webp"
+          alt="Smiling Ethiopian woman holding an iPhone that displays the Mezgeb mobile business application"
+          width={1100}
+          height={1040}
           priority
-          unoptimized
-          sizes="(max-width: 900px) 94vw, 52vw"
+          quality={92}
+          sizes="(max-width: 880px) 100vw, 52vw"
         />
-        <div className={styles.topBadge}>
-          <span className={styles.liveDot} aria-hidden="true" />
-          Mezgeb mobile workspace
-        </div>
-        <div className={styles.bottomCard}>
-          <small>Everything in one place</small>
-          <strong>Sales · Dube · Receipts · Reports</strong>
-        </div>
       </div>
     </div>
   );
