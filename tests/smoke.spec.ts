@@ -15,7 +15,7 @@ test('professional homepage presents Mezgeb and a clear account funnel', async (
   expect(staticAsset.ok()).toBe(true);
   expect(staticAsset.headers()['content-type']).toContain('image/webp');
   expect(Number(staticAsset.headers()['content-length'] ?? 0)).toBeGreaterThan(12_000);
-  await expect(page.getByLabel('Ethiopian payment methods')).toBeVisible();
+  await expect(page.getByLabel('Ethiopian payment methods', { exact: true })).toBeVisible();
   await expect(page.getByLabel('Mezgeb dashboard product preview')).toHaveCount(0);
   await expect(page.getByRole('heading', { name: /Local business reality is not an add-on/i })).toBeVisible();
   await expect(page.getByRole('heading', { name: /Your business deserves more than scattered notes/i })).toBeVisible();
@@ -38,7 +38,7 @@ test('marketing homepage fits the mobile viewport and keeps payments inline with
   await expect(page.getByText(releaseCopy)).toBeHidden();
   await expect(page.getByText('Business management, built for Ethiopia')).toHaveCount(0);
   const presenter = page.getByRole('img', { name: /Ethiopian woman/i });
-  const paymentFlow = page.getByLabel('Ethiopian payment methods');
+  const paymentFlow = page.getByLabel('Ethiopian payment methods', { exact: true });
   await expect(presenter).toBeVisible();
   await expect(paymentFlow).toBeVisible();
 
