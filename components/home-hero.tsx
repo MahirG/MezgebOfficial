@@ -1,40 +1,17 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { paymentMethods, type PaymentMethodCode } from '@/lib/payment-methods';
 import styles from './home-hero.module.css';
 import flowStyles from './payment-flow.module.css';
 
-const paymentBrands = [
-  {
-    name: 'telebirr',
-    source: 'https://raw.githubusercontent.com/Chapa-Et/ethiopianlogos/main/logos/tele_birr/tele_birr.svg',
-    className: flowStyles.telebirr
-  },
-  {
-    name: 'M-PESA',
-    source: 'https://upload.wikimedia.org/wikipedia/commons/1/15/M-PESA_LOGO-01.svg',
-    className: flowStyles.mpesa
-  },
-  {
-    name: 'CBE Birr',
-    source: 'https://raw.githubusercontent.com/Chapa-Et/ethiopianlogos/main/logos/cbe_birr_light/cbe_birr_light.svg',
-    className: flowStyles.cbeBirr
-  },
-  {
-    name: 'Amole',
-    source: 'https://raw.githubusercontent.com/Chapa-Et/ethiopianlogos/main/logos/amole/amole.svg',
-    className: flowStyles.amole
-  },
-  {
-    name: 'Chapa',
-    source: 'https://raw.githubusercontent.com/Chapa-Et/ethiopianlogos/main/logos/chapa/chapa.svg',
-    className: flowStyles.chapa
-  },
-  {
-    name: 'Kacha',
-    source: 'https://raw.githubusercontent.com/Chapa-Et/ethiopianlogos/main/logos/kacha/kacha.svg',
-    className: flowStyles.kacha
-  }
-] as const;
+const paymentClassNames: Record<PaymentMethodCode, string> = {
+  telebirr: flowStyles.telebirr,
+  mpesa: flowStyles.mpesa,
+  cbe_birr: flowStyles.cbeBirr,
+  amole: flowStyles.amole,
+  kacha: flowStyles.kacha,
+  chapa: flowStyles.chapa
+};
 
 export function HomeHero() {
   return (
@@ -69,18 +46,17 @@ export function HomeHero() {
             height={567}
             priority
             unoptimized
-            sizes="(max-width: 880px) 100vw, 52vw"
+            sizes="(max-width: 560px) 76vw, (max-width: 880px) 90vw, 52vw"
           />
 
           <div className={flowStyles.paymentFlow} aria-label="Ethiopian payment methods">
             <div className={flowStyles.paymentTrack} aria-hidden="true">
-              {[...paymentBrands, ...paymentBrands].map((brand, index) => (
+              {[...paymentMethods, ...paymentMethods].map((brand, index) => (
                 <span
-                  className={`${flowStyles.paymentChip} ${brand.className}`}
+                  className={`${flowStyles.paymentChip} ${paymentClassNames[brand.code]}`}
                   data-payment-brand={brand.name}
-                  key={`${brand.name}-${index}`}
+                  key={`${brand.code}-${index}`}
                 >
-                  {/* The brand assets are decorative and retain a text fallback beside each mark. */}
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={brand.source}
@@ -89,7 +65,7 @@ export function HomeHero() {
                     decoding="async"
                     referrerPolicy="no-referrer"
                   />
-                  <strong>{brand.name}</strong>
+                  <strong>{brand.shortLabel}</strong>
                 </span>
               ))}
             </div>
