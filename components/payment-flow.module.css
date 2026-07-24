@@ -163,70 +163,118 @@
 
 @media (max-width: 880px) {
   .presenterStage {
-    padding-bottom: 68px;
-  }
-
-  .paymentFlow {
-    right: -3%;
-    bottom: 0;
-    left: -3%;
-    height: 70px;
-    transform: rotate(-1deg);
-  }
-
-  .paymentTrack {
-    gap: 10px;
-    animation-duration: 23s;
-  }
-
-  .paymentChip {
-    width: 112px;
-    height: 52px;
-    padding: 7px 11px;
-    gap: 7px;
-  }
-
-  .paymentChip img {
-    width: 36px;
-    height: 29px;
-  }
-
-  .paymentChip strong {
-    font-size: .66rem;
-  }
-}
-
-@media (max-width: 520px) {
-  .presenterStage {
     padding-bottom: 62px;
   }
 
   .paymentFlow {
-    right: -1%;
-    left: -1%;
-    height: 64px;
-    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 5%, #000 95%, transparent 100%);
-    mask-image: linear-gradient(90deg, transparent 0, #000 5%, #000 95%, transparent 100%);
+    right: -2%;
+    bottom: 0;
+    left: -2%;
+    height: 66px;
+    transform: rotate(-1deg);
   }
 
   .paymentTrack {
-    gap: 8px;
-    animation-duration: 20s;
+    gap: 9px;
+    animation-duration: 22s;
   }
 
   .paymentChip {
-    width: 104px;
-    height: 48px;
-    padding: 6px 9px;
+    width: 108px;
+    height: 49px;
+    padding: 7px 10px;
+    gap: 7px;
   }
 
   .paymentChip img {
-    width: 31px;
-    height: 26px;
+    width: 34px;
+    height: 28px;
   }
 
   .paymentChip strong {
-    font-size: .61rem;
+    font-size: .63rem;
+  }
+}
+
+@media (max-width: 560px) {
+  .presenterStage {
+    width: 100%;
+    padding-bottom: 0;
+    min-height: 300px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    overflow: visible;
+  }
+
+  .paymentFlow {
+    right: -2%;
+    bottom: 7%;
+    left: 26%;
+    height: 48px;
+    transform: rotate(-1.2deg);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 5%, #000 97%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 5%, #000 97%, transparent 100%);
+  }
+
+  .paymentFlow::before {
+    inset: 8px 2% 4px;
+    background: radial-gradient(circle at 50% 50%, rgba(255,255,255,.94), rgba(223,236,255,.62) 50%, transparent 82%);
+    filter: blur(11px);
+  }
+
+  .paymentTrack {
+    gap: 6px;
+    animation-duration: 17s;
+  }
+
+  .paymentChip {
+    width: 82px;
+    height: 38px;
+    padding: 5px 7px;
+    gap: 5px;
+    box-shadow: 0 10px 24px rgba(13,31,66,.15), inset 0 1px 0 rgba(255,255,255,.96);
+  }
+
+  .paymentChip img {
+    width: 24px;
+    height: 20px;
+  }
+
+  .paymentChip strong {
+    font-size: .5rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .presenterStage {
+    min-height: 270px;
+  }
+
+  .paymentFlow {
+    left: 24%;
+    bottom: 6%;
+    height: 43px;
+  }
+
+  .paymentTrack {
+    gap: 5px;
+    animation-duration: 15s;
+  }
+
+  .paymentChip {
+    width: 74px;
+    height: 34px;
+    padding: 4px 6px;
+  }
+
+  .paymentChip img {
+    width: 21px;
+    height: 18px;
+  }
+
+  .paymentChip strong {
+    font-size: .46rem;
   }
 }
 
