@@ -1,11 +1,11 @@
 .homeHero {
   width: 100%;
-  max-width: 1280px;
+  max-width: 1320px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: minmax(0, .92fr) minmax(430px, 1.08fr);
   align-items: center;
-  gap: clamp(38px, 5.5vw, 82px);
+  gap: clamp(34px, 5vw, 78px);
 }
 
 .copy {
@@ -108,121 +108,55 @@
 .visual {
   position: relative;
   min-width: 0;
-  min-height: clamp(560px, 47vw, 720px);
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, .88);
-  border-radius: clamp(30px, 3vw, 46px);
-  background: linear-gradient(145deg, #f8fbff, #dce8f8);
-  box-shadow: 0 45px 120px rgba(21, 40, 79, .18), 0 12px 34px rgba(21, 40, 79, .09);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
   isolation: isolate;
 }
 
-.visual::after {
+.visual::before {
   content: '';
   position: absolute;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  background: linear-gradient(180deg, rgba(5, 22, 57, .02) 42%, rgba(5, 22, 57, .22) 100%);
-}
-
-.visualGlow {
-  position: absolute;
-  inset: 8% 4% -8% 20%;
+  inset: 13% 3% 2% 10%;
   z-index: -1;
-  border-radius: 50%;
-  background: rgba(0, 113, 227, .28);
-  filter: blur(58px);
+  background: radial-gradient(circle at 58% 42%, rgba(65, 145, 235, .28), rgba(65, 145, 235, .08) 48%, transparent 72%);
+  filter: blur(34px);
+  pointer-events: none;
 }
 
 .presenter {
   width: 100%;
-  height: 100%;
-  min-height: inherit;
+  height: auto;
   display: block;
-  object-fit: cover;
-  object-position: 72% center;
-}
-
-.topBadge,
-.bottomCard {
-  position: absolute;
-  z-index: 2;
-  border: 1px solid rgba(255, 255, 255, .82);
-  background: rgba(255, 255, 255, .82);
-  box-shadow: 0 20px 52px rgba(10, 25, 58, .16);
-  backdrop-filter: blur(18px) saturate(150%);
-}
-
-.topBadge {
-  top: 22px;
-  left: 22px;
-  padding: 10px 14px;
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  border-radius: 999px;
-  color: #2b3342;
-  font-size: .75rem;
-  font-weight: 750;
-}
-
-.liveDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #12a66a;
-  box-shadow: 0 0 0 5px rgba(18, 166, 106, .12);
-}
-
-.bottomCard {
-  right: 22px;
-  bottom: 22px;
-  max-width: min(330px, calc(100% - 44px));
-  padding: 17px 19px;
-  border-radius: 20px;
-}
-
-.bottomCard small,
-.bottomCard strong {
-  display: block;
-}
-
-.bottomCard small {
-  margin-bottom: 5px;
-  color: #6d7480;
-  font-size: .68rem;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  font-weight: 800;
-}
-
-.bottomCard strong {
-  color: #171a20;
-  font-size: .92rem;
-  letter-spacing: -.02em;
+  object-fit: contain;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  filter: none;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 100%);
+  mask-image: linear-gradient(90deg, transparent 0, #000 6%, #000 100%);
 }
 
 @media (max-width: 1050px) {
   .homeHero {
     grid-template-columns: minmax(0, .9fr) minmax(390px, 1.1fr);
-    gap: 34px;
+    gap: 32px;
   }
 
   .copy h1 {
     font-size: clamp(3.55rem, 6.2vw, 5.8rem);
   }
-
-  .visual {
-    min-height: 590px;
-  }
 }
 
 @media (max-width: 880px) {
   .homeHero {
-    max-width: 700px;
+    max-width: 720px;
     grid-template-columns: 1fr;
-    gap: 52px;
+    gap: 42px;
   }
 
   .copy {
@@ -245,18 +179,19 @@
   }
 
   .visual {
-    width: 100%;
-    min-height: 650px;
+    width: min(100%, 680px);
+    margin-inline: auto;
   }
 
   .presenter {
-    object-position: 72% center;
+    -webkit-mask-image: linear-gradient(180deg, #000 0, #000 93%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 0, #000 93%, transparent 100%);
   }
 }
 
 @media (max-width: 560px) {
   .homeHero {
-    gap: 38px;
+    gap: 30px;
   }
 
   .eyebrow {
@@ -284,23 +219,8 @@
   }
 
   .visual {
-    min-height: 520px;
-    border-radius: 28px;
-  }
-
-  .presenter {
-    object-position: 70% center;
-  }
-
-  .topBadge {
-    top: 14px;
-    left: 14px;
-  }
-
-  .bottomCard {
-    right: 14px;
-    bottom: 14px;
-    max-width: calc(100% - 28px);
+    width: calc(100% + 24px);
+    margin-left: -12px;
   }
 }
 
