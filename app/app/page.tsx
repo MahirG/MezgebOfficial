@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { AppFeedbackLayer } from '@/components/app-feedback-layer';
 import { MezgebApplication } from '@/components/mezgeb-application';
-import { MezgebMobileControls } from '@/components/mezgeb-mobile-controls';
+import { MezgebMobileControlsGate } from '@/components/mezgeb-mobile-controls-gate';
 import { createClient } from '@/lib/supabase/server';
 import './app.css';
 import './mobile.css';
@@ -126,7 +126,7 @@ export default async function MezgebAppPage({ searchParams }: { searchParams: Se
           initialTourStep={profile?.product_tour_completed_at ? 5 : Number(profile?.product_tour_step ?? 0)}
           forceTour={params.tour === '1'}
         />
-        <MezgebMobileControls
+        <MezgebMobileControlsGate
           userName={userName}
           activeBusinessId={activeBusiness.id}
           businesses={appBusinesses}
