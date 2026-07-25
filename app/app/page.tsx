@@ -15,6 +15,7 @@ import './mobile-controls.css';
 import './mobile-shell-polish.css';
 import './mobile-header-account.css';
 
+// Production redeploy trigger; no application behavior is changed.
 export const metadata: Metadata = {
   title: 'Mezgeb workspace',
   description: 'Record secure business transactions, Dube customer credit, receipts and reports in Mezgeb.'
