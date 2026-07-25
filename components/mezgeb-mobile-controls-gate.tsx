@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { useEffect, useMemo, useState } from 'react';
 import { MezgebMobileControls } from '@/components/mezgeb-mobile-controls';
 
 type BusinessOption = {
@@ -23,6 +24,11 @@ type Props = {
 
 export function MezgebMobileControlsGate(props: Props) {
   const [isMobile, setIsMobile] = useState(false);
+  const accountInitials = useMemo(() => {
+    const parts = props.userName.trim().split(/\s+/).filter(Boolean);
+    if (!parts.length) return 'A';
+    return parts.slice(0, 2).map((part) => part[0]?.toUpperCase()).join('');
+  }, [props.userName]);
 
   useEffect(() => {
     const media = window.matchMedia('(max-width: 820px)');
@@ -33,5 +39,18 @@ export function MezgebMobileControlsGate(props: Props) {
   }, []);
 
   if (!isMobile) return null;
-  return <MezgebMobileControls {...props} />;
+
+  return (
+    <>
+      <MezgebMobileControls {...props} />
+      <Link
+        href="/dashboard"
+        className="mezgebMobileAccountShortcut"
+        aria-label={`Open ${props.userName} account`}
+        title="Account"
+      >
+        <span aria-hidden="true">{accountInitials}</span>
+      </Link>
+    </>
+  );
 }
