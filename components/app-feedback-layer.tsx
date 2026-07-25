@@ -51,10 +51,26 @@ function labelForField(field: HTMLInputElement | HTMLSelectElement | HTMLTextAre
     || (field instanceof HTMLSelectElement ? 'selection' : 'field');
 }
 
+function fieldInForm(form: HTMLFormElement, labelFragment: string) {
+  const labels = Array.from(form.querySelectorAll<HTMLLabelElement>('label'));
+  const label = labels.find((candidate) => candidate.textContent?.toLowerCase().includes(labelFragment));
+  return label?.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('input, select, textarea') ?? null;
+}
+
 function findField(labelFragment: string) {
   const labels = Array.from(document.querySelectorAll<HTMLLabelElement>('.cloudForm label'));
   const label = labels.find((candidate) => candidate.textContent?.toLowerCase().includes(labelFragment));
   return label?.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('input, select, textarea') ?? null;
+}
+
+function markFieldError(field: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement) {
+  field.classList.add('appFieldError');
+  field.setAttribute('aria-invalid', 'true');
+  field.focus({ preventScroll: false });
+  field.addEventListener('input', () => {
+    field.classList.remove('appFieldError');
+    field.removeAttribute('aria-invalid');
+  }, { once: true });
 }
 
 function focusRelatedField(message: string) {
@@ -66,14 +82,7 @@ function focusRelatedField(message: string) {
   else if (normalized.includes('customer')) field = findField('customer');
   else if (normalized.includes('phone')) field = findField('phone');
 
-  if (!field) return;
-  field.classList.add('appFieldError');
-  field.setAttribute('aria-invalid', 'true');
-  field.focus({ preventScroll: false });
-  field.addEventListener('input', () => {
-    field?.classList.remove('appFieldError');
-    field?.removeAttribute('aria-invalid');
-  }, { once: true });
+  if (field) markFieldError(field);
 }
 
 export function AppFeedbackLayer() {
@@ -84,12 +93,20 @@ export function AppFeedbackLayer() {
   const operationTimerRef = useRef<number | null>(null);
   const validationLockRef = useRef(false);
 
-  const clearTimers = useCallback(() => {
+  const clearDismissTimer = useCallback(() => {
     if (dismissTimerRef.current) window.clearTimeout(dismissTimerRef.current);
-    if (operationTimerRef.current) window.clearTimeout(operationTimerRef.current);
     dismissTimerRef.current = null;
+  }, []);
+
+  const clearOperationTimer = useCallback(() => {
+    if (operationTimerRef.current) window.clearTimeout(operationTimerRef.current);
     operationTimerRef.current = null;
   }, []);
+
+  const clearTimers = useCallback(() => {
+    clearDismissTimer();
+    clearOperationTimer();
+  }, [clearDismissTimer, clearOperationTimer]);
 
   const speak = useCallback((message: string, tone: FeedbackTone) => {
     if (!voiceEnabled || !('speechSynthesis' in window)) return;
@@ -118,7 +135,8 @@ export function AppFeedbackLayer() {
   const announce = useCallback((nextFeedback: Feedback, force = false) => {
     if (!force && lastMessageRef.current === nextFeedback.message) return;
 
-    clearTimers();
+    clearDismissTimer();
+    if (nextFeedback.tone !== 'loading') clearOperationTimer();
     lastMessageRef.current = nextFeedback.message;
     setFeedback(nextFeedback);
 
@@ -134,9 +152,10 @@ export function AppFeedbackLayer() {
     if (nextFeedback.tone !== 'loading') {
       dismissTimerRef.current = window.setTimeout(() => setFeedback(null), nextFeedback.tone === 'error' ? 7000 : 5200);
     }
-  }, [clearTimers, speak]);
+  }, [clearDismissTimer, clearOperationTimer, speak]);
 
   const beginLoading = useCallback((message: string) => {
+    clearOperationTimer();
     announce({ tone: 'loading', title: 'Saving securely', message }, true);
     operationTimerRef.current = window.setTimeout(() => {
       announce({
@@ -145,7 +164,7 @@ export function AppFeedbackLayer() {
         message: 'This is taking longer than expected. Check your connection and try again.'
       }, true);
     }, 20000);
-  }, [announce]);
+  }, [announce, clearOperationTimer]);
 
   useEffect(() => {
     const storedPreference = window.localStorage.getItem('mezgeb-voice-feedback');
@@ -167,7 +186,37 @@ export function AppFeedbackLayer() {
     const handleSubmit = (event: Event) => {
       const form = event.target;
       if (!(form instanceof HTMLFormElement) || !form.matches('.cloudForm')) return;
+
       const formTitle = form.querySelector('h2')?.textContent?.trim() || 'entry';
+      const amountField = fieldInForm(form, 'amount');
+      if (amountField instanceof HTMLInputElement) {
+        const numericAmount = Number(amountField.value);
+        if (!Number.isFinite(numericAmount) || numericAmount <= 0) {
+          event.preventDefault();
+          markFieldError(amountField);
+          announce({
+            tone: 'error',
+            title: 'Enter a valid amount',
+            message: 'Amount must be greater than zero before this entry can be saved.'
+          }, true);
+          return;
+        }
+      }
+
+      if (formTitle.toLowerCase().includes('add dube customer')) {
+        const nameField = fieldInForm(form, 'customer name');
+        if (nameField instanceof HTMLInputElement && nameField.value.trim().length < 2) {
+          event.preventDefault();
+          markFieldError(nameField);
+          announce({
+            tone: 'error',
+            title: 'Enter the customer name',
+            message: 'Customer name must contain at least two characters.'
+          }, true);
+          return;
+        }
+      }
+
       beginLoading(`Saving ${formTitle.toLowerCase()}…`);
     };
 
@@ -194,14 +243,7 @@ export function AppFeedbackLayer() {
         ? `Please fill in ${fieldLabel}.`
         : `Please enter a valid value for ${fieldLabel}.`;
 
-      field.classList.add('appFieldError');
-      field.setAttribute('aria-invalid', 'true');
-      field.focus({ preventScroll: false });
-      field.addEventListener('input', () => {
-        field.classList.remove('appFieldError');
-        field.removeAttribute('aria-invalid');
-      }, { once: true });
-
+      markFieldError(field);
       announce({ tone: 'error', title: 'Complete required fields', message }, true);
     };
 
