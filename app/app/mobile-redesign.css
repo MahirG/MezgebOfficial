@@ -1,0 +1,851 @@
+/* Mobile-only Mezgeb workspace redesign.
+   Desktop and Windows layouts are intentionally unchanged. */
+
+@media (max-width: 820px) {
+  html:has(.productionAppPage) {
+    width: 100%;
+    min-width: 0;
+    overflow-x: clip;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body:has(.productionAppPage) {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    overflow-x: clip !important;
+    background: #f3f5f8;
+    overscroll-behavior-x: none;
+  }
+
+  body:has(.productionAppPage) *,
+  body:has(.productionAppPage) *::before,
+  body:has(.productionAppPage) *::after {
+    box-sizing: border-box;
+  }
+
+  .productionAppPage,
+  .productionAppPage .nativeAppShell,
+  .cloudMezgebApp,
+  .cloudWorkspace,
+  .cloudContent {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  .productionAppPage {
+    min-height: 100dvh;
+    padding: 0 !important;
+    overflow-x: clip !important;
+    background:
+      radial-gradient(circle at 12% 0%, rgba(0, 122, 255, 0.09), transparent 22rem),
+      linear-gradient(180deg, #f7f8fb 0%, #eef1f5 100%);
+  }
+
+  .productionAppPage .nativeAppShell {
+    min-height: 100dvh;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .cloudMezgebApp {
+    display: block !important;
+    min-height: 100dvh !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .cloudWorkspace {
+    min-height: 100dvh;
+    padding-bottom: calc(106px + env(safe-area-inset-bottom)) !important;
+    overflow-x: clip;
+    background: transparent !important;
+  }
+
+  .cloudSidebar {
+    position: static !important;
+    inset: auto !important;
+    z-index: auto !important;
+    display: contents !important;
+    width: auto !important;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .cloudSidebar::before,
+  .cloudSidebar .mezgebAppIdentity,
+  .cloudSidebarFoot {
+    display: none !important;
+  }
+
+  .cloudTopbar {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 70 !important;
+    min-height: calc(64px + env(safe-area-inset-top)) !important;
+    padding: calc(8px + env(safe-area-inset-top)) 14px 8px !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(15, 23, 42, 0.07) !important;
+    background: rgba(248, 250, 252, 0.9) !important;
+    box-shadow: 0 8px 30px rgba(15, 23, 42, 0.06) !important;
+    backdrop-filter: blur(22px) saturate(165%) !important;
+    -webkit-backdrop-filter: blur(22px) saturate(165%) !important;
+  }
+
+  .cloudTopbar > div:first-child {
+    min-width: 0;
+  }
+
+  .cloudTopbar p {
+    max-width: 68vw;
+    margin: 0 0 2px !important;
+    overflow: hidden;
+    color: #7a8190 !important;
+    font-size: 0.68rem !important;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .cloudTopbar strong {
+    display: block;
+    max-width: 68vw;
+    overflow: hidden;
+    color: #111827 !important;
+    font-size: 1.08rem !important;
+    font-weight: 760 !important;
+    letter-spacing: -0.035em !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .cloudTopActions span {
+    display: none !important;
+  }
+
+  .cloudTopActions button {
+    position: relative;
+    display: grid !important;
+    place-items: center;
+    width: 44px !important;
+    min-width: 44px !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    padding: 0 !important;
+    overflow: hidden;
+    border: 1px solid rgba(15, 23, 42, 0.07) !important;
+    border-radius: 14px !important;
+    background: rgba(255, 255, 255, 0.95) !important;
+    color: transparent !important;
+    font-size: 0 !important;
+    box-shadow: 0 7px 20px rgba(15, 23, 42, 0.07);
+    touch-action: manipulation;
+  }
+
+  .cloudTopActions button::before {
+    content: "↻" !important;
+    color: #222936 !important;
+    font-size: 1.08rem !important;
+    line-height: 1;
+  }
+
+  .cloudTopActions button:active {
+    transform: scale(0.94);
+  }
+
+  .cloudBusinessSwitcher {
+    position: fixed !important;
+    top: calc(68px + env(safe-area-inset-top)) !important;
+    right: 10px !important;
+    left: 10px !important;
+    z-index: 65 !important;
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 4px 12px !important;
+    width: auto !important;
+    min-width: 0;
+    margin: 0 !important;
+    padding: 11px 13px !important;
+    border: 1px solid rgba(255, 255, 255, 0.9) !important;
+    border-radius: 18px !important;
+    background: rgba(255, 255, 255, 0.92) !important;
+    color: #171b24 !important;
+    box-shadow: 0 14px 38px rgba(15, 23, 42, 0.12), inset 0 1px rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(24px) saturate(170%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(170%) !important;
+  }
+
+  .cloudBusinessSwitcher > small {
+    display: none !important;
+  }
+
+  .cloudBusinessSwitcher select {
+    grid-column: 1;
+    width: 100% !important;
+    min-width: 0;
+    height: 36px;
+    padding: 0 30px 0 0 !important;
+    overflow: hidden;
+    border: 0 !important;
+    background: transparent !important;
+    color: #161b24 !important;
+    font-size: 16px !important;
+    font-weight: 720 !important;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    outline: 0;
+  }
+
+  .cloudBusinessSwitcher > span {
+    grid-column: 2;
+    max-width: 38vw;
+    overflow: hidden;
+    color: #737b89 !important;
+    font-size: 0.62rem !important;
+    font-weight: 640;
+    line-height: 1.25;
+    text-align: right;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .cloudSidebar nav {
+    position: fixed !important;
+    right: 8px !important;
+    bottom: max(8px, env(safe-area-inset-bottom)) !important;
+    left: 8px !important;
+    z-index: 500 !important;
+    display: flex !important;
+    gap: 2px !important;
+    width: auto !important;
+    max-width: none !important;
+    padding: 6px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    border: 1px solid rgba(255, 255, 255, 0.88) !important;
+    border-radius: 23px !important;
+    background: rgba(252, 253, 255, 0.93) !important;
+    box-shadow: 0 18px 50px rgba(15, 23, 42, 0.2), inset 0 1px rgba(255, 255, 255, 0.98) !important;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+    overscroll-behavior-x: contain;
+    backdrop-filter: blur(28px) saturate(185%) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(185%) !important;
+  }
+
+  .cloudSidebar nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cloudSidebar nav button {
+    flex: 1 0 62px !important;
+    display: grid !important;
+    place-items: center !important;
+    align-content: center !important;
+    gap: 3px !important;
+    min-width: 62px !important;
+    min-height: 60px !important;
+    padding: 5px 3px !important;
+    border: 0 !important;
+    border-radius: 17px !important;
+    background: transparent !important;
+    color: #727987 !important;
+    text-align: center !important;
+    scroll-snap-align: center;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .cloudSidebar nav button:hover {
+    background: transparent !important;
+    color: #727987 !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  .cloudSidebar nav button.active,
+  .cloudSidebar nav button.active:hover {
+    background: rgba(0, 122, 255, 0.11) !important;
+    color: #006ee6 !important;
+    box-shadow: none !important;
+  }
+
+  .cloudSidebar nav button:active {
+    transform: scale(0.94) !important;
+  }
+
+  .cloudSidebar nav i {
+    width: auto !important;
+    min-height: 22px;
+    color: currentColor !important;
+    font-size: 1.16rem !important;
+    font-style: normal;
+    line-height: 1;
+  }
+
+  .cloudSidebar nav span {
+    display: block !important;
+    width: 100%;
+    overflow: hidden;
+    color: currentColor !important;
+    font-size: 0.56rem !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.015em;
+    line-height: 1.05;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mezgebNotice {
+    margin: 78px 10px 0 !important;
+    padding: 12px 14px !important;
+    border-radius: 16px !important;
+    font-size: 0.78rem;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
+  }
+
+  .cloudContent {
+    padding: 82px 10px 24px !important;
+    overflow-x: clip !important;
+  }
+
+  .mezgebNotice + .cloudContent {
+    padding-top: 12px !important;
+  }
+
+  .cloudContent > * {
+    min-width: 0;
+  }
+
+  .cloudMetricGrid {
+    display: grid !important;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(82vw, 1fr);
+    grid-template-columns: none !important;
+    gap: 10px !important;
+    margin: 0 -10px;
+    padding: 0 10px 5px;
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-padding-inline: 10px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .cloudMetricGrid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cloudMetricGrid article {
+    min-width: 0;
+    min-height: 166px;
+    padding: 20px !important;
+    border-radius: 22px !important;
+    scroll-snap-align: start;
+  }
+
+  .cloudMetricGrid strong {
+    margin: 9px 0 8px !important;
+    font-size: clamp(1.55rem, 8vw, 2.05rem) !important;
+    overflow-wrap: anywhere;
+  }
+
+  .cloudPrimaryMetric {
+    grid-column: auto !important;
+  }
+
+  .cloudPrimaryMetric > div {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px !important;
+    margin-top: 15px !important;
+  }
+
+  .cloudPrimaryMetric > div span {
+    min-width: 0;
+    padding: 9px !important;
+    overflow: hidden;
+  }
+
+  .cloudPrimaryMetric b {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .cloudQuickActions {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 9px !important;
+    margin: 10px 0 !important;
+  }
+
+  .cloudQuickActions button {
+    display: grid !important;
+    grid-template-columns: 38px minmax(0, 1fr);
+    align-items: center;
+    gap: 10px !important;
+    min-width: 0;
+    min-height: 72px !important;
+    padding: 11px 12px !important;
+    border-radius: 18px !important;
+    font-size: 0.75rem !important;
+    text-align: left;
+    touch-action: manipulation;
+  }
+
+  .cloudQuickActions button:hover {
+    transform: none !important;
+    box-shadow: var(--app-shadow) !important;
+  }
+
+  .cloudQuickActions button:active {
+    transform: scale(0.975) !important;
+  }
+
+  .cloudQuickActions i {
+    width: 38px !important;
+    height: 38px !important;
+    border-radius: 13px !important;
+    font-size: 1.1rem !important;
+  }
+
+  .cloudQuickActions span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .cloudDashboardGrid,
+  .cloudTwoColumn,
+  .cloudDubeLayout,
+  .cloudDubeForms,
+  .cloudReceiptGrid,
+  .cloudReportGrid,
+  .cloudOperationGrid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  .cloudPanel,
+  .cloudForm,
+  .cloudLedger,
+  .cloudReceipts,
+  .cloudReports,
+  .cloudOperations {
+    width: 100%;
+    min-width: 0;
+    padding: 18px !important;
+    overflow: hidden;
+    border-radius: 21px !important;
+  }
+
+  .cloudPanel > header,
+  .cloudLedger > header,
+  .cloudForm > header,
+  .cloudSectionHeader {
+    min-width: 0;
+    gap: 10px !important;
+  }
+
+  .cloudPanel h3,
+  .cloudLedger h2,
+  .cloudForm h2,
+  .cloudSectionHeader h2 {
+    font-size: 1.25rem;
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+  }
+
+  .cloudPanel header button,
+  .cloudSectionHeader .button,
+  .cloudReceiptGrid .button {
+    min-height: 42px;
+    padding: 0 13px;
+    border-radius: 13px;
+    touch-action: manipulation;
+  }
+
+  .cloudHealth {
+    grid-column: auto !important;
+  }
+
+  .cloudForm {
+    gap: 15px !important;
+    scroll-margin-top: 150px;
+  }
+
+  .cloudFormGrid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: 12px !important;
+  }
+
+  .cloudForm label {
+    min-width: 0;
+    gap: 7px !important;
+    font-size: 0.78rem !important;
+  }
+
+  .cloudForm input,
+  .cloudForm select,
+  .cloudForm textarea,
+  .cloudLedger header input {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    min-height: 54px !important;
+    padding: 0 14px !important;
+    border-radius: 15px !important;
+    font-size: 16px !important;
+    line-height: 1.2;
+  }
+
+  .cloudForm select {
+    padding-right: 42px !important;
+  }
+
+  .cloudCheck {
+    display: grid !important;
+    grid-template-columns: 24px minmax(0, 1fr) !important;
+    align-items: center;
+    gap: 10px !important;
+    min-height: 46px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: #f5f7fa;
+  }
+
+  .cloudCheck input {
+    width: 22px !important;
+    height: 22px !important;
+    min-height: 22px !important;
+    padding: 0 !important;
+  }
+
+  .cloudSegment {
+    gap: 4px;
+    padding: 4px !important;
+    border-radius: 15px !important;
+  }
+
+  .cloudSegment button {
+    min-height: 46px !important;
+    border-radius: 12px !important;
+    font-size: 0.78rem !important;
+    touch-action: manipulation;
+  }
+
+  .mezgebPrimaryAction {
+    width: 100%;
+    min-height: 54px !important;
+    border-radius: 15px !important;
+    font-size: 0.84rem !important;
+    touch-action: manipulation;
+  }
+
+  .mezgebPrimaryAction:active {
+    transform: scale(0.985);
+  }
+
+  .cloudLedger > header {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch !important;
+  }
+
+  .cloudLedger > header input {
+    margin-top: 4px;
+  }
+
+  .cloudRows {
+    min-width: 0;
+    margin-top: 12px !important;
+  }
+
+  .cloudRow {
+    display: grid !important;
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    grid-template-rows: auto auto;
+    gap: 3px 10px !important;
+    min-width: 0;
+    min-height: 70px !important;
+    padding: 10px 0;
+  }
+
+  .cloudRow > i {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    align-self: center;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 13px !important;
+  }
+
+  .cloudRow > span {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    align-self: center;
+    min-width: 0;
+  }
+
+  .cloudRow b {
+    overflow: hidden;
+    font-size: 0.8rem !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .cloudRow small {
+    display: -webkit-box;
+    margin-top: 4px !important;
+    overflow: hidden;
+    font-size: 0.64rem !important;
+    line-height: 1.35;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .cloudRow > strong {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: end;
+    max-width: 36vw;
+    overflow: hidden;
+    font-size: 0.72rem !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .cloudRow > button {
+    grid-column: 3;
+    grid-row: 2;
+    justify-self: end;
+    width: 32px !important;
+    height: 30px !important;
+    touch-action: manipulation;
+  }
+
+  .cloudCustomerCard {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px !important;
+    min-width: 0;
+    min-height: 82px;
+    padding: 14px !important;
+    border-radius: 17px !important;
+    touch-action: manipulation;
+  }
+
+  .cloudCustomerCard > span {
+    min-width: 0;
+  }
+
+  .cloudCustomerCard strong,
+  .cloudCustomerCard em {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .cloudCustomerCard > b {
+    align-self: center;
+    max-width: 38vw;
+    overflow: hidden;
+    font-size: 0.75rem !important;
+    text-overflow: ellipsis;
+  }
+
+  .cloudSectionHeader {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    margin-bottom: 16px !important;
+  }
+
+  .cloudSectionHeader p {
+    font-size: 0.78rem;
+    line-height: 1.5 !important;
+  }
+
+  .cloudSectionHeader > span,
+  .cloudSectionHeader > .button {
+    justify-self: start;
+  }
+
+  .cloudReceiptGrid article,
+  .cloudReportGrid article,
+  .cloudOperationGrid article {
+    width: 100%;
+    min-width: 0;
+    min-height: 0 !important;
+    padding: 17px !important;
+    border-radius: 18px !important;
+  }
+
+  .cloudReceiptGrid h3,
+  .cloudReceiptGrid p,
+  .cloudReceiptGrid strong,
+  .cloudReportGrid strong,
+  .cloudOperationGrid strong {
+    overflow-wrap: anywhere;
+  }
+
+  .cloudReceiptGrid .button {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .cloudReportGrid strong,
+  .cloudOperationGrid strong {
+    font-size: 1.18rem !important;
+  }
+
+  .cloudEmpty {
+    min-height: 130px !important;
+    padding: 18px !important;
+  }
+
+  .cloudTour {
+    right: 10px !important;
+    bottom: calc(92px + env(safe-area-inset-bottom)) !important;
+    left: 10px !important;
+    width: auto !important;
+    max-height: min(70dvh, 520px);
+    padding: 20px !important;
+    overflow-y: auto;
+    border-radius: 22px !important;
+  }
+
+  .cloudTour h2 {
+    padding-right: 28px;
+    font-size: 1.25rem !important;
+  }
+
+  .cloudTour footer button {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+
+  .appFeedbackLayer {
+    padding-inline: 10px !important;
+  }
+
+  .appFeedbackCard {
+    width: 100% !important;
+    max-width: 440px;
+  }
+
+  button,
+  a,
+  input,
+  select,
+  textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 820px) {
+  .cloudContent {
+    padding-inline: 18px !important;
+  }
+
+  .cloudMetricGrid {
+    display: grid !important;
+    grid-auto-flow: initial;
+    grid-auto-columns: auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    margin-inline: 0;
+    padding-inline: 0;
+    overflow: visible;
+  }
+
+  .cloudPrimaryMetric {
+    grid-column: 1 / -1 !important;
+  }
+
+  .cloudDashboardGrid,
+  .cloudTwoColumn,
+  .cloudDubeLayout {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .cloudReceiptGrid,
+  .cloudReportGrid,
+  .cloudOperationGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .cloudQuickActions {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  }
+
+  .cloudQuickActions button {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    min-height: 86px !important;
+    text-align: center;
+  }
+}
+
+@media (max-width: 390px) {
+  .cloudTopbar p,
+  .cloudBusinessSwitcher > span {
+    display: none !important;
+  }
+
+  .cloudTopbar strong {
+    max-width: 72vw;
+  }
+
+  .cloudBusinessSwitcher {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cloudMetricGrid {
+    grid-auto-columns: minmax(88vw, 1fr);
+  }
+
+  .cloudContent {
+    padding-inline: 8px !important;
+  }
+
+  .cloudPanel,
+  .cloudForm,
+  .cloudLedger,
+  .cloudReceipts,
+  .cloudReports,
+  .cloudOperations {
+    padding: 16px !important;
+    border-radius: 19px !important;
+  }
+
+  .cloudQuickActions button {
+    padding-inline: 10px !important;
+    font-size: 0.7rem !important;
+  }
+
+  .cloudSidebar nav button {
+    flex-basis: 60px !important;
+    min-width: 60px !important;
+  }
+}
+
+@media (max-width: 820px) and (prefers-reduced-motion: reduce) {
+  .cloudMetricGrid,
+  .cloudSidebar nav {
+    scroll-behavior: auto !important;
+  }
+}
