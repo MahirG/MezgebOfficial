@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { AppFeedbackLayer } from '@/components/app-feedback-layer';
 import { MezgebApplication } from '@/components/mezgeb-application';
+import { MezgebMobileControls } from '@/components/mezgeb-mobile-controls';
 import { createClient } from '@/lib/supabase/server';
 import './app.css';
 import './mobile.css';
@@ -10,6 +11,7 @@ import './glassmorphic.css';
 import './apple-app.css';
 import './feedback.css';
 import './mobile-redesign.css';
+import './mobile-controls.css';
 
 export const metadata: Metadata = {
   title: 'Mezgeb workspace',
@@ -97,29 +99,37 @@ export default async function MezgebAppPage({ searchParams }: { searchParams: Se
     earliestDueAt: item.earliest_due_at
   }));
 
+  const userName = profile?.full_name || String(user.user_metadata?.full_name ?? '') || user.email?.split('@')[0] || 'Business owner';
+  const appBusinesses = businesses.map((business) => ({
+    id: business.id,
+    name: business.name,
+    businessType: business.business_type,
+    region: business.region,
+    city: business.city,
+    phone: business.phone,
+    tin: business.tin,
+    vatRegistered: business.vat_registered,
+    openingBalance: Number(business.opening_balance),
+    receiptPrefix: business.receipt_prefix
+  }));
+
   return (
     <main id="main-content" className="mezgebAppPage productionAppPage">
       <section className="container nativeAppShell" id="mezgeb-application" aria-label="Mezgeb application">
         <MezgebApplication
           userId={user.id}
-          userName={profile?.full_name || String(user.user_metadata?.full_name ?? '') || user.email?.split('@')[0] || 'Business owner'}
-          businesses={businesses.map((business) => ({
-            id: business.id,
-            name: business.name,
-            businessType: business.business_type,
-            region: business.region,
-            city: business.city,
-            phone: business.phone,
-            tin: business.tin,
-            vatRegistered: business.vat_registered,
-            openingBalance: Number(business.opening_balance),
-            receiptPrefix: business.receipt_prefix
-          }))}
+          userName={userName}
+          businesses={appBusinesses}
           activeBusinessId={activeBusiness.id}
           initialTransactions={transactions}
           initialCustomers={customers}
           initialTourStep={profile?.product_tour_completed_at ? 5 : Number(profile?.product_tour_step ?? 0)}
           forceTour={params.tour === '1'}
+        />
+        <MezgebMobileControls
+          userName={userName}
+          activeBusinessId={activeBusiness.id}
+          businesses={appBusinesses}
         />
         <AppFeedbackLayer />
       </section>
