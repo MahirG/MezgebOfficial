@@ -17,3 +17,5 @@
   outline: 3px solid rgba(22, 102, 245, 0.28);
   outline-offset: 3px;
 }
+
+/* Production redeploy marker: 2026-07-25. No runtime behavior change. */
