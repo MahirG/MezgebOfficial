@@ -1,0 +1,278 @@
+/* Final docking layer for the authenticated mobile workspace.
+   Keeps the header, search and bottom navigation fixed without affecting desktop. */
+
+@media (max-width: 820px) {
+  body:has(.productionAppPage) {
+    padding-bottom: calc(98px + env(safe-area-inset-bottom));
+    overscroll-behavior-y: none;
+  }
+
+  .mezgebMobileHeader {
+    position: fixed !important;
+    inset: 0 0 auto !important;
+    z-index: 1450 !important;
+    min-height: calc(74px + env(safe-area-inset-top)) !important;
+    padding: calc(11px + env(safe-area-inset-top)) 14px 11px !important;
+    overflow: visible !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.74) !important;
+    background:
+      linear-gradient(118deg, rgba(255, 255, 255, 0.94), rgba(243, 238, 255, 0.89) 56%, rgba(235, 247, 255, 0.91)) !important;
+    box-shadow:
+      0 15px 40px rgba(37, 20, 82, 0.14),
+      inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
+    backdrop-filter: blur(30px) saturate(195%) !important;
+    -webkit-backdrop-filter: blur(30px) saturate(195%) !important;
+    transform: translate3d(0, 0, 0);
+    isolation: isolate;
+  }
+
+  .mezgebMobileHeader::after {
+    content: "";
+    position: absolute;
+    right: 14px;
+    bottom: -1px;
+    left: 14px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(91, 59, 245, 0.34), transparent);
+    pointer-events: none;
+  }
+
+  .mezgebMobileHeaderActions .mezgebMobileMenuButton {
+    position: relative !important;
+    z-index: 2 !important;
+    border-color: rgba(76, 34, 212, 0.13) !important;
+    background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(241,237,253,.92)) !important;
+    box-shadow: 0 10px 25px rgba(39, 22, 78, 0.12), inset 0 1px rgba(255,255,255,.98) !important;
+    backdrop-filter: blur(18px) saturate(175%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(175%) !important;
+  }
+
+  .mezgebMobileTopActionOverlay {
+    position: fixed !important;
+    top: calc(11px + env(safe-area-inset-top)) !important;
+    right: 70px !important;
+    z-index: 1460 !important;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .mezgebMobileTopTheme,
+  .mezgebMobileAccountShortcut {
+    border-color: rgba(255, 255, 255, 0.84) !important;
+    background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(241,237,253,.92)) !important;
+    box-shadow: 0 10px 25px rgba(39, 22, 78, 0.12), inset 0 1px rgba(255,255,255,.98) !important;
+    backdrop-filter: blur(18px) saturate(175%) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(175%) !important;
+  }
+
+  .mezgebMobileAccountShortcut {
+    background:
+      radial-gradient(circle at 78% 18%, rgba(255,208,96,.45), transparent 35%),
+      linear-gradient(145deg, #3212aa, #6846f6) !important;
+    box-shadow: 0 12px 28px rgba(60, 28, 177, 0.27), inset 0 1px rgba(255,255,255,.22) !important;
+  }
+
+  .mezgebMobileSearchBar {
+    position: fixed !important;
+    top: calc(74px + env(safe-area-inset-top)) !important;
+    right: 0 !important;
+    left: 0 !important;
+    z-index: 1440 !important;
+    padding: 8px 14px 10px !important;
+    background: linear-gradient(180deg, rgba(247,244,252,.95), rgba(243,241,249,.88)) !important;
+    box-shadow: 0 11px 26px rgba(39, 24, 72, 0.07) !important;
+    backdrop-filter: blur(25px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
+    transform: translate3d(0, 0, 0);
+  }
+
+  .cloudWorkspace {
+    padding-top: calc(132px + env(safe-area-inset-top)) !important;
+    padding-bottom: calc(106px + env(safe-area-inset-bottom)) !important;
+  }
+
+  .mezgebMobileDrawer {
+    display: grid !important;
+    grid-template-rows: auto auto minmax(0, 1fr) auto auto !important;
+    overflow: hidden !important;
+    background:
+      radial-gradient(circle at 92% 0%, rgba(105, 71, 247, 0.20), transparent 21rem),
+      linear-gradient(160deg, rgba(255,255,255,.985), rgba(245,241,255,.975) 63%, rgba(237,247,255,.975)) !important;
+    box-shadow: -30px 0 90px rgba(26, 13, 61, 0.29), inset 1px 0 rgba(255,255,255,.92) !important;
+    backdrop-filter: blur(33px) saturate(195%) !important;
+    -webkit-backdrop-filter: blur(33px) saturate(195%) !important;
+  }
+
+  .mezgebDrawerNavigation {
+    min-height: 0 !important;
+    overflow-y: auto !important;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+  }
+
+  .mezgebDrawerNavigation::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mezgebDrawerSettings {
+    position: sticky !important;
+    bottom: 0 !important;
+    z-index: 4 !important;
+    margin: 12px -4px 0 !important;
+    padding: 10px !important;
+    border: 1px solid rgba(255,255,255,.84) !important;
+    border-radius: 22px !important;
+    background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(237,231,255,.91)) !important;
+    box-shadow: 0 18px 42px rgba(43, 23, 91, 0.16), inset 0 1px rgba(255,255,255,.98) !important;
+    backdrop-filter: blur(26px) saturate(190%) !important;
+    -webkit-backdrop-filter: blur(26px) saturate(190%) !important;
+  }
+
+  .mezgebDrawerSettings label,
+  .mezgebDrawerSettings button,
+  .mezgebDrawerSettings a {
+    min-height: 54px !important;
+    border-radius: 15px !important;
+    transition: background 160ms ease, transform 160ms ease !important;
+  }
+
+  .mezgebDrawerSettings label:focus-within,
+  .mezgebDrawerSettings button:active,
+  .mezgebDrawerSettings a:active {
+    background: rgba(91, 59, 245, 0.09) !important;
+  }
+
+  .mezgebDrawerSettings button:active,
+  .mezgebDrawerSettings a:active {
+    transform: scale(.98);
+  }
+
+  .cloudSidebar nav {
+    position: fixed !important;
+    right: 10px !important;
+    bottom: max(10px, env(safe-area-inset-bottom)) !important;
+    left: 10px !important;
+    z-index: 1430 !important;
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 5px !important;
+    width: auto !important;
+    max-width: none !important;
+    min-height: 70px !important;
+    padding: 7px !important;
+    overflow: visible !important;
+    border: 1px solid rgba(255,255,255,.84) !important;
+    border-radius: 25px !important;
+    background:
+      linear-gradient(120deg, rgba(255,255,255,.95), rgba(239,234,255,.92) 55%, rgba(235,246,255,.93)) !important;
+    box-shadow: 0 22px 56px rgba(32,17,72,.24), inset 0 1px rgba(255,255,255,.98) !important;
+    backdrop-filter: blur(30px) saturate(205%) !important;
+    -webkit-backdrop-filter: blur(30px) saturate(205%) !important;
+    transform: translate3d(0, 0, 0);
+    isolation: isolate;
+  }
+
+  .cloudSidebar nav::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: radial-gradient(circle at 50% 100%, rgba(101,69,246,.17), transparent 62%);
+    pointer-events: none;
+  }
+
+  .cloudSidebar nav button {
+    position: relative !important;
+    min-width: 0 !important;
+    min-height: 56px !important;
+    padding: 6px 3px !important;
+    border-radius: 18px !important;
+    color: #756d83 !important;
+    transition: transform 170ms cubic-bezier(.2,.8,.2,1), color 170ms ease, background 170ms ease, box-shadow 170ms ease !important;
+  }
+
+  .cloudSidebar nav button i {
+    font-size: 1.08rem !important;
+    transition: transform 170ms cubic-bezier(.2,.8,.2,1) !important;
+  }
+
+  .cloudSidebar nav button span {
+    font-size: .57rem !important;
+    font-weight: 760 !important;
+    letter-spacing: -.01em;
+  }
+
+  .cloudSidebar nav button.active {
+    background: linear-gradient(145deg, rgba(76,34,212,.97), rgba(104,70,246,.91)) !important;
+    color: #fff !important;
+    box-shadow: 0 12px 24px rgba(76,34,212,.29), inset 0 1px rgba(255,255,255,.34) !important;
+  }
+
+  .cloudSidebar nav button.active i {
+    transform: translateY(-1px) scale(1.08);
+  }
+
+  .cloudSidebar nav button:active {
+    transform: scale(.94) !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .mezgebMobileHeader {
+    border-bottom-color: rgba(180,155,255,.13) !important;
+    background: linear-gradient(120deg, rgba(17,14,27,.95), rgba(31,23,52,.92) 58%, rgba(15,27,39,.93)) !important;
+    box-shadow: 0 16px 42px rgba(0,0,0,.39), inset 0 1px rgba(255,255,255,.07) !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .mezgebMobileHeaderActions .mezgebMobileMenuButton,
+  body[data-mezgeb-theme="dark"] .mezgebMobileTopTheme {
+    border-color: rgba(173,148,255,.14) !important;
+    background: linear-gradient(145deg, rgba(37,31,51,.98), rgba(23,20,33,.96)) !important;
+    color: #f7f3ff !important;
+    box-shadow: 0 10px 26px rgba(0,0,0,.33), inset 0 1px rgba(255,255,255,.08) !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .mezgebMobileSearchBar {
+    background: linear-gradient(180deg, rgba(14,12,21,.96), rgba(11,10,17,.91)) !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .mezgebMobileDrawer {
+    background:
+      radial-gradient(circle at 92% 0%, rgba(105,71,247,.23), transparent 21rem),
+      linear-gradient(160deg, rgba(16,13,24,.99), rgba(24,18,40,.985) 64%, rgba(13,22,31,.985)) !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .mezgebDrawerSettings,
+  body[data-mezgeb-theme="dark"] .cloudSidebar nav {
+    border-color: rgba(172,148,255,.14) !important;
+    background: linear-gradient(125deg, rgba(31,27,43,.97), rgba(26,20,43,.95) 58%, rgba(19,31,41,.95)) !important;
+    box-shadow: 0 22px 56px rgba(0,0,0,.43), inset 0 1px rgba(255,255,255,.08) !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .cloudSidebar nav button {
+    color: #aaa1ba !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .cloudSidebar nav button.active {
+    color: #fff !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .mezgebMobileTopActionOverlay {
+    right: 64px !important;
+    gap: 6px !important;
+  }
+
+  .cloudSidebar nav {
+    right: 7px !important;
+    left: 7px !important;
+    bottom: max(7px, env(safe-area-inset-bottom)) !important;
+    min-height: 67px !important;
+    padding: 6px !important;
+    border-radius: 22px !important;
+  }
+
+  .cloudSidebar nav button {
+    min-height: 54px !important;
+    border-radius: 16px !important;
+  }
+}
