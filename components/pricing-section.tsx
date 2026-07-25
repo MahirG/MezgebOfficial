@@ -27,6 +27,12 @@ function createIdempotencyKey() {
   return `mezgeb-${Date.now()}-${Math.random().toString(36).slice(2)}-${Math.random().toString(36).slice(2)}`;
 }
 
+function planReturnUrl(planCode: string, billingCycle: BillingCycle, mode: 'trial' | 'pay' | 'review' = 'review') {
+  const params = new URLSearchParams({ plan: planCode, billing: billingCycle });
+  if (mode !== 'review') params.set(mode, '1');
+  return `/?${params.toString()}#pricing`;
+}
+
 export function PricingSection({ plans, subscription }: PricingSectionProps) {
   const [billingCycle, setBillingCycle] = useState<BillingCycle>(subscription?.billingCycle ?? 'monthly');
   const [busyPlan, setBusyPlan] = useState<string | null>(null);
@@ -56,6 +62,28 @@ export function PricingSection({ plans, subscription }: PricingSectionProps) {
       window.removeEventListener('keydown', onKeyDown);
     };
   }, [selectedPlan, checkoutBusy]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const requestedPlanCode = params.get('plan');
+    if (!requestedPlanCode) return;
+
+    const requestedPlan = plans.find((plan) => plan.code === requestedPlanCode && !plan.customPricing);
+    if (!requestedPlan) return;
+
+    const requestedBilling = params.get('billing');
+    if (requestedBilling === 'monthly' || requestedBilling === 'annual') setBillingCycle(requestedBilling);
+
+    setSelectedPlan(requestedPlan);
+    setSelectedMethod('telebirr');
+    setCheckoutMessage(params.get('pay') === '1'
+      ? 'Continue below to open secure payment.'
+      : params.get('trial') === '1'
+        ? 'Continue below to activate your trial.'
+        : 'Review the plan and choose how to continue.');
+
+    requestAnimationFrame(() => document.getElementById('pricing')?.scrollIntoView({ block: 'start' }));
+  }, [plans]);
 
   function amountFor(plan: PricingPlan) {
     return billingCycle === 'annual' ? plan.annualPriceEtb : plan.monthlyPriceEtb;
@@ -87,7 +115,8 @@ export function PricingSection({ plans, subscription }: PricingSectionProps) {
       });
 
       if (response.status === 401) {
-        window.location.assign(`/auth/sign-up?next=${encodeURIComponent('/dashboard')}`);
+        const next = planReturnUrl(planCode, billingCycle, 'trial');
+        window.location.assign(`/auth/sign-up?next=${encodeURIComponent(next)}`);
         return;
       }
 
@@ -121,7 +150,7 @@ export function PricingSection({ plans, subscription }: PricingSectionProps) {
       });
 
       if (response.status === 401) {
-        const next = `/#pricing?plan=${encodeURIComponent(selectedPlan.code)}&pay=1`;
+        const next = planReturnUrl(selectedPlan.code, billingCycle, 'pay');
         window.location.assign(`/auth/sign-up?next=${encodeURIComponent(next)}`);
         return;
       }
@@ -187,19 +216,17 @@ export function PricingSection({ plans, subscription }: PricingSectionProps) {
             const amount = amountFor(plan);
             const saving = annualSaving(plan);
             const current = subscription?.planCode === plan.code;
-            const trialActive = current && subscription?.status === 'trialing';
             const buttonLabel = current
-              ? trialActive
-                ? 'Trial active'
-                : 'Current plan'
+              ? 'Manage subscription'
               : plan.trialDays > 0
                 ? `Start ${plan.trialDays}-day trial`
                 : plan.code === 'business'
                   ? `Pay ETB ${formatEtb(amount)}`
                   : `Choose ${plan.name}`;
+            const actionHref = current ? '/dashboard' : planReturnUrl(plan.code, billingCycle);
 
             return (
-              <article className={`${styles.card} ${plan.featured ? styles.featured : ''}`} key={plan.code}>
+              <article className={`${styles.card} ${plan.featured ? styles.featured : ''}`} data-subscription-card key={plan.code}>
                 <div className={styles.planTop}>
                   <div>
                     <small>{plan.name}</small>
@@ -225,16 +252,23 @@ export function PricingSection({ plans, subscription }: PricingSectionProps) {
                 {plan.customPricing ? (
                   <a className={`button secondaryDark ${styles.action}`} href="mailto:info@hisabtech.com?subject=Mezgeb%20Enterprise%20pricing">Talk to enterprise sales</a>
                 ) : (
-                  <button
+                  <a
                     className={`button ${plan.featured ? 'white' : 'secondaryDark'} ${styles.action}`}
-                    type="button"
-                    disabled={current || busyPlan !== null}
-                    onClick={() => openPlan(plan)}
+                    data-subscription-action
+                    href={actionHref}
+                    aria-haspopup={current ? undefined : 'dialog'}
+                    aria-controls={current ? undefined : 'mezgeb-checkout-dialog'}
+                    onClick={(event) => {
+                      if (current) return;
+                      event.preventDefault();
+                      openPlan(plan);
+                    }}
                   >
                     {busyPlan === plan.code ? 'Please wait…' : buttonLabel}
-                  </button>
+                  </a>
                 )}
                 {!plan.customPricing && !current ? <span className={styles.secureHint}>Trial or secure ETB payment available</span> : null}
+                {current ? <span className={styles.secureHint}>Open your account dashboard to review this subscription</span> : null}
               </article>
             );
           })}
@@ -253,6 +287,7 @@ export function PricingSection({ plans, subscription }: PricingSectionProps) {
         }}>
           <section
             className={styles.checkoutDialog}
+            id="mezgeb-checkout-dialog"
             role="dialog"
             aria-modal="true"
             aria-labelledby="mezgeb-checkout-title"
