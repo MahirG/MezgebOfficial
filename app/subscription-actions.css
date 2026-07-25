@@ -1,0 +1,19 @@
+/* Subscription actions remain clickable above decorative card layers and use reliable mobile tap behavior. */
+[data-subscription-card]::before,
+[data-subscription-card]::after {
+  pointer-events: none;
+}
+
+[data-subscription-action] {
+  position: relative;
+  z-index: 4;
+  pointer-events: auto;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+[data-subscription-action]:focus-visible {
+  outline: 3px solid rgba(22, 102, 245, 0.28);
+  outline-offset: 3px;
+}
