@@ -17,7 +17,7 @@
 .appFeedbackCard {
   position: relative;
   display: grid;
-  grid-template-columns: 48px minmax(0, 1fr) auto;
+  grid-template-columns: 48px minmax(0, 1fr);
   align-items: center;
   gap: 14px;
   width: min(440px, calc(100vw - 32px));
@@ -100,37 +100,21 @@
   line-height: 1.48;
 }
 
-.appFeedbackVoice,
-.appFeedbackClose {
-  display: grid;
-  place-items: center;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  touch-action: manipulation;
-}
-
-.appFeedbackVoice {
-  width: 36px;
-  height: 36px;
-  border-radius: 12px;
-  background: #f1f3f6;
-  font-size: 0.94rem;
-}
-
-.appFeedbackVoice:hover {
-  background: #e8ebef;
-}
-
 .appFeedbackClose {
   position: absolute;
   top: 9px;
   right: 9px;
+  display: grid;
+  place-items: center;
   width: 30px;
   height: 30px;
+  border: 0;
   border-radius: 10px;
+  background: transparent;
   color: #7a808b;
   font-size: 1.18rem;
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
 .appFeedbackClose:hover {
@@ -211,7 +195,7 @@
   }
 
   .appFeedbackCard {
-    grid-template-columns: 44px minmax(0, 1fr) auto;
+    grid-template-columns: 44px minmax(0, 1fr);
     min-height: 86px;
     padding: 14px 48px 14px 14px;
   }

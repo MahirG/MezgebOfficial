@@ -87,7 +87,6 @@ function focusRelatedField(message: string) {
 
 export function AppFeedbackLayer() {
   const [feedback, setFeedback] = useState<Feedback | null>(null);
-  const [voiceEnabled, setVoiceEnabled] = useState(true);
   const lastMessageRef = useRef('');
   const dismissTimerRef = useRef<number | null>(null);
   const operationTimerRef = useRef<number | null>(null);
@@ -108,30 +107,6 @@ export function AppFeedbackLayer() {
     clearOperationTimer();
   }, [clearDismissTimer, clearOperationTimer]);
 
-  const speak = useCallback((message: string, tone: FeedbackTone) => {
-    if (!voiceEnabled || !('speechSynthesis' in window)) return;
-
-    window.speechSynthesis.cancel();
-    const spokenMessage = tone === 'success'
-      ? `Success. ${message}`
-      : tone === 'duplicate'
-        ? `Already entered. ${message}`
-        : tone === 'error'
-          ? `Please check the form. ${message}`
-          : message;
-    const utterance = new SpeechSynthesisUtterance(spokenMessage);
-    utterance.lang = 'en-US';
-    utterance.rate = 0.96;
-    utterance.pitch = tone === 'success' ? 1.08 : 1;
-    utterance.volume = 0.9;
-
-    const voices = window.speechSynthesis.getVoices();
-    const preferredVoice = voices.find((voice) => voice.lang.startsWith('en') && /Samantha|Ava|Google|Microsoft/i.test(voice.name))
-      ?? voices.find((voice) => voice.lang.startsWith('en'));
-    if (preferredVoice) utterance.voice = preferredVoice;
-    window.speechSynthesis.speak(utterance);
-  }, [voiceEnabled]);
-
   const announce = useCallback((nextFeedback: Feedback, force = false) => {
     if (!force && lastMessageRef.current === nextFeedback.message) return;
 
@@ -147,12 +122,10 @@ export function AppFeedbackLayer() {
       navigator.vibrate?.(45);
     }
 
-    speak(nextFeedback.message, nextFeedback.tone);
-
     if (nextFeedback.tone !== 'loading') {
       dismissTimerRef.current = window.setTimeout(() => setFeedback(null), nextFeedback.tone === 'error' ? 7000 : 5200);
     }
-  }, [clearDismissTimer, clearOperationTimer, speak]);
+  }, [clearDismissTimer, clearOperationTimer]);
 
   const beginLoading = useCallback((message: string) => {
     clearOperationTimer();
@@ -165,11 +138,6 @@ export function AppFeedbackLayer() {
       }, true);
     }, 20000);
   }, [announce, clearOperationTimer]);
-
-  useEffect(() => {
-    const storedPreference = window.localStorage.getItem('mezgeb-voice-feedback');
-    if (storedPreference === 'off') setVoiceEnabled(false);
-  }, []);
 
   useEffect(() => {
     const root = document.getElementById('mezgeb-application') ?? document.body;
@@ -258,20 +226,8 @@ export function AppFeedbackLayer() {
       root.removeEventListener('click', handleClick, true);
       root.removeEventListener('invalid', handleInvalid, true);
       clearTimers();
-      window.speechSynthesis?.cancel();
     };
   }, [announce, beginLoading, clearTimers]);
-
-  const toggleVoice = () => {
-    const nextValue = !voiceEnabled;
-    setVoiceEnabled(nextValue);
-    window.localStorage.setItem('mezgeb-voice-feedback', nextValue ? 'on' : 'off');
-    if (nextValue) {
-      window.setTimeout(() => speak('Voice confirmations are on.', 'info'), 0);
-    } else {
-      window.speechSynthesis?.cancel();
-    }
-  };
 
   if (!feedback) return null;
 
@@ -295,9 +251,6 @@ export function AppFeedbackLayer() {
           <strong>{feedback.title}</strong>
           <span>{feedback.message}</span>
         </div>
-        <button className="appFeedbackVoice" type="button" onClick={toggleVoice} aria-label={voiceEnabled ? 'Turn voice confirmations off' : 'Turn voice confirmations on'} title={voiceEnabled ? 'Voice on' : 'Voice off'}>
-          {voiceEnabled ? '🔊' : '🔇'}
-        </button>
         {feedback.tone !== 'loading' ? (
           <button className="appFeedbackClose" type="button" onClick={() => setFeedback(null)} aria-label="Dismiss confirmation">×</button>
         ) : null}
