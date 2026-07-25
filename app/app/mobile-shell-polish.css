@@ -1,0 +1,546 @@
+/* Final mobile interaction and contrast pass.
+   Loaded after all legacy app themes; desktop/Windows is untouched. */
+
+@media (max-width: 820px) {
+  :root {
+    --mezgeb-sticky-header-height: calc(72px + env(safe-area-inset-top));
+    --mezgeb-search-strip-height: 58px;
+    --mezgeb-footer-height: calc(78px + env(safe-area-inset-bottom));
+  }
+
+  html:has(.productionAppPage) {
+    scroll-padding-top: calc(var(--mezgeb-sticky-header-height) + var(--mezgeb-search-strip-height) + 18px);
+    scroll-padding-bottom: calc(var(--mezgeb-footer-height) + 18px);
+  }
+
+  body:has(.productionAppPage) {
+    overscroll-behavior-y: contain;
+  }
+
+  .productionAppPage .siteHeader,
+  .productionAppPage .siteFooter {
+    display: none !important;
+  }
+
+  .cloudWorkspace {
+    padding-top: calc(var(--mezgeb-sticky-header-height) + var(--mezgeb-search-strip-height)) !important;
+    padding-bottom: calc(var(--mezgeb-footer-height) + 22px) !important;
+  }
+
+  /* Persistent, stable top app bar. */
+  .mezgebMobileHeader {
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    left: 0 !important;
+    isolation: isolate;
+    min-height: var(--mezgeb-sticky-header-height) !important;
+    padding: calc(10px + env(safe-area-inset-top)) 12px 10px !important;
+    border-bottom: 1px solid rgba(64, 38, 147, 0.10) !important;
+    background: rgba(252, 251, 255, 0.95) !important;
+    box-shadow: 0 9px 30px rgba(32, 22, 63, 0.09) !important;
+    transform: translateZ(0);
+    will-change: transform;
+  }
+
+  .mezgebMobileHeader::after {
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(91, 59, 245, 0.28), transparent);
+    content: "";
+    pointer-events: none;
+  }
+
+  .mezgebMobileBrand {
+    flex: 1 1 auto;
+    max-width: calc(100% - 164px);
+    border-radius: 14px;
+    transition: transform 150ms ease, opacity 150ms ease;
+  }
+
+  .mezgebMobileBrand svg {
+    width: 42px !important;
+    height: 42px !important;
+  }
+
+  .mezgebMobileHeaderActions {
+    flex: 0 0 auto;
+    gap: 10px !important;
+    padding-left: 10px;
+  }
+
+  .mezgebMobileHeaderActions::before {
+    width: 1px;
+    height: 28px;
+    margin-right: 1px;
+    background: rgba(67, 44, 129, 0.12);
+    content: "";
+  }
+
+  .mezgebMobileUtility,
+  .mezgebMobileLanguageShortcut,
+  .mezgebMobileMenuButton {
+    position: relative;
+    flex: 0 0 auto;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: 15px !important;
+    transition:
+      transform 150ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      box-shadow 150ms ease,
+      background-color 150ms ease,
+      border-color 150ms ease !important;
+  }
+
+  .mezgebMobileLanguageShortcut {
+    margin-right: 2px;
+    border-color: rgba(76, 34, 212, 0.18) !important;
+    background: linear-gradient(145deg, #f1edff, #ffffff) !important;
+    box-shadow: 0 8px 20px rgba(67, 35, 164, 0.09) !important;
+  }
+
+  .mezgebMobileMenuButton {
+    margin-left: 2px;
+    border-color: rgba(30, 24, 48, 0.11) !important;
+    background: #ffffff !important;
+  }
+
+  .mezgebMobileLanguageShortcut::after {
+    position: absolute;
+    right: -8px;
+    width: 1px;
+    height: 24px;
+    border-radius: 99px;
+    background: rgba(70, 48, 127, 0.12);
+    content: "";
+    pointer-events: none;
+  }
+
+  .mezgebMobileUtility:active,
+  .mezgebMobileLanguageShortcut:active,
+  .mezgebMobileMenuButton:active,
+  .mezgebMobileBrand:active,
+  .cloudSidebar nav button:active,
+  .cloudQuickActions button:active {
+    transform: scale(0.94) !important;
+  }
+
+  .mezgebMobileUtility:focus-visible,
+  .mezgebMobileLanguageShortcut:focus-visible,
+  .mezgebMobileMenuButton:focus-visible,
+  .mezgebMobileBrand:focus-visible,
+  .mezgebMobileSearchBar button:focus-visible,
+  .cloudSidebar nav button:focus-visible {
+    outline: 3px solid rgba(91, 59, 245, 0.26) !important;
+    outline-offset: 2px;
+  }
+
+  /* Clear, input-like persistent search control. */
+  .mezgebMobileSearchBar {
+    position: fixed !important;
+    top: var(--mezgeb-sticky-header-height) !important;
+    right: 0 !important;
+    left: 0 !important;
+    z-index: 1006 !important;
+    min-height: var(--mezgeb-search-strip-height) !important;
+    padding: 7px 12px 9px !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    background: rgba(247, 245, 252, 0.96) !important;
+    border-bottom: 1px solid rgba(64, 38, 147, 0.08);
+    box-shadow: 0 7px 22px rgba(31, 20, 67, 0.06);
+    transform: translateZ(0);
+  }
+
+  .mezgebMobileSearchBar > span,
+  .mezgebMobileSearchBar > kbd {
+    display: none !important;
+  }
+
+  .mezgebMobileSearchBar button {
+    position: relative;
+    display: flex !important;
+    align-items: center;
+    width: 100%;
+    min-height: 42px !important;
+    padding: 0 42px 0 42px !important;
+    border: 1px solid rgba(68, 43, 139, 0.11) !important;
+    border-radius: 15px !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    color: #443e50 !important;
+    box-shadow:
+      0 7px 22px rgba(32, 22, 63, 0.07),
+      inset 0 1px rgba(255, 255, 255, 0.95) !important;
+    font-size: 0 !important;
+    font-weight: 680 !important;
+    line-height: 1.2;
+    text-align: left;
+    transition: transform 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+  }
+
+  .mezgebMobileSearchBar button::before {
+    content: "⌕";
+    position: absolute;
+    left: 15px;
+    display: grid;
+    place-items: center;
+    width: 20px;
+    color: var(--mezgeb-mobile-brand-deep);
+    font-size: 1.18rem;
+    font-weight: 850;
+  }
+
+  .mezgebMobileSearchBar button::after {
+    content: "Search Mezgeb";
+    overflow: hidden;
+    color: #4f485a;
+    font-size: 0.82rem;
+    font-weight: 680;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mezgebMobileSearchBar button:active {
+    transform: scale(0.985);
+    border-color: rgba(76, 34, 212, 0.24) !important;
+  }
+
+  /* The bottom app menu remains visible and stable while content scrolls. */
+  .cloudSidebar nav {
+    position: fixed !important;
+    right: 10px !important;
+    bottom: max(8px, env(safe-area-inset-bottom)) !important;
+    left: 10px !important;
+    z-index: 1020 !important;
+    min-height: 68px;
+    padding: 7px !important;
+    overflow-x: hidden !important;
+    border: 1px solid rgba(255, 255, 255, 0.92) !important;
+    border-radius: 24px !important;
+    background: rgba(252, 251, 255, 0.96) !important;
+    box-shadow:
+      0 20px 55px rgba(16, 11, 34, 0.22),
+      inset 0 1px rgba(255, 255, 255, 0.98) !important;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+  }
+
+  .cloudSidebar nav button {
+    flex: 1 1 25% !important;
+    min-width: 0 !important;
+    min-height: 56px !important;
+    border-radius: 17px !important;
+    transition:
+      transform 150ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      background-color 160ms ease,
+      color 160ms ease !important;
+  }
+
+  .cloudSidebar nav button i {
+    font-size: 1.08rem !important;
+    line-height: 1;
+  }
+
+  .cloudSidebar nav button span {
+    max-width: 100%;
+    overflow: hidden;
+    font-size: 0.58rem !important;
+    font-weight: 720 !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .cloudSidebar nav button.active {
+    background: linear-gradient(180deg, rgba(91, 59, 245, 0.16), rgba(91, 59, 245, 0.08)) !important;
+    box-shadow: inset 0 0 0 1px rgba(76, 34, 212, 0.10);
+  }
+
+  /* Card and control polish. */
+  .cloudContent {
+    padding-top: 16px !important;
+  }
+
+  .cloudMetricGrid article,
+  .cloudQuickActions button,
+  .cloudPanel,
+  .cloudForm,
+  .cloudLedger,
+  .cloudReceipts,
+  .cloudReports,
+  .cloudOperations,
+  .cloudReceiptGrid article,
+  .cloudReportGrid article,
+  .cloudOperationGrid article,
+  .cloudCustomerCard {
+    transition:
+      transform 170ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      box-shadow 170ms ease,
+      border-color 170ms ease,
+      background-color 170ms ease !important;
+  }
+
+  .cloudQuickActions button,
+  .cloudCustomerCard,
+  .cloudPanel header button,
+  .cloudSectionHeader .button,
+  .mezgebPrimaryAction,
+  .button {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .cloudQuickActions button:active,
+  .cloudCustomerCard:active {
+    box-shadow: 0 8px 20px rgba(26, 20, 55, 0.10) !important;
+  }
+
+  .cloudForm input:focus,
+  .cloudForm select:focus,
+  .cloudForm textarea:focus,
+  .cloudLedger header input:focus,
+  .mezgebGlobalSearch input:focus {
+    border-color: rgba(91, 59, 245, 0.58) !important;
+    box-shadow: 0 0 0 4px rgba(91, 59, 245, 0.13) !important;
+  }
+
+  .mezgebMobileDrawer,
+  .mezgebGlobalSearch {
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Complete dashboard contrast pass for night mode. */
+  body[data-mezgeb-theme="dark"] .mezgebMobileHeader {
+    border-bottom-color: rgba(177, 155, 255, 0.14) !important;
+    background: rgba(13, 11, 20, 0.96) !important;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.34) !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .mezgebMobileHeaderActions::before,
+  body[data-mezgeb-theme="dark"] .mezgebMobileLanguageShortcut::after {
+    background: rgba(184, 165, 255, 0.18);
+  }
+
+  body[data-mezgeb-theme="dark"] .mezgebMobileLanguageShortcut {
+    border-color: rgba(171, 146, 255, 0.22) !important;
+    background: linear-gradient(145deg, rgba(68, 48, 133, 0.62), rgba(31, 27, 43, 0.98)) !important;
+    color: #e8e0ff !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .mezgebMobileMenuButton {
+    border-color: rgba(177, 155, 255, 0.15) !important;
+    background: rgba(31, 27, 43, 0.98) !important;
+    color: #f5f1ff !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .mezgebMobileSearchBar {
+    border-bottom-color: rgba(177, 155, 255, 0.11) !important;
+    background: rgba(10, 9, 16, 0.97) !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.24);
+  }
+
+  body[data-mezgeb-theme="dark"] .mezgebMobileSearchBar button {
+    border-color: rgba(177, 155, 255, 0.16) !important;
+    background: rgba(28, 24, 40, 0.98) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24) !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .mezgebMobileSearchBar button::before {
+    color: #b7a4ff;
+  }
+
+  body[data-mezgeb-theme="dark"] .mezgebMobileSearchBar button::after {
+    color: #e4deed;
+  }
+
+  body[data-mezgeb-theme="dark"] .cloudSidebar nav {
+    border-color: rgba(177, 155, 255, 0.16) !important;
+    background: rgba(18, 15, 27, 0.97) !important;
+    box-shadow:
+      0 20px 58px rgba(0, 0, 0, 0.48),
+      inset 0 1px rgba(255, 255, 255, 0.04) !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .cloudSidebar nav button {
+    color: #aaa3b8 !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .cloudSidebar nav button.active {
+    background: linear-gradient(180deg, rgba(129, 96, 255, 0.28), rgba(91, 59, 245, 0.14)) !important;
+    color: #ffffff !important;
+    box-shadow: inset 0 0 0 1px rgba(177, 155, 255, 0.18);
+  }
+
+  body[data-mezgeb-theme="dark"] .cloudMetricGrid article:not(.cloudPrimaryMetric),
+  body[data-mezgeb-theme="dark"] .cloudQuickActions button,
+  body[data-mezgeb-theme="dark"] .cloudPanel,
+  body[data-mezgeb-theme="dark"] .cloudForm,
+  body[data-mezgeb-theme="dark"] .cloudLedger,
+  body[data-mezgeb-theme="dark"] .cloudReceipts,
+  body[data-mezgeb-theme="dark"] .cloudReports,
+  body[data-mezgeb-theme="dark"] .cloudOperations,
+  body[data-mezgeb-theme="dark"] .cloudCustomerCard {
+    border-color: rgba(177, 155, 255, 0.13) !important;
+    background: rgba(22, 19, 31, 0.97) !important;
+    color: #f7f4ff !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .cloudReceiptGrid article,
+  body[data-mezgeb-theme="dark"] .cloudReportGrid article,
+  body[data-mezgeb-theme="dark"] .cloudOperationGrid article {
+    border: 1px solid rgba(177, 155, 255, 0.11) !important;
+    background: rgba(31, 27, 43, 0.96) !important;
+    color: #f7f4ff !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .cloudMetricGrid article:not(.cloudPrimaryMetric) small,
+  body[data-mezgeb-theme="dark"] .cloudMetricGrid article:not(.cloudPrimaryMetric) span,
+  body[data-mezgeb-theme="dark"] .cloudPanel header small,
+  body[data-mezgeb-theme="dark"] .cloudLedger header small,
+  body[data-mezgeb-theme="dark"] .cloudForm header small,
+  body[data-mezgeb-theme="dark"] .cloudSectionHeader small,
+  body[data-mezgeb-theme="dark"] .cloudSectionHeader p,
+  body[data-mezgeb-theme="dark"] .cloudHealth p,
+  body[data-mezgeb-theme="dark"] .cloudHealth > div,
+  body[data-mezgeb-theme="dark"] .cloudRow small,
+  body[data-mezgeb-theme="dark"] .cloudCustomerCard em,
+  body[data-mezgeb-theme="dark"] .cloudReceiptGrid small,
+  body[data-mezgeb-theme="dark"] .cloudReceiptGrid p,
+  body[data-mezgeb-theme="dark"] .cloudReportGrid small,
+  body[data-mezgeb-theme="dark"] .cloudReportGrid span,
+  body[data-mezgeb-theme="dark"] .cloudOperationGrid small,
+  body[data-mezgeb-theme="dark"] .cloudEmpty,
+  body[data-mezgeb-theme="dark"] .cloudSecureHint {
+    color: #b8b1c5 !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .cloudMetricGrid article:not(.cloudPrimaryMetric) strong,
+  body[data-mezgeb-theme="dark"] .cloudQuickActions button span,
+  body[data-mezgeb-theme="dark"] .cloudPanel h3,
+  body[data-mezgeb-theme="dark"] .cloudLedger h2,
+  body[data-mezgeb-theme="dark"] .cloudForm h2,
+  body[data-mezgeb-theme="dark"] .cloudSectionHeader h2,
+  body[data-mezgeb-theme="dark"] .cloudRow b,
+  body[data-mezgeb-theme="dark"] .cloudRow > strong,
+  body[data-mezgeb-theme="dark"] .cloudCustomerCard strong,
+  body[data-mezgeb-theme="dark"] .cloudCustomerCard > b,
+  body[data-mezgeb-theme="dark"] .cloudReceiptGrid h3,
+  body[data-mezgeb-theme="dark"] .cloudReceiptGrid strong,
+  body[data-mezgeb-theme="dark"] .cloudReportGrid strong,
+  body[data-mezgeb-theme="dark"] .cloudOperationGrid strong {
+    color: #ffffff !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .cloudPanel header button,
+  body[data-mezgeb-theme="dark"] .cloudSectionHeader button,
+  body[data-mezgeb-theme="dark"] .cloudSectionHeader a {
+    color: #b9a8ff !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .cloudRow,
+  body[data-mezgeb-theme="dark"] .cloudHealth > div {
+    border-color: rgba(177, 155, 255, 0.10) !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .cloudRow > button {
+    background: rgba(55, 48, 72, 0.95) !important;
+    color: #d8d0e5 !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .cloudQuickActions i,
+  body[data-mezgeb-theme="dark"] .cloudRow > i.neutral {
+    background: rgba(91, 59, 245, 0.22) !important;
+    color: #c4b5ff !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .cloudSegment {
+    background: rgba(10, 8, 17, 0.92) !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .cloudSegment button {
+    color: #a9a2b6 !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .cloudSegment button.active {
+    background: rgba(48, 41, 64, 0.98) !important;
+    color: #ffffff !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .cloudForm input::placeholder,
+  body[data-mezgeb-theme="dark"] .cloudForm textarea::placeholder,
+  body[data-mezgeb-theme="dark"] .cloudLedger header input::placeholder,
+  body[data-mezgeb-theme="dark"] .mezgebGlobalSearch input::placeholder {
+    color: #81798e !important;
+    opacity: 1;
+  }
+
+  body[data-mezgeb-theme="dark"] .mezgebGlobalSearch input,
+  body[data-mezgeb-theme="dark"] .mezgebSearchResults strong,
+  body[data-mezgeb-theme="dark"] .mezgebSearchEmpty strong {
+    color: #ffffff !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .mezgebSearchResults small,
+  body[data-mezgeb-theme="dark"] .mezgebGlobalSearch > footer {
+    color: #aaa3b8 !important;
+  }
+
+  body[data-mezgeb-theme="dark"] .mezgebSearchResults > button:hover,
+  body[data-mezgeb-theme="dark"] .mezgebSearchResults > button:active {
+    background: rgba(91, 59, 245, 0.15) !important;
+  }
+}
+
+@media (max-width: 430px) {
+  .mezgebMobileBrand {
+    max-width: calc(100% - 118px);
+  }
+
+  .mezgebMobileHeaderActions {
+    gap: 9px !important;
+    padding-left: 8px;
+  }
+
+  .mezgebMobileUtility {
+    display: none !important;
+  }
+
+  .mezgebMobileLanguageShortcut,
+  .mezgebMobileMenuButton {
+    width: 45px !important;
+    height: 45px !important;
+  }
+
+  .cloudSidebar nav button span {
+    font-size: 0.55rem !important;
+  }
+}
+
+@media (max-width: 350px) {
+  .mezgebMobileBrand small {
+    display: none !important;
+  }
+
+  .mezgebMobileBrand {
+    max-width: calc(100% - 110px);
+  }
+
+  .mezgebMobileHeaderActions::before {
+    display: none;
+  }
+
+  .mezgebMobileHeaderActions {
+    gap: 8px !important;
+    padding-left: 4px;
+  }
+
+  .mezgebMobileLanguageShortcut,
+  .mezgebMobileMenuButton {
+    width: 43px !important;
+    min-width: 43px;
+  }
+}
