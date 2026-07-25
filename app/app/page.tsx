@@ -9,6 +9,7 @@ import './cloud.css';
 import './glassmorphic.css';
 import './apple-app.css';
 import './feedback.css';
+import './mobile-redesign.css';
 
 export const metadata: Metadata = {
   title: 'Mezgeb workspace',
