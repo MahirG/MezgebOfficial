@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { MezgebMobileControls } from '@/components/mezgeb-mobile-controls';
+import { MezgebMobileTopActions } from '@/components/mezgeb-mobile-top-actions';
 
 type BusinessOption = {
   id: string;
@@ -33,5 +34,11 @@ export function MezgebMobileControlsGate(props: Props) {
   }, []);
 
   if (!isMobile) return null;
-  return <MezgebMobileControls {...props} />;
+
+  return (
+    <>
+      <MezgebMobileControls {...props} />
+      <MezgebMobileTopActions userName={props.userName} />
+    </>
+  );
 }
