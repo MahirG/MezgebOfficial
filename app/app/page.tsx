@@ -12,6 +12,7 @@ import './apple-app.css';
 import './feedback.css';
 import './mobile-redesign.css';
 import './mobile-controls.css';
+import './mobile-shell-polish.css';
 
 export const metadata: Metadata = {
   title: 'Mezgeb workspace',
