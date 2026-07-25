@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase/server';
 import './app.css';
 import './mobile.css';
 import './cloud.css';
+import './glassmorphic.css';
 
 export const metadata: Metadata = {
   title: 'Mezgeb workspace',
