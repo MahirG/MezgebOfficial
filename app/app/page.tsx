@@ -14,6 +14,7 @@ import './mobile-redesign.css';
 import './mobile-controls.css';
 import './mobile-shell-polish.css';
 import './mobile-header-account.css';
+import './mobile-docked-glass.css';
 
 export const metadata: Metadata = {
   title: 'Mezgeb workspace',
