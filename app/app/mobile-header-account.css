@@ -1,233 +1,229 @@
-/* Final mobile header hierarchy: theme + profile at the top,
-   language and appearance controls grouped in the drawer footer. */
+/* Unified mobile interaction layer.
+   Keeps real React controls in one header row and prevents overlays from blocking touch input. */
 
 @media (max-width: 820px) {
-  .mezgebMobileHeaderActions .mezgebMobileUtility,
+  body.mezgebMobileOverlayOpen {
+    overflow: hidden !important;
+    touch-action: auto !important;
+    overscroll-behavior: none;
+  }
+
+  .mezgebMobileHeader {
+    pointer-events: auto !important;
+  }
+
+  .mezgebMobileHeaderActions {
+    position: relative;
+    display: flex !important;
+    align-items: center;
+    gap: 8px !important;
+    padding-left: 8px !important;
+  }
+
+  .mezgebMobileHeaderActions::before {
+    display: none !important;
+  }
+
+  .mezgebMobileHeaderActions .mezgebMobileUtility {
+    display: grid !important;
+    order: 1;
+    margin-right: 50px;
+  }
+
   .mezgebMobileHeaderActions .mezgebMobileLanguageShortcut {
     display: none !important;
   }
 
+  .mezgebMobileHeaderActions .mezgebMobileMenuButton {
+    order: 3;
+  }
+
+  .mezgebMobileUtility,
+  .mezgebMobileMenuButton,
+  .mezgebMobileAccountShortcut {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    border: 1px solid rgba(17, 24, 39, 0.10) !important;
+    border-radius: 13px !important;
+    background: #ffffff !important;
+    color: #24212b !important;
+    box-shadow: 0 4px 14px rgba(17, 24, 39, 0.08) !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+
   .mezgebMobileTopActionOverlay {
     position: fixed;
-    top: calc(11px + env(safe-area-inset-top));
-    right: 70px;
-    z-index: 1025;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    direction: ltr;
-    pointer-events: none;
-  }
-
-  .mezgebMobileTopTheme,
-  .mezgebMobileAccountShortcut {
-    position: relative;
+    top: calc(10px + env(safe-area-inset-top));
+    right: 64px;
+    z-index: 1026;
     display: grid;
     place-items: center;
-    width: 46px;
-    height: 46px;
-    min-width: 46px;
-    padding: 0;
-    overflow: hidden;
-    border: 1px solid rgba(76, 34, 212, 0.13);
-    border-radius: 15px;
-    background: rgba(255, 255, 255, 0.94);
-    color: #302943;
-    box-shadow: 0 9px 24px rgba(32, 22, 63, 0.10);
-    text-decoration: none;
-    cursor: pointer;
+    width: 44px;
+    height: 44px;
     pointer-events: auto;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-    transition:
-      transform 170ms cubic-bezier(0.2, 0.8, 0.2, 1),
-      box-shadow 170ms ease,
-      border-color 170ms ease,
-      background-color 170ms ease;
-  }
-
-  .mezgebMobileTopTheme:hover,
-  .mezgebMobileTopTheme:focus-visible,
-  .mezgebMobileAccountShortcut:hover,
-  .mezgebMobileAccountShortcut:focus-visible {
-    border-color: rgba(76, 34, 212, 0.28);
-    box-shadow: 0 12px 28px rgba(52, 30, 119, 0.16);
-    outline: none;
-  }
-
-  .mezgebMobileTopTheme:active,
-  .mezgebMobileAccountShortcut:active {
-    transform: scale(0.94);
-  }
-
-  .mezgebMobileTopTheme > span {
-    position: absolute;
-    font-size: 1.08rem;
-    line-height: 1;
-    transition: opacity 160ms ease, transform 200ms cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-
-  .mezgebThemeSun {
-    opacity: 0;
-    transform: rotate(-20deg) scale(0.72);
-  }
-
-  .mezgebThemeMoon {
-    opacity: 1;
-    transform: rotate(0) scale(1);
-  }
-
-  body[data-mezgeb-theme="dark"] .mezgebThemeSun {
-    opacity: 1;
-    transform: rotate(0) scale(1);
-  }
-
-  body[data-mezgeb-theme="dark"] .mezgebThemeMoon {
-    opacity: 0;
-    transform: rotate(20deg) scale(0.72);
   }
 
   .mezgebMobileAccountShortcut {
-    background:
-      radial-gradient(circle at 78% 18%, rgba(255, 208, 96, 0.42), transparent 35%),
-      linear-gradient(145deg, #3212aa, #6645f6);
-    color: #fff;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    background: #4c22d4 !important;
+    color: #ffffff !important;
     font-size: 0.82rem;
-    font-weight: 850;
-    letter-spacing: -0.02em;
-    box-shadow: 0 11px 26px rgba(60, 28, 177, 0.25);
+    font-weight: 820;
+    line-height: 1;
+    text-decoration: none;
   }
 
-  .mezgebMobileAccountShortcut::after {
-    content: "";
-    position: absolute;
-    inset: 5px;
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    border-radius: 11px;
-    pointer-events: none;
+  .mezgebMobileUtility:active,
+  .mezgebMobileMenuButton:active,
+  .mezgebMobileAccountShortcut:active,
+  .mezgebMobileSearchBar button:active,
+  .cloudSidebar nav button:active,
+  .mezgebDrawerNavigation button:active,
+  .mezgebDrawerSettings button:active,
+  .mezgebDrawerSettings a:active {
+    transform: scale(0.95) !important;
+  }
+
+  .mezgebMobileUtility:focus-visible,
+  .mezgebMobileMenuButton:focus-visible,
+  .mezgebMobileAccountShortcut:focus-visible,
+  .mezgebMobileSearchBar button:focus-visible,
+  .cloudSidebar nav button:focus-visible,
+  .mezgebDrawerNavigation button:focus-visible,
+  .mezgebDrawerSettings button:focus-visible,
+  .mezgebDrawerSettings a:focus-visible,
+  .mezgebDrawerSettings select:focus-visible {
+    outline: 3px solid rgba(76, 34, 212, 0.24) !important;
+    outline-offset: 2px;
+  }
+
+  .mezgebMobileSearchBar,
+  .mezgebMobileSearchBar button,
+  .cloudSidebar nav,
+  .cloudSidebar nav button {
+    pointer-events: auto !important;
+  }
+
+  .cloudSidebar nav {
+    z-index: 1030 !important;
+    touch-action: pan-x !important;
+  }
+
+  .cloudSidebar nav button {
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+    touch-action: manipulation !important;
+  }
+
+  .mezgebMobileBackdrop,
+  .mezgebSearchBackdrop {
+    pointer-events: auto !important;
+    touch-action: manipulation;
+  }
+
+  .mezgebMobileDrawer,
+  .mezgebGlobalSearch,
+  .mezgebDrawerNavigation,
+  .mezgebSearchResults {
+    pointer-events: auto !important;
+    touch-action: pan-y !important;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
   }
 
   .mezgebDrawerSettings {
     position: relative;
     margin-top: auto !important;
-    padding: 12px !important;
-    border: 1px solid rgba(76, 34, 212, 0.10) !important;
-    border-radius: 20px;
-    background:
-      radial-gradient(circle at 100% 0%, rgba(91, 59, 245, 0.10), transparent 10rem),
-      rgba(247, 244, 255, 0.92);
-    box-shadow: inset 0 1px rgba(255, 255, 255, 0.9), 0 12px 30px rgba(37, 22, 83, 0.06);
+    padding: 8px 0 0 !important;
+    border: 0 !important;
+    border-top: 1px solid rgba(17, 24, 39, 0.09) !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
   }
 
   .mezgebDrawerSettings label,
   .mezgebDrawerSettings button,
   .mezgebDrawerSettings a {
-    min-height: 58px !important;
-    border-radius: 15px !important;
-    transition: background-color 160ms ease, transform 160ms ease;
+    min-height: 54px !important;
+    border-radius: 12px !important;
+    cursor: pointer;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
   }
 
-  .mezgebDrawerSettings label:hover,
-  .mezgebDrawerSettings button:hover,
-  .mezgebDrawerSettings a:hover,
   .mezgebDrawerSettings label:focus-within,
-  .mezgebDrawerSettings button:focus-visible,
-  .mezgebDrawerSettings a:focus-visible {
-    background: rgba(255, 255, 255, 0.72) !important;
-    outline: none;
-  }
-
-  .mezgebDrawerSettings button:active,
-  .mezgebDrawerSettings a:active {
-    transform: scale(0.985);
-  }
-
-  .mezgebDrawerSettings label:first-child,
-  .mezgebDrawerSettings button:nth-child(2) {
-    border-bottom: 1px solid rgba(76, 34, 212, 0.08) !important;
+  .mezgebDrawerSettings button:hover,
+  .mezgebDrawerSettings a:hover {
+    background: rgba(76, 34, 212, 0.06) !important;
   }
 
   .mezgebDrawerSettings select {
-    min-width: 128px;
+    min-width: 126px;
     min-height: 40px !important;
-    border-color: rgba(76, 34, 212, 0.13) !important;
-    background: rgba(255, 255, 255, 0.84) !important;
-    box-shadow: inset 0 1px rgba(255, 255, 255, 0.9);
+    cursor: pointer;
+    pointer-events: auto !important;
+    touch-action: manipulation;
   }
 
-  .mezgebMobileDrawer > footer {
-    margin-top: 10px;
-    padding: 10px 4px 0 !important;
-  }
-
-  body[data-mezgeb-theme="dark"] .mezgebMobileTopTheme {
-    border-color: rgba(173, 151, 255, 0.17);
-    background: rgba(31, 27, 43, 0.96);
-    color: #fff4cf;
-    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.27);
+  body[data-mezgeb-theme="dark"] .mezgebMobileUtility,
+  body[data-mezgeb-theme="dark"] .mezgebMobileMenuButton {
+    border-color: rgba(255, 255, 255, 0.11) !important;
+    background: #211d2b !important;
+    color: #f8f5ff !important;
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.26) !important;
   }
 
   body[data-mezgeb-theme="dark"] .mezgebMobileAccountShortcut {
-    border-color: rgba(190, 171, 255, 0.24);
-    background:
-      radial-gradient(circle at 78% 18%, rgba(255, 208, 96, 0.34), transparent 35%),
-      linear-gradient(145deg, #4320c2, #7558ff);
+    border-color: rgba(255, 255, 255, 0.14) !important;
+    background: #6d4df6 !important;
+    color: #ffffff !important;
   }
 
   body[data-mezgeb-theme="dark"] .mezgebDrawerSettings {
-    border-color: rgba(170, 145, 255, 0.14) !important;
-    background:
-      radial-gradient(circle at 100% 0%, rgba(91, 59, 245, 0.22), transparent 11rem),
-      rgba(24, 20, 34, 0.96) !important;
-    box-shadow: inset 0 1px rgba(255, 255, 255, 0.04), 0 14px 34px rgba(0, 0, 0, 0.22);
+    border-top-color: rgba(255, 255, 255, 0.10) !important;
+    background: transparent !important;
   }
 
-  body[data-mezgeb-theme="dark"] .mezgebDrawerSettings label:hover,
-  body[data-mezgeb-theme="dark"] .mezgebDrawerSettings button:hover,
-  body[data-mezgeb-theme="dark"] .mezgebDrawerSettings a:hover,
   body[data-mezgeb-theme="dark"] .mezgebDrawerSettings label:focus-within,
-  body[data-mezgeb-theme="dark"] .mezgebDrawerSettings button:focus-visible,
-  body[data-mezgeb-theme="dark"] .mezgebDrawerSettings a:focus-visible {
-    background: rgba(52, 43, 72, 0.72) !important;
-  }
-
-  body[data-mezgeb-theme="dark"] .mezgebDrawerSettings select {
-    border-color: rgba(173, 151, 255, 0.18) !important;
-    background: rgba(12, 10, 18, 0.82) !important;
-    color: #f7f4ff !important;
-    box-shadow: none;
+  body[data-mezgeb-theme="dark"] .mezgebDrawerSettings button:hover,
+  body[data-mezgeb-theme="dark"] .mezgebDrawerSettings a:hover {
+    background: rgba(130, 102, 255, 0.12) !important;
   }
 }
 
-@media (max-width: 430px) {
-  .mezgebMobileTopActionOverlay {
-    right: 66px;
-    gap: 6px;
-  }
-
-  .mezgebMobileTopTheme,
-  .mezgebMobileAccountShortcut {
-    width: 43px;
-    height: 43px;
-    min-width: 43px;
-    border-radius: 14px;
-  }
-
+@media (max-width: 390px) {
   .mezgebMobileBrand > span {
     display: none !important;
   }
-}
 
-@media (max-width: 350px) {
-  .mezgebMobileTopActionOverlay {
-    right: 62px;
-    gap: 4px;
+  .mezgebMobileHeaderActions {
+    gap: 6px !important;
   }
 
-  .mezgebMobileTopTheme,
+  .mezgebMobileHeaderActions .mezgebMobileUtility {
+    margin-right: 46px;
+  }
+
+  .mezgebMobileTopActionOverlay {
+    right: 60px;
+    width: 42px;
+    height: 42px;
+  }
+
+  .mezgebMobileUtility,
+  .mezgebMobileMenuButton,
   .mezgebMobileAccountShortcut {
-    width: 40px;
-    height: 40px;
-    min-width: 40px;
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    min-height: 42px !important;
   }
 }
