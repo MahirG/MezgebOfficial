@@ -44,13 +44,19 @@ export function SiteHeader() {
 
           <nav className="navLinks" aria-label="Primary navigation">
             {links.map(([label, href]) => (
-              <Link key={href} href={href}>{label}</Link>
+              <Link key={href} href={href}>
+                {label}
+              </Link>
             ))}
           </nav>
 
           <div className="navActions">
-            <Link className="textButton desktopOnly" href="/auth/sign-in">Sign in</Link>
-            <Link className="button primary desktopOnly" href="/auth/sign-up">Start 14-day trial</Link>
+            <Link className="textButton desktopOnly" href="/auth/sign-in">
+              Sign in
+            </Link>
+            <Link className="button primary desktopOnly" href="/auth/sign-up">
+              Start 14-day trial
+            </Link>
             <button
               className="menuButton"
               type="button"
@@ -69,12 +75,18 @@ export function SiteHeader() {
         <div className="mobileMenu" id="mobile-navigation" aria-hidden={!open}>
           <nav aria-label="Mobile navigation">
             {links.map(([label, href]) => (
-              <Link key={href} href={href} onClick={closeMenu}>{label}</Link>
+              <Link key={href} href={href} onClick={closeMenu}>
+                {label}
+              </Link>
             ))}
           </nav>
           <div className="mobileMenuActions">
-            <Link className="textButton" href="/auth/sign-in" onClick={closeMenu}>Sign in</Link>
-            <Link className="button primary" href="/auth/sign-up" onClick={closeMenu}>Start 14-day trial</Link>
+            <Link className="textButton" href="/auth/sign-in" onClick={closeMenu}>
+              Sign in
+            </Link>
+            <Link className="button primary" href="/auth/sign-up" onClick={closeMenu}>
+              Start 14-day trial
+            </Link>
           </div>
           <div className="mobileMenuMeta" aria-label="Product highlights">
             <span>Mobile-first</span>

@@ -3,7 +3,8 @@ export const paymentMethods = [
     code: 'telebirr',
     name: 'telebirr',
     shortLabel: 'telebirr',
-    source: 'https://raw.githubusercontent.com/Chapa-Et/ethiopianlogos/main/logos/tele_birr/tele_birr.svg',
+    source:
+      'https://raw.githubusercontent.com/Chapa-Et/ethiopianlogos/main/logos/tele_birr/tele_birr.svg',
     description: 'Pay from a telebirr wallet'
   },
   {
@@ -17,7 +18,8 @@ export const paymentMethods = [
     code: 'cbe_birr',
     name: 'CBE Birr',
     shortLabel: 'CBE Birr',
-    source: 'https://raw.githubusercontent.com/Chapa-Et/ethiopianlogos/main/logos/cbe_birr_light/cbe_birr_light.svg',
+    source:
+      'https://raw.githubusercontent.com/Chapa-Et/ethiopianlogos/main/logos/cbe_birr_light/cbe_birr_light.svg',
     description: 'Pay from CBE Birr'
   },
   {
@@ -43,7 +45,7 @@ export const paymentMethods = [
   }
 ] as const;
 
-export type PaymentMethodCode = typeof paymentMethods[number]['code'];
+export type PaymentMethodCode = (typeof paymentMethods)[number]['code'];
 
 const paymentMethodCodes = new Set<string>(paymentMethods.map((method) => method.code));
 

@@ -19,9 +19,7 @@ export default function Image() {
         fontFamily: 'sans-serif'
       }}
     >
-      <div style={{ display: 'flex', fontSize: 34, color: '#0071e3' }}>
-        Mezgeb መዝገብ
-      </div>
+      <div style={{ display: 'flex', fontSize: 34, color: '#0071e3' }}>Mezgeb መዝገብ</div>
       <div
         style={{
           display: 'flex',

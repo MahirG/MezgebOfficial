@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { identityLastFour, normalizeEthiopianPhone, validateIdentityNumber } from './ethiopian-signup';
+import {
+  identityLastFour,
+  normalizeEthiopianPhone,
+  validateIdentityNumber
+} from './ethiopian-signup';
 
 describe('Ethiopian signup validation', () => {
   it('normalizes common Ethiopian mobile formats', () => {
@@ -14,7 +18,10 @@ describe('Ethiopian signup validation', () => {
   });
 
   it('requires exactly twelve digits for Fayda', () => {
-    expect(validateIdentityNumber('fayda', '1234 5678 9012')).toMatchObject({ valid: true, normalized: '123456789012' });
+    expect(validateIdentityNumber('fayda', '1234 5678 9012')).toMatchObject({
+      valid: true,
+      normalized: '123456789012'
+    });
     expect(validateIdentityNumber('fayda', '123456')).toMatchObject({ valid: false });
   });
 

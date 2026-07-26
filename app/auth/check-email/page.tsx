@@ -23,7 +23,8 @@ export default async function CheckEmailPage({ searchParams }: { searchParams: S
         <p>Your Mezgeb account stays protected until the registration email is confirmed.</p>
         <ConfirmEmailCard initialEmail={email} nextPath={nextPath} />
         <small>
-          Used the wrong address? <Link href={`/auth/sign-up?next=${encodeURIComponent(nextPath)}`}>Register again</Link>
+          Used the wrong address?{' '}
+          <Link href={`/auth/sign-up?next=${encodeURIComponent(nextPath)}`}>Register again</Link>
         </small>
       </section>
     </main>

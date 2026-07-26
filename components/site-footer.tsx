@@ -10,19 +10,31 @@ export function SiteFooter() {
         <div className="footerCtaCopy">
           <p className="footerEyebrow">Built for ambitious Ethiopian businesses</p>
           <h2>Turn every birr into a clear business decision.</h2>
-          <p>Start with one secure record for sales, expenses, Dube, receipts and the performance of your business.</p>
+          <p>
+            Start with one secure record for sales, expenses, Dube, receipts and the performance of
+            your business.
+          </p>
         </div>
         <div className="footerCtaActions">
-          <Link className="button primary" href="/auth/sign-up">Start 14-day trial</Link>
-          <Link className="button footerGhost" href="/demo">Explore the demo</Link>
+          <Link className="button primary" href="/auth/sign-up">
+            Start 14-day trial
+          </Link>
+          <Link className="button footerGhost" href="/demo">
+            Explore the demo
+          </Link>
         </div>
       </div>
 
       <div className="container footerGrid">
         <div className="footerLead">
           <Logo />
-          <p>One clear business record for sales, expenses, Dube, receipts, payment channels and performance—designed around Ethiopian business reality.</p>
-          <span className="footerTrustPill"><i aria-hidden="true" /> Supabase-backed secure workspace</span>
+          <p>
+            One clear business record for sales, expenses, Dube, receipts, payment channels and
+            performance—designed around Ethiopian business reality.
+          </p>
+          <span className="footerTrustPill">
+            <i aria-hidden="true" /> Supabase-backed secure workspace
+          </span>
         </div>
         <div>
           <h3>Product</h3>
@@ -50,7 +62,12 @@ export function SiteFooter() {
       <div className="container footerBottom">
         <span>© {year} Mezgeb Technologies.</span>
         <span>መዝገብ — Every birr, clearly recorded.</span>
-        <span className="poweredByHisab">Powered by <a href="https://hisabtech.com" target="_blank" rel="noreferrer">Hisabtech.com</a></span>
+        <span className="poweredByHisab">
+          Powered by{' '}
+          <a href="https://hisabtech.com" target="_blank" rel="noreferrer">
+            Hisabtech.com
+          </a>
+        </span>
       </div>
     </footer>
   );

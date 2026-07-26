@@ -23,9 +23,12 @@ export async function finalizeChapaPayment(txRef: string) {
   const verified = await verifyChapaTransaction(txRef);
   const expectedAmount = Number(intent.amount_etb);
 
-  if (verified.txRef !== txRef) throw new Error('The provider returned a different payment reference.');
-  if (verified.currency !== String(intent.currency).toUpperCase()) throw new Error('Payment currency mismatch.');
-  if (Math.abs(verified.amount - expectedAmount) > 0.009) throw new Error('Payment amount mismatch.');
+  if (verified.txRef !== txRef)
+    throw new Error('The provider returned a different payment reference.');
+  if (verified.currency !== String(intent.currency).toUpperCase())
+    throw new Error('Payment currency mismatch.');
+  if (Math.abs(verified.amount - expectedAmount) > 0.009)
+    throw new Error('Payment amount mismatch.');
 
   const { data, error } = await admin.rpc('mezgeb_finalize_verified_payment', {
     p_tx_ref: txRef,
@@ -40,7 +43,7 @@ export async function finalizeChapaPayment(txRef: string) {
   const finalized = data as { status?: string } | null;
 
   return {
-    status: finalized?.status === 'paid' ? 'paid' as const : 'pending' as const,
+    status: finalized?.status === 'paid' ? ('paid' as const) : ('pending' as const),
     txRef,
     providerStatus: verified.status
   };

@@ -43,21 +43,36 @@ export function validateIdentityNumber(type: EthiopianIdType, value: string) {
   if (type === 'fayda') {
     return /^\d{12}$/.test(compact)
       ? { valid: true as const, normalized: compact }
-      : { valid: false as const, normalized: compact, message: 'Fayda ID must contain exactly 12 digits.' };
+      : {
+          valid: false as const,
+          normalized: compact,
+          message: 'Fayda ID must contain exactly 12 digits.'
+        };
   }
 
   if (type === 'passport' || type === 'origin_id') {
     return /^[A-Z0-9]{6,15}$/.test(compact)
       ? { valid: true as const, normalized: compact }
-      : { valid: false as const, normalized: compact, message: 'Enter 6–15 letters or numbers from the document.' };
+      : {
+          valid: false as const,
+          normalized: compact,
+          message: 'Enter 6–15 letters or numbers from the document.'
+        };
   }
 
   const normalized = value.trim().toUpperCase();
   return /^[A-Z0-9/ -]{4,30}$/.test(normalized)
     ? { valid: true as const, normalized }
-    : { valid: false as const, normalized, message: 'Enter 4–30 letters or numbers from the document.' };
+    : {
+        valid: false as const,
+        normalized,
+        message: 'Enter 4–30 letters or numbers from the document.'
+      };
 }
 
 export function identityLastFour(value: string) {
-  return value.replace(/[^A-Z0-9]/gi, '').toUpperCase().slice(-4);
+  return value
+    .replace(/[^A-Z0-9]/gi, '')
+    .toUpperCase()
+    .slice(-4);
 }

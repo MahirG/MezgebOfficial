@@ -53,7 +53,9 @@ body::before {
   border: 1px solid var(--glass-border);
   border-radius: 24px;
   background: rgba(255, 255, 255, 0.74);
-  box-shadow: 0 18px 48px rgba(32, 56, 95, 0.13), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  box-shadow:
+    0 18px 48px rgba(32, 56, 95, 0.13),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(24px) saturate(165%);
   -webkit-backdrop-filter: blur(24px) saturate(165%);
 }
@@ -66,7 +68,9 @@ body::before {
 .siteHeader .brandMark,
 .siteFooter .brandMark {
   background: linear-gradient(145deg, #0a7af5 0%, #0b57d0 52%, #183a8f 100%);
-  box-shadow: 0 12px 28px rgba(11, 114, 240, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.35);
+  box-shadow:
+    0 12px 28px rgba(11, 114, 240, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.35);
 }
 
 .siteHeader .navLinks {
@@ -84,7 +88,10 @@ body::before {
   color: #455268;
   font-size: 0.8rem;
   font-weight: 650;
-  transition: color 180ms ease, background 180ms ease, transform 180ms ease;
+  transition:
+    color 180ms ease,
+    background 180ms ease,
+    transform 180ms ease;
 }
 
 .siteHeader .navLinks a:hover,
@@ -109,7 +116,9 @@ body::before {
   position: relative;
   overflow: hidden;
   background: linear-gradient(135deg, var(--glass-blue) 0%, var(--glass-blue-deep) 100%);
-  box-shadow: 0 12px 28px rgba(11, 114, 240, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  box-shadow:
+    0 12px 28px rgba(11, 114, 240, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
 }
 
 .siteHeader .primary::after,
@@ -118,7 +127,12 @@ body::before {
   position: absolute;
   inset: 0;
   transform: translateX(-115%);
-  background: linear-gradient(105deg, transparent 25%, rgba(255, 255, 255, 0.28) 48%, transparent 70%);
+  background: linear-gradient(
+    105deg,
+    transparent 25%,
+    rgba(255, 255, 255, 0.28) 48%,
+    transparent 70%
+  );
   transition: transform 520ms ease;
 }
 
@@ -147,12 +161,21 @@ body::before {
   height: 2px;
   border-radius: 99px;
   background: currentColor;
-  transition: transform 220ms ease, opacity 180ms ease, top 220ms ease;
+  transition:
+    transform 220ms ease,
+    opacity 180ms ease,
+    top 220ms ease;
 }
 
-.menuButton span:nth-child(1) { top: 15px; }
-.menuButton span:nth-child(2) { top: 22px; }
-.menuButton span:nth-child(3) { top: 29px; }
+.menuButton span:nth-child(1) {
+  top: 15px;
+}
+.menuButton span:nth-child(2) {
+  top: 22px;
+}
+.menuButton span:nth-child(3) {
+  top: 29px;
+}
 
 .menuButton[aria-expanded='true'] span:nth-child(1) {
   top: 22px;
@@ -212,7 +235,9 @@ body::before {
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 32px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.06));
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
   backdrop-filter: blur(24px) saturate(140%);
 }
 
@@ -296,7 +321,9 @@ body::before {
 
 .siteFooter .footerGrid > div:not(.footerLead) a {
   color: #9eacc2;
-  transition: color 180ms ease, transform 180ms ease;
+  transition:
+    color 180ms ease,
+    transform 180ms ease;
 }
 
 .siteFooter .footerGrid > div:not(.footerLead) a:hover,
@@ -350,14 +377,19 @@ body::before {
     border: 1px solid rgba(255, 255, 255, 0.78);
     border-radius: 26px;
     background: rgba(247, 250, 255, 0.88);
-    box-shadow: 0 34px 90px rgba(13, 31, 62, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    box-shadow:
+      0 34px 90px rgba(13, 31, 62, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(30px) saturate(170%);
     -webkit-backdrop-filter: blur(30px) saturate(170%);
     opacity: 0;
     visibility: hidden;
     transform: translateY(-14px) scale(0.985);
     transform-origin: top center;
-    transition: opacity 200ms ease, transform 240ms ease, visibility 200ms ease;
+    transition:
+      opacity 200ms ease,
+      transform 240ms ease,
+      visibility 200ms ease;
   }
 
   .siteHeader.menuOpen .mobileMenu {
@@ -432,7 +464,9 @@ body::before {
     backdrop-filter: blur(5px);
     opacity: 0;
     visibility: hidden;
-    transition: opacity 180ms ease, visibility 180ms ease;
+    transition:
+      opacity 180ms ease,
+      visibility 180ms ease;
   }
 
   .siteHeader.menuOpen .menuBackdrop {

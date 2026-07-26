@@ -19,7 +19,9 @@ export function AuthForm({ mode }: { mode: 'sign-in' | 'sign-up' }) {
 
     const formElement = event.currentTarget;
     const form = new FormData(formElement);
-    const email = String(form.get('email') ?? '').trim().toLowerCase();
+    const email = String(form.get('email') ?? '')
+      .trim()
+      .toLowerCase();
     const password = String(form.get('password') ?? '');
     const confirmation = String(form.get('passwordConfirmation') ?? '');
     const fullName = String(form.get('fullName') ?? '').trim();
@@ -128,7 +130,9 @@ export function AuthForm({ mode }: { mode: 'sign-in' | 'sign-up' }) {
       <button className="button primary authSubmit" type="submit" disabled={busy}>
         {busy ? 'Please wait…' : mode === 'sign-in' ? 'Sign in securely' : 'Create secure account'}
       </button>
-      <p className="authStatus" role="status" aria-live="polite">{status}</p>
+      <p className="authStatus" role="status" aria-live="polite">
+        {status}
+      </p>
     </form>
   );
 }

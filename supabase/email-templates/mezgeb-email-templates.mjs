@@ -25,8 +25,9 @@ function emailShell({
   note,
   danger = false
 }) {
-  const action = ctaLabel && ctaUrl
-    ? `
+  const action =
+    ctaLabel && ctaUrl
+      ? `
       <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:30px 0 26px">
         <tr>
           <td align="center">
@@ -36,7 +37,7 @@ function emailShell({
       </table>
       <p style="margin:0 0 8px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-size:12px;line-height:18px;color:${brand.muted};text-align:center">Button not working? Copy and paste this secure link into your browser:</p>
       <p style="margin:0;word-break:break-all;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;font-size:11px;line-height:17px;color:${brand.blue};text-align:center">${ctaUrl}</p>`
-    : '';
+      : '';
 
   const codeBlock = code
     ? `
@@ -128,8 +129,10 @@ function emailShell({
 </html>`;
 }
 
-const actionNotice = 'This link is personal, time-limited, and can be used only for this account. If you did not request this action, you can safely ignore this message.';
-const urgentNotice = 'You did not make this change? Protect your account immediately by resetting your password and reviewing your account security.';
+const actionNotice =
+  'This link is personal, time-limited, and can be used only for this account. If you did not request this action, you can safely ignore this message.';
+const urgentNotice =
+  'You did not make this change? Protect your account immediately by resetting your password and reviewing your account security.';
 
 export const mezgebAuthEmailConfig = {
   mailer_subjects_confirmation: 'Confirm your Mezgeb account',
@@ -137,8 +140,10 @@ export const mezgebAuthEmailConfig = {
     preheader: 'Confirm your email to finish creating your Mezgeb account.',
     eyebrow: 'Confirm registration',
     title: 'One click and your record is ready.',
-    intro: 'Confirm your email address to activate your secure Mezgeb account and continue setting up your business workspace.',
-    content: '<p style="margin:20px 0 0;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Arial,sans-serif;font-size:14px;line-height:22px;color:#6E6E73">Registered email: <strong style="color:#1D1D1F">{{ .Email }}</strong></p>',
+    intro:
+      'Confirm your email address to activate your secure Mezgeb account and continue setting up your business workspace.',
+    content:
+      '<p style="margin:20px 0 0;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Arial,sans-serif;font-size:14px;line-height:22px;color:#6E6E73">Registered email: <strong style="color:#1D1D1F">{{ .Email }}</strong></p>',
     ctaLabel: 'Confirm my email',
     ctaUrl: '{{ .ConfirmationURL }}',
     note: actionNotice
@@ -149,7 +154,8 @@ export const mezgebAuthEmailConfig = {
     preheader: 'Use this secure link to choose a new Mezgeb password.',
     eyebrow: 'Password recovery',
     title: 'Reset your password securely.',
-    intro: 'We received a request to reset the password for your Mezgeb account. Continue below to create a new password.',
+    intro:
+      'We received a request to reset the password for your Mezgeb account. Continue below to create a new password.',
     ctaLabel: 'Reset my password',
     ctaUrl: '{{ .ConfirmationURL }}',
     note: 'Did not request a password reset? Ignore this email. Your current password will remain unchanged.'
@@ -160,7 +166,8 @@ export const mezgebAuthEmailConfig = {
     preheader: 'Sign in to Mezgeb using this secure, one-time link.',
     eyebrow: 'Secure sign in',
     title: 'Your Mezgeb sign-in link is ready.',
-    intro: 'Use the button below to sign in without entering your password. The link expires shortly and works only once.',
+    intro:
+      'Use the button below to sign in without entering your password. The link expires shortly and works only once.',
     ctaLabel: 'Sign in to Mezgeb',
     ctaUrl: '{{ .ConfirmationURL }}',
     note: actionNotice
@@ -171,7 +178,8 @@ export const mezgebAuthEmailConfig = {
     preheader: 'Accept your invitation to join Mezgeb.',
     eyebrow: 'Workspace invitation',
     title: 'You have been invited to Mezgeb.',
-    intro: 'A secure Mezgeb account has been prepared for you. Accept the invitation to join and begin working with clear business records.',
+    intro:
+      'A secure Mezgeb account has been prepared for you. Accept the invitation to join and begin working with clear business records.',
     ctaLabel: 'Accept invitation',
     ctaUrl: '{{ .ConfirmationURL }}',
     note: actionNotice
@@ -182,8 +190,10 @@ export const mezgebAuthEmailConfig = {
     preheader: 'Confirm the new email address for your Mezgeb account.',
     eyebrow: 'Email address change',
     title: 'Confirm your new email address.',
-    intro: 'You requested to change the email used for your Mezgeb account. Confirm the new address below to complete the update.',
-    content: '<p style="margin:20px 0 0;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Arial,sans-serif;font-size:14px;line-height:22px;color:#6E6E73">New email: <strong style="color:#1D1D1F">{{ .NewEmail }}</strong></p>',
+    intro:
+      'You requested to change the email used for your Mezgeb account. Confirm the new address below to complete the update.',
+    content:
+      '<p style="margin:20px 0 0;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Arial,sans-serif;font-size:14px;line-height:22px;color:#6E6E73">New email: <strong style="color:#1D1D1F">{{ .NewEmail }}</strong></p>',
     ctaLabel: 'Confirm new email',
     ctaUrl: '{{ .ConfirmationURL }}',
     note: 'Did not request this email change? Do not click the button. Your account email will remain unchanged.',
@@ -206,7 +216,8 @@ export const mezgebAuthEmailConfig = {
     preheader: 'Security notice: your Mezgeb password was changed.',
     eyebrow: 'Security notification',
     title: 'Your password was changed.',
-    intro: 'The password for your Mezgeb account was recently updated. You can continue using your account normally if you made this change.',
+    intro:
+      'The password for your Mezgeb account was recently updated. You can continue using your account normally if you made this change.',
     ctaLabel: 'Review my account',
     ctaUrl: '{{ .SiteURL }}/account',
     note: urgentNotice,
@@ -220,7 +231,8 @@ export const mezgebAuthEmailConfig = {
     eyebrow: 'Security notification',
     title: 'Your email address was changed.',
     intro: 'The email address used to sign in to Mezgeb has been updated.',
-    content: '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:24px 0 0"><tr><td style="background:#F3F5F7;border-radius:18px;padding:16px 18px"><div style="font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Arial,sans-serif;font-size:13px;line-height:20px;color:#6E6E73">Previous email<br><strong style="color:#1D1D1F">{{ .OldEmail }}</strong><br><br>New email<br><strong style="color:#1D1D1F">{{ .Email }}</strong></div></td></tr></table>',
+    content:
+      '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:24px 0 0"><tr><td style="background:#F3F5F7;border-radius:18px;padding:16px 18px"><div style="font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Arial,sans-serif;font-size:13px;line-height:20px;color:#6E6E73">Previous email<br><strong style="color:#1D1D1F">{{ .OldEmail }}</strong><br><br>New email<br><strong style="color:#1D1D1F">{{ .Email }}</strong></div></td></tr></table>',
     ctaLabel: 'Review my account',
     ctaUrl: '{{ .SiteURL }}/account',
     note: urgentNotice,
@@ -234,7 +246,8 @@ export const mezgebAuthEmailConfig = {
     eyebrow: 'Security notification',
     title: 'Your phone number was changed.',
     intro: 'The phone number connected to your Mezgeb account has been updated.',
-    content: '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:24px 0 0"><tr><td style="background:#F3F5F7;border-radius:18px;padding:16px 18px"><div style="font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Arial,sans-serif;font-size:13px;line-height:20px;color:#6E6E73">Previous phone<br><strong style="color:#1D1D1F">{{ .OldPhone }}</strong><br><br>New phone<br><strong style="color:#1D1D1F">{{ .Phone }}</strong></div></td></tr></table>',
+    content:
+      '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:24px 0 0"><tr><td style="background:#F3F5F7;border-radius:18px;padding:16px 18px"><div style="font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Arial,sans-serif;font-size:13px;line-height:20px;color:#6E6E73">Previous phone<br><strong style="color:#1D1D1F">{{ .OldPhone }}</strong><br><br>New phone<br><strong style="color:#1D1D1F">{{ .Phone }}</strong></div></td></tr></table>',
     ctaLabel: 'Review my account',
     ctaUrl: '{{ .SiteURL }}/account',
     note: urgentNotice,
@@ -248,7 +261,8 @@ export const mezgebAuthEmailConfig = {
     eyebrow: 'Security notification',
     title: 'A verification method was added.',
     intro: 'A new sign-in verification method was added to your Mezgeb account.',
-    content: '<p style="margin:20px 0 0;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Arial,sans-serif;font-size:14px;line-height:22px;color:#6E6E73">Method: <strong style="color:#1D1D1F">{{ .FactorType }}</strong></p>',
+    content:
+      '<p style="margin:20px 0 0;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Arial,sans-serif;font-size:14px;line-height:22px;color:#6E6E73">Method: <strong style="color:#1D1D1F">{{ .FactorType }}</strong></p>',
     ctaLabel: 'Review my account',
     ctaUrl: '{{ .SiteURL }}/account',
     note: urgentNotice,
@@ -256,13 +270,15 @@ export const mezgebAuthEmailConfig = {
   }),
 
   mailer_notifications_mfa_factor_unenrolled_enabled: true,
-  mailer_subjects_mfa_factor_unenrolled_notification: 'A verification method was removed from Mezgeb',
+  mailer_subjects_mfa_factor_unenrolled_notification:
+    'A verification method was removed from Mezgeb',
   mailer_templates_mfa_factor_unenrolled_notification_content: emailShell({
     preheader: 'Security notice: a verification method was removed from your Mezgeb account.',
     eyebrow: 'Security notification',
     title: 'A verification method was removed.',
     intro: 'A sign-in verification method was removed from your Mezgeb account.',
-    content: '<p style="margin:20px 0 0;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Arial,sans-serif;font-size:14px;line-height:22px;color:#6E6E73">Method: <strong style="color:#1D1D1F">{{ .FactorType }}</strong></p>',
+    content:
+      '<p style="margin:20px 0 0;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Arial,sans-serif;font-size:14px;line-height:22px;color:#6E6E73">Method: <strong style="color:#1D1D1F">{{ .FactorType }}</strong></p>',
     ctaLabel: 'Review my account',
     ctaUrl: '{{ .SiteURL }}/account',
     note: urgentNotice,
@@ -276,7 +292,8 @@ export const mezgebAuthEmailConfig = {
     eyebrow: 'Security notification',
     title: 'A sign-in method was linked.',
     intro: 'A new external sign-in method was connected to your Mezgeb account.',
-    content: '<p style="margin:20px 0 0;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Arial,sans-serif;font-size:14px;line-height:22px;color:#6E6E73">Provider: <strong style="color:#1D1D1F">{{ .Provider }}</strong></p>',
+    content:
+      '<p style="margin:20px 0 0;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Arial,sans-serif;font-size:14px;line-height:22px;color:#6E6E73">Provider: <strong style="color:#1D1D1F">{{ .Provider }}</strong></p>',
     ctaLabel: 'Review my account',
     ctaUrl: '{{ .SiteURL }}/account',
     note: urgentNotice,
@@ -290,7 +307,8 @@ export const mezgebAuthEmailConfig = {
     eyebrow: 'Security notification',
     title: 'A sign-in method was removed.',
     intro: 'An external sign-in method was disconnected from your Mezgeb account.',
-    content: '<p style="margin:20px 0 0;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Arial,sans-serif;font-size:14px;line-height:22px;color:#6E6E73">Provider: <strong style="color:#1D1D1F">{{ .Provider }}</strong></p>',
+    content:
+      '<p style="margin:20px 0 0;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Arial,sans-serif;font-size:14px;line-height:22px;color:#6E6E73">Provider: <strong style="color:#1D1D1F">{{ .Provider }}</strong></p>',
     ctaLabel: 'Review my account',
     ctaUrl: '{{ .SiteURL }}/account',
     note: urgentNotice,

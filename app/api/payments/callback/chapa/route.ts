@@ -18,15 +18,22 @@ export async function GET(request: Request) {
 
   try {
     const result = await finalizeChapaPayment(txRef);
-    return NextResponse.redirect(new URL(`/payment/return?tx_ref=${encodeURIComponent(txRef)}&status=${result.status}`, url.origin));
+    return NextResponse.redirect(
+      new URL(
+        `/payment/return?tx_ref=${encodeURIComponent(txRef)}&status=${result.status}`,
+        url.origin
+      )
+    );
   } catch {
-    return NextResponse.redirect(new URL(`/payment/return?tx_ref=${encodeURIComponent(txRef)}&status=pending`, url.origin));
+    return NextResponse.redirect(
+      new URL(`/payment/return?tx_ref=${encodeURIComponent(txRef)}&status=pending`, url.origin)
+    );
   }
 }
 
 export async function POST(request: Request) {
   const url = new URL(request.url);
-  const payload = await request.json().catch(() => ({})) as Record<string, unknown>;
+  const payload = (await request.json().catch(() => ({}))) as Record<string, unknown>;
   const txRef = String(payload.tx_ref || url.searchParams.get('tx_ref') || '');
 
   if (!validReference(txRef)) {

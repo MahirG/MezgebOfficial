@@ -21,13 +21,16 @@ function validSignature(rawBody: string, request: Request, secret: string) {
 
   const bodyDigest = createHmac('sha256', secret).update(rawBody).digest('hex');
   const secretDigest = createHmac('sha256', secret).update(secret).digest('hex');
-  return signatures.some((signature) => safeEqual(signature, bodyDigest) || safeEqual(signature, secretDigest));
+  return signatures.some(
+    (signature) => safeEqual(signature, bodyDigest) || safeEqual(signature, secretDigest)
+  );
 }
 
 function readReference(payload: Record<string, unknown>) {
-  const data = payload.data && typeof payload.data === 'object' && !Array.isArray(payload.data)
-    ? payload.data as Record<string, unknown>
-    : {};
+  const data =
+    payload.data && typeof payload.data === 'object' && !Array.isArray(payload.data)
+      ? (payload.data as Record<string, unknown>)
+      : {};
   return String(payload.tx_ref || data.tx_ref || '');
 }
 

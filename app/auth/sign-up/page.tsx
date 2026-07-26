@@ -7,9 +7,14 @@ export default function SignUpPage() {
       <section>
         <p className="overline">Create your Ethiopian business account</p>
         <h1>Start your secure business record.</h1>
-        <p>Register with your contact, location, and limited identity details. Confirm your email before entering the protected Mezgeb workspace.</p>
+        <p>
+          Register with your contact, location, and limited identity details. Confirm your email
+          before entering the protected Mezgeb workspace.
+        </p>
         <EthiopianSignUpForm />
-        <small>Already registered? <Link href="/auth/sign-in">Sign in</Link></small>
+        <small>
+          Already registered? <Link href="/auth/sign-in">Sign in</Link>
+        </small>
       </section>
     </main>
   );

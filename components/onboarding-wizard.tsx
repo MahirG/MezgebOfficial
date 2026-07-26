@@ -18,8 +18,18 @@ const BUSINESS_TYPES = [
 ] as const;
 
 const MONTHS = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
 ];
 
 type FormState = {
@@ -117,7 +127,9 @@ export function OnboardingWizard({ email }: { email: string }) {
       router.push(`/app?business=${encodeURIComponent(String(data))}&tour=1`);
       router.refresh();
     } catch (error) {
-      setStatus(error instanceof Error ? error.message : 'The business workspace could not be created.');
+      setStatus(
+        error instanceof Error ? error.message : 'The business workspace could not be created.'
+      );
       setBusy(false);
     }
   }
@@ -127,50 +139,200 @@ export function OnboardingWizard({ email }: { email: string }) {
       <header className="onboardingCardHeader">
         <div>
           <small>Step {step} of 3</small>
-          <h2>{step === 1 ? 'Tell us about the business' : step === 2 ? 'Set the financial starting point' : 'Review and create'}</h2>
+          <h2>
+            {step === 1
+              ? 'Tell us about the business'
+              : step === 2
+                ? 'Set the financial starting point'
+                : 'Review and create'}
+          </h2>
         </div>
         <span>{email}</span>
       </header>
 
       <div className="onboardingProgress" aria-label={`Step ${step} of 3`}>
-        {[1, 2, 3].map((item) => <i className={item <= step ? 'active' : ''} key={item} />)}
+        {[1, 2, 3].map((item) => (
+          <i className={item <= step ? 'active' : ''} key={item} />
+        ))}
       </div>
 
       <form onSubmit={submit}>
         {step === 1 ? (
           <div className="onboardingFields">
-            <label className="wide">Business name<input autoFocus value={form.name} onChange={(event) => update('name', event.target.value)} maxLength={120} placeholder="Abebe's Café" /></label>
-            <label>Business type<select value={form.businessType} onChange={(event) => update('businessType', event.target.value)}>{BUSINESS_TYPES.map(([value, label]) => <option value={value} key={value}>{label}</option>)}</select></label>
-            <label>Region / city administration<select value={form.region} onChange={(event) => update('region', event.target.value)}>{ETHIOPIAN_REGIONS.map((region) => <option value={region} key={region}>{region}</option>)}</select></label>
-            <label>City, sub-city, zone, or woreda<input value={form.city} onChange={(event) => update('city', event.target.value)} maxLength={100} placeholder="Bole" /></label>
-            <label>Business phone <span>Optional</span><input value={form.phone} onChange={(event) => update('phone', event.target.value)} inputMode="tel" autoComplete="tel" placeholder="+251…" /></label>
-            <label>TIN <span>Optional</span><input value={form.tin} onChange={(event) => update('tin', event.target.value)} inputMode="numeric" placeholder="Tax identification number" /></label>
+            <label className="wide">
+              Business name
+              <input
+                autoFocus
+                value={form.name}
+                onChange={(event) => update('name', event.target.value)}
+                maxLength={120}
+                placeholder="Abebe's Café"
+              />
+            </label>
+            <label>
+              Business type
+              <select
+                value={form.businessType}
+                onChange={(event) => update('businessType', event.target.value)}
+              >
+                {BUSINESS_TYPES.map(([value, label]) => (
+                  <option value={value} key={value}>
+                    {label}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Region / city administration
+              <select
+                value={form.region}
+                onChange={(event) => update('region', event.target.value)}
+              >
+                {ETHIOPIAN_REGIONS.map((region) => (
+                  <option value={region} key={region}>
+                    {region}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              City, sub-city, zone, or woreda
+              <input
+                value={form.city}
+                onChange={(event) => update('city', event.target.value)}
+                maxLength={100}
+                placeholder="Bole"
+              />
+            </label>
+            <label>
+              Business phone <span>Optional</span>
+              <input
+                value={form.phone}
+                onChange={(event) => update('phone', event.target.value)}
+                inputMode="tel"
+                autoComplete="tel"
+                placeholder="+251…"
+              />
+            </label>
+            <label>
+              TIN <span>Optional</span>
+              <input
+                value={form.tin}
+                onChange={(event) => update('tin', event.target.value)}
+                inputMode="numeric"
+                placeholder="Tax identification number"
+              />
+            </label>
           </div>
         ) : null}
 
         {step === 2 ? (
           <div className="onboardingFields">
-            <label className="wide">Opening cash balance in ETB<input value={form.openingBalance} onChange={(event) => update('openingBalance', event.target.value)} inputMode="decimal" placeholder="0.00" /><small>This creates the first protected ledger adjustment.</small></label>
-            <label>Fiscal year starts<select value={form.fiscalMonth} onChange={(event) => update('fiscalMonth', event.target.value)}>{MONTHS.map((month, index) => <option value={String(index + 1)} key={month}>{month}</option>)}</select></label>
-            <label>Receipt prefix<input value={form.receiptPrefix} onChange={(event) => update('receiptPrefix', event.target.value.toUpperCase())} maxLength={10} placeholder="R" /></label>
-            <label className="wide onboardingCheck"><input type="checkbox" checked={form.vatRegistered} onChange={(event) => update('vatRegistered', event.target.checked)} /><span><b>VAT-registered business</b><small>Use 15% VAT calculations and VAT-ready receipt totals.</small></span></label>
+            <label className="wide">
+              Opening cash balance in ETB
+              <input
+                value={form.openingBalance}
+                onChange={(event) => update('openingBalance', event.target.value)}
+                inputMode="decimal"
+                placeholder="0.00"
+              />
+              <small>This creates the first protected ledger adjustment.</small>
+            </label>
+            <label>
+              Fiscal year starts
+              <select
+                value={form.fiscalMonth}
+                onChange={(event) => update('fiscalMonth', event.target.value)}
+              >
+                {MONTHS.map((month, index) => (
+                  <option value={String(index + 1)} key={month}>
+                    {month}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Receipt prefix
+              <input
+                value={form.receiptPrefix}
+                onChange={(event) => update('receiptPrefix', event.target.value.toUpperCase())}
+                maxLength={10}
+                placeholder="R"
+              />
+            </label>
+            <label className="wide onboardingCheck">
+              <input
+                type="checkbox"
+                checked={form.vatRegistered}
+                onChange={(event) => update('vatRegistered', event.target.checked)}
+              />
+              <span>
+                <b>VAT-registered business</b>
+                <small>Use 15% VAT calculations and VAT-ready receipt totals.</small>
+              </span>
+            </label>
           </div>
         ) : null}
 
         {step === 3 ? (
           <div className="onboardingReview">
-            <article><small>Business</small><strong>{form.name}</strong><span>{selectedBusinessType}</span></article>
-            <article><small>Location</small><strong>{form.city}</strong><span>{form.region}</span></article>
-            <article><small>Opening balance</small><strong>ETB {Number(form.openingBalance || 0).toLocaleString('en-US')}</strong><span>Stored as your first ledger record</span></article>
-            <article><small>Receipts</small><strong>{form.receiptPrefix.toUpperCase()}-0001</strong><span>{form.vatRegistered ? 'VAT calculations enabled' : 'Standard receipt setup'}</span></article>
-            <p>Your account owns this workspace. Supabase Row Level Security prevents other users from reading or changing its business records.</p>
+            <article>
+              <small>Business</small>
+              <strong>{form.name}</strong>
+              <span>{selectedBusinessType}</span>
+            </article>
+            <article>
+              <small>Location</small>
+              <strong>{form.city}</strong>
+              <span>{form.region}</span>
+            </article>
+            <article>
+              <small>Opening balance</small>
+              <strong>ETB {Number(form.openingBalance || 0).toLocaleString('en-US')}</strong>
+              <span>Stored as your first ledger record</span>
+            </article>
+            <article>
+              <small>Receipts</small>
+              <strong>{form.receiptPrefix.toUpperCase()}-0001</strong>
+              <span>
+                {form.vatRegistered ? 'VAT calculations enabled' : 'Standard receipt setup'}
+              </span>
+            </article>
+            <p>
+              Your account owns this workspace. Supabase Row Level Security prevents other users
+              from reading or changing its business records.
+            </p>
           </div>
         ) : null}
 
-        <p className="onboardingStatus" role="status" aria-live="polite">{status}</p>
+        <p className="onboardingStatus" role="status" aria-live="polite">
+          {status}
+        </p>
         <footer className="onboardingActions">
-          {step > 1 ? <button type="button" className="button" onClick={() => { setStep((current) => current - 1); setStatus(''); }} disabled={busy}>Back</button> : <span />}
-          {step < 3 ? <button type="button" className="button primary" onClick={next}>Continue</button> : <button type="submit" className="button primary" disabled={busy}>{busy ? 'Creating workspace…' : 'Create secure workspace'}</button>}
+          {step > 1 ? (
+            <button
+              type="button"
+              className="button"
+              onClick={() => {
+                setStep((current) => current - 1);
+                setStatus('');
+              }}
+              disabled={busy}
+            >
+              Back
+            </button>
+          ) : (
+            <span />
+          )}
+          {step < 3 ? (
+            <button type="button" className="button primary" onClick={next}>
+              Continue
+            </button>
+          ) : (
+            <button type="submit" className="button primary" disabled={busy}>
+              {busy ? 'Creating workspace…' : 'Create secure workspace'}
+            </button>
+          )}
         </footer>
       </form>
     </section>
