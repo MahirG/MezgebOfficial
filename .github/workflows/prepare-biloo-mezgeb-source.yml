@@ -68,8 +68,8 @@ jobs:
           npm run email:validate
           npm run build
 
-      - name: Remove migration validation note
-        run: rm -f docs/BILOO_BROWSER_VALIDATION.md
+      - name: Remove migration validation notes
+        run: rm -f docs/BILOO_BROWSER_VALIDATION.md docs/BILOO_CHECKOUT_RETURN_VALIDATION.md
 
       - name: Commit validated browser-test expectations
         shell: bash
