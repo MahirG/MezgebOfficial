@@ -1,1 +1,1 @@
-Apply the React 19-safe synchronization fixes and validate the preserved Biloo Mezgeb source.
+Run the deterministic migration patch script, validate the preserved source, and commit the prepared result.
