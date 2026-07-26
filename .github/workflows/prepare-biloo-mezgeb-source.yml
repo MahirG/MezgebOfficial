@@ -22,8 +22,31 @@ jobs:
         with:
           ref: archive/biloo-mezgeb-source
 
-      - name: Apply React 19-safe synchronization patterns
-        run: python scripts/prepare-biloo-migration.py
+      - name: Scope pricing checkout browser test
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('tests/smoke.spec.ts')
+          text = path.read_text(encoding='utf-8')
+          old = """  await page
+            .getByRole('link', { name: /Start 14-day trial/i })
+            .first()
+            .click();
+          """
+          new = """  await page
+            .locator('section#pricing')
+            .getByRole('link', { name: /Start 14-day trial/i })
+            .first()
+            .click();
+          """
+          if new not in text:
+              if old not in text:
+                  raise SystemExit('Pricing CTA test pattern not found')
+              text = text.replace(old, new, 1)
+              path.write_text(text, encoding='utf-8')
+          PY
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -39,15 +62,17 @@ jobs:
           npm test
           npm run email:validate
           npm run build
+          npx playwright install --with-deps chromium
+          npm run test:e2e
 
-      - name: Remove migration tooling
-        run: rm -f .biloo-migration-react-fix .biloo-migration-source-trigger scripts/prepare-biloo-migration.py
+      - name: Remove migration trigger
+        run: rm -f .biloo-migration-browser-fix
 
-      - name: Commit validated source preparation
+      - name: Commit validated browser-test correction
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "Prepare Biloo Mezgeb migration source"
+          git commit -m "Scope pricing checkout browser test"
           git push origin HEAD:archive/biloo-mezgeb-source
