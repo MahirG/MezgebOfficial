@@ -1,0 +1,284 @@
+name: Fix Biloo migration React patterns
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+
+jobs:
+  fix-and-validate:
+    if: github.head_ref == 'archive/biloo-mezgeb-source'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout migration source
+        uses: actions/checkout@v4
+        with:
+          ref: archive/biloo-mezgeb-source
+
+      - name: Apply React 19 effect fixes
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          mobile = Path('components/mezgeb-mobile-controls.tsx')
+          text = mobile.read_text(encoding='utf-8')
+          text = text.replace(
+          """  useEffect(() => {
+            const savedLocale = window.localStorage.getItem('mezgeb-app-locale') as Locale | null;
+            if (savedLocale && localeOptions.some((option) => option.id === savedLocale))
+              setLocale(savedLocale);
+
+            const savedTheme = window.localStorage.getItem('mezgeb-app-theme') as Theme | null;
+            const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light';
+            setTheme(savedTheme === 'dark' || savedTheme === 'light' ? savedTheme : preferredTheme);
+          }, []);
+          """,
+          """  useEffect(() => {
+            const initializationTimer = window.setTimeout(() => {
+              const savedLocale = window.localStorage.getItem('mezgeb-app-locale') as Locale | null;
+              if (savedLocale && localeOptions.some((option) => option.id === savedLocale))
+                setLocale(savedLocale);
+
+              const savedTheme = window.localStorage.getItem('mezgeb-app-theme') as Theme | null;
+              const preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light';
+              setTheme(savedTheme === 'dark' || savedTheme === 'light' ? savedTheme : preferredTheme);
+            }, 0);
+
+            return () => window.clearTimeout(initializationTimer);
+          }, []);
+          """
+          )
+          text = text.replace(
+          """  useEffect(() => {
+            if (!searchOpen) return;
+            void loadSearchData();
+            window.setTimeout(() => inputRef.current?.focus(), 80);
+          }, [loadSearchData, searchOpen]);
+          """,
+          """  useEffect(() => {
+            if (!searchOpen) return;
+
+            const loadTimer = window.setTimeout(() => void loadSearchData(), 0);
+            const focusTimer = window.setTimeout(() => inputRef.current?.focus(), 80);
+
+            return () => {
+              window.clearTimeout(loadTimer);
+              window.clearTimeout(focusTimer);
+            };
+          }, [loadSearchData, searchOpen]);
+          """
+          )
+          mobile.write_text(text, encoding='utf-8')
+
+          pricing = Path('components/pricing-section.tsx')
+          text = pricing.read_text(encoding='utf-8')
+          text = text.replace(
+          """  useEffect(() => {
+            const params = new URLSearchParams(window.location.search);
+            const requestedPlanCode = params.get('plan');
+            if (!requestedPlanCode) return;
+
+            const requestedPlan = plans.find(
+              (plan) => plan.code === requestedPlanCode && !plan.customPricing
+            );
+            if (!requestedPlan) return;
+
+            const requestedBilling = params.get('billing');
+            if (requestedBilling === 'monthly' || requestedBilling === 'annual')
+              setBillingCycle(requestedBilling);
+
+            setSelectedPlan(requestedPlan);
+            setSelectedMethod('telebirr');
+            setCheckoutMessage(
+              params.get('pay') === '1'
+                ? 'Continue below to open secure payment.'
+                : params.get('trial') === '1'
+                  ? 'Continue below to activate your trial.'
+                  : 'Review the plan and choose how to continue.'
+            );
+
+            requestAnimationFrame(() =>
+              document.getElementById('pricing')?.scrollIntoView({ block: 'start' })
+            );
+          }, [plans]);
+          """,
+          """  useEffect(() => {
+            const params = new URLSearchParams(window.location.search);
+            const requestedPlanCode = params.get('plan');
+            if (!requestedPlanCode) return;
+
+            const requestedPlan = plans.find(
+              (plan) => plan.code === requestedPlanCode && !plan.customPricing
+            );
+            if (!requestedPlan) return;
+
+            const requestedBilling = params.get('billing');
+            const initializationFrame = window.requestAnimationFrame(() => {
+              if (requestedBilling === 'monthly' || requestedBilling === 'annual')
+                setBillingCycle(requestedBilling);
+
+              setSelectedPlan(requestedPlan);
+              setSelectedMethod('telebirr');
+              setCheckoutMessage(
+                params.get('pay') === '1'
+                  ? 'Continue below to open secure payment.'
+                  : params.get('trial') === '1'
+                    ? 'Continue below to activate your trial.'
+                    : 'Review the plan and choose how to continue.'
+              );
+
+              document.getElementById('pricing')?.scrollIntoView({ block: 'start' });
+            });
+
+            return () => window.cancelAnimationFrame(initializationFrame);
+          }, [plans]);
+          """
+          )
+          pricing.write_text(text, encoding='utf-8')
+
+          orchestrator = Path('components/experience-orchestrator.tsx')
+          text = orchestrator.read_text(encoding='utf-8')
+          text = text.replace(
+            "import { useEffect, useRef, useState } from 'react';",
+            "import { useCallback, useEffect, useRef, useState } from 'react';"
+          )
+          text = text.replace(
+          """  function ensureAudio() {
+            if (audioContext.current) return audioContext.current;
+            const Context = window.AudioContext || (window as AudioWindow).webkitAudioContext;
+            if (!Context) return null;
+            audioContext.current = new Context();
+            return audioContext.current;
+          }
+
+          function playFeedback(kind: 'success' | 'error' | 'info') {
+            if (!audioArmed.current || window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+              return;
+            const context = ensureAudio();
+            if (!context) return;
+            void context.resume();
+
+            const now = context.currentTime;
+            const frequencies =
+              kind === 'success' ? [523.25, 659.25] : kind === 'error' ? [220, 174.61] : [392];
+            frequencies.forEach((frequency, index) => {
+              const oscillator = context.createOscillator();
+              const gain = context.createGain();
+              oscillator.type = kind === 'error' ? 'triangle' : 'sine';
+              oscillator.frequency.setValueAtTime(frequency, now + index * 0.08);
+              gain.gain.setValueAtTime(0.0001, now + index * 0.08);
+              gain.gain.exponentialRampToValueAtTime(
+                kind === 'error' ? 0.055 : 0.04,
+                now + index * 0.08 + 0.015
+              );
+              gain.gain.exponentialRampToValueAtTime(0.0001, now + index * 0.08 + 0.2);
+              oscillator.connect(gain);
+              gain.connect(context.destination);
+              oscillator.start(now + index * 0.08);
+              oscillator.stop(now + index * 0.08 + 0.22);
+            });
+          }
+
+          function showNetworkToast(nextToast: NonNullable<ToastState>) {
+            if (toastTimer.current) clearTimeout(toastTimer.current);
+            setToast(nextToast);
+            toastTimer.current = setTimeout(() => setToast(null), 3600);
+          }
+          """,
+          """  const ensureAudio = useCallback(() => {
+            if (audioContext.current) return audioContext.current;
+            const Context = window.AudioContext || (window as AudioWindow).webkitAudioContext;
+            if (!Context) return null;
+            audioContext.current = new Context();
+            return audioContext.current;
+          }, []);
+
+          const playFeedback = useCallback(
+            (kind: 'success' | 'error' | 'info') => {
+              if (!audioArmed.current || window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+                return;
+              const context = ensureAudio();
+              if (!context) return;
+              void context.resume();
+
+              const now = context.currentTime;
+              const frequencies =
+                kind === 'success' ? [523.25, 659.25] : kind === 'error' ? [220, 174.61] : [392];
+              frequencies.forEach((frequency, index) => {
+                const oscillator = context.createOscillator();
+                const gain = context.createGain();
+                oscillator.type = kind === 'error' ? 'triangle' : 'sine';
+                oscillator.frequency.setValueAtTime(frequency, now + index * 0.08);
+                gain.gain.setValueAtTime(0.0001, now + index * 0.08);
+                gain.gain.exponentialRampToValueAtTime(
+                  kind === 'error' ? 0.055 : 0.04,
+                  now + index * 0.08 + 0.015
+                );
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + index * 0.08 + 0.2);
+                oscillator.connect(gain);
+                gain.connect(context.destination);
+                oscillator.start(now + index * 0.08);
+                oscillator.stop(now + index * 0.08 + 0.22);
+              });
+            },
+            [ensureAudio]
+          );
+
+          const showNetworkToast = useCallback((nextToast: NonNullable<ToastState>) => {
+            if (toastTimer.current) clearTimeout(toastTimer.current);
+            setToast(nextToast);
+            toastTimer.current = setTimeout(() => setToast(null), 3600);
+          }, []);
+          """
+          )
+          text = text.replace(
+          """      void audioContext.current?.close();
+            };
+          }, []);
+
+          return (
+          """,
+          """      void audioContext.current?.close();
+            };
+          }, [playFeedback, showNetworkToast]);
+
+          return (
+          """
+          )
+          orchestrator.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate fixes
+        run: |
+          npm install --no-audit --no-fund --silent
+          npm run format
+          npm run lint
+          npm run typecheck
+          npm test
+          npm run email:validate
+          npm run build
+
+      - name: Remove trigger
+        run: rm -f .biloo-migration-react-fix
+
+      - name: Commit validated migration fixes
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Fix Biloo Mezgeb React effect patterns"
+          git push origin HEAD:archive/biloo-mezgeb-source
