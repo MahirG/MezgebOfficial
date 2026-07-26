@@ -62,6 +62,8 @@ jobs:
           - Product changes must originate in the Biloo repository and be mirrored here only for deployment continuity.
           EOF
 
+          printf '\n.github\n' >> .prettierignore
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
@@ -71,7 +73,7 @@ jobs:
         run: npm install --no-audit --no-fund --silent
 
       - name: Format generated mirror metadata
-        run: npx prettier --write DEPLOYMENT_MIRROR.md
+        run: npx prettier --write DEPLOYMENT_MIRROR.md .prettierignore
 
       - name: Check formatting
         run: npm run format:check
