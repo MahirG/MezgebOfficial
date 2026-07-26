@@ -17,15 +17,13 @@ export async function POST(request: Request) {
       message: 'Saved locally in demo mode. Connect Supabase to receive submissions.'
     });
   const supabase = createClient(url, serviceKey, { auth: { persistSession: false } });
-  const { error } = await supabase
-    .from('waitlist')
-    .insert({
-      name: body.name.trim(),
-      contact: body.contact.trim(),
-      business_type: String(body.businessType ?? ''),
-      city: String(body.city ?? ''),
-      consent: true
-    });
+  const { error } = await supabase.from('waitlist').insert({
+    name: body.name.trim(),
+    contact: body.contact.trim(),
+    business_type: String(body.businessType ?? ''),
+    city: String(body.city ?? ''),
+    consent: true
+  });
   if (error) return NextResponse.json({ message: 'Unable to submit right now.' }, { status: 500 });
   return NextResponse.json({ message: 'Thank you. Your early-access request was received.' });
 }
