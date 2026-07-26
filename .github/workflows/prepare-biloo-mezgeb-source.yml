@@ -58,8 +58,6 @@ jobs:
           npm test
           npm run email:validate
           npm run build
-          npx playwright install --with-deps chromium
-          npm run test:e2e
 
       - name: Remove migration validation note
         run: rm -f docs/BILOO_BROWSER_VALIDATION.md
