@@ -28,9 +28,11 @@
   border-radius: 24px;
   background: rgba(255, 255, 255, 0.94);
   color: #15171b;
-  box-shadow: 0 26px 85px rgba(15, 23, 42, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.98);
+  box-shadow:
+    0 26px 85px rgba(15, 23, 42, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.98);
   pointer-events: auto;
-  animation: appFeedbackIn 220ms cubic-bezier(.2, .85, .3, 1);
+  animation: appFeedbackIn 220ms cubic-bezier(0.2, 0.85, 0.3, 1);
   backdrop-filter: blur(30px) saturate(165%);
   -webkit-backdrop-filter: blur(30px) saturate(165%);
 }
@@ -158,23 +160,42 @@
 }
 
 @keyframes appFeedbackSpin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes appFeedbackProgress {
-  from { transform: translateX(-110%); }
-  to { transform: translateX(310%); }
+  from {
+    transform: translateX(-110%);
+  }
+  to {
+    transform: translateX(310%);
+  }
 }
 
 @keyframes appFeedbackIn {
-  from { opacity: 0; transform: translateY(12px) scale(0.97); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 @keyframes appFieldShake {
-  0%, 100% { transform: translateX(0); }
-  35% { transform: translateX(-5px); }
-  70% { transform: translateX(4px); }
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  35% {
+    transform: translateX(-5px);
+  }
+  70% {
+    transform: translateX(4px);
+  }
 }
 
 @media (max-width: 640px) {

@@ -7,7 +7,11 @@ function formatDate(value: string | null) {
   if (!value) return null;
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) return null;
-  return new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).format(date);
+  return new Intl.DateTimeFormat('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric'
+  }).format(date);
 }
 
 function identityLabel(type: string | null | undefined) {
@@ -19,7 +23,7 @@ function identityLabel(type: string | null | undefined) {
     driver_license: 'Driver’s license',
     other: 'Government-issued ID'
   };
-  return type ? labels[type] ?? 'Identity document' : 'Identity not added';
+  return type ? (labels[type] ?? 'Identity document') : 'Identity not added';
 }
 
 const planLabels: Record<string, string> = {
@@ -28,7 +32,7 @@ const planLabels: Record<string, string> = {
   business: 'Business',
   enterprise: 'Enterprise',
   free: 'Legacy Free',
-  pro: 'Legacy Mezgeb Pro'
+  pro: 'Legacy Biloo Mezgeb Pro'
 };
 
 export default async function DashboardPage() {
@@ -37,28 +41,33 @@ export default async function DashboardPage() {
   if (userError || !userData.user) redirect('/auth/sign-in');
 
   const user = userData.user;
-  const [
-    { data: profile },
-    { data: businesses, error: businessesError },
-    { data: subscription }
-  ] = await Promise.all([
-    supabase
-      .from('mezgeb_profiles')
-      .select('full_name, preferred_language, last_business_id, region, city_woreda, account_role, id_type, id_last4, identity_status')
-      .eq('id', user.id)
-      .maybeSingle(),
-    supabase
-      .from('mezgeb_businesses')
-      .select('id, name, city, tin, vat_registered, onboarding_completed_at, created_at')
-      .order('created_at', { ascending: true }),
-    supabase
-      .from('mezgeb_subscriptions')
-      .select('plan_code, billing_cycle, status, amount_etb, currency, trial_ends_at, current_period_end')
-      .eq('user_id', user.id)
-      .maybeSingle()
-  ]);
+  const [{ data: profile }, { data: businesses, error: businessesError }, { data: subscription }] =
+    await Promise.all([
+      supabase
+        .from('mezgeb_profiles')
+        .select(
+          'full_name, preferred_language, last_business_id, region, city_woreda, account_role, id_type, id_last4, identity_status'
+        )
+        .eq('id', user.id)
+        .maybeSingle(),
+      supabase
+        .from('mezgeb_businesses')
+        .select('id, name, city, tin, vat_registered, onboarding_completed_at, created_at')
+        .order('created_at', { ascending: true }),
+      supabase
+        .from('mezgeb_subscriptions')
+        .select(
+          'plan_code, billing_cycle, status, amount_etb, currency, trial_ends_at, current_period_end'
+        )
+        .eq('user_id', user.id)
+        .maybeSingle()
+    ]);
 
-  const displayName = profile?.full_name || String(user.user_metadata?.full_name ?? '') || user.email?.split('@')[0] || 'Business owner';
+  const displayName =
+    profile?.full_name ||
+    String(user.user_metadata?.full_name ?? '') ||
+    user.email?.split('@')[0] ||
+    'Business owner';
   const businessList = businesses ?? [];
   const planCode = String(subscription?.plan_code ?? 'starter');
   const planName = planLabels[planCode] ?? planCode.replaceAll('_', ' ');
@@ -82,18 +91,30 @@ export default async function DashboardPage() {
       <div className="container">
         <header className="dashboardHero">
           <div>
-            <p className="overline">Secure Mezgeb account</p>
+            <p className="overline">Secure Biloo Mezgeb account</p>
             <h1>Welcome, {displayName}.</h1>
-            <p>Your account is authenticated by Supabase. Every Mezgeb business and financial record is isolated through database Row Level Security.</p>
+            <p>
+              Your account is authenticated by Supabase. Every Biloo Mezgeb business and financial
+              record is isolated through database Row Level Security.
+            </p>
           </div>
           <div className="dashboardAccountActions">
             <span className="accountIdentity">{user.email}</span>
-            <Link className="button primary" href="/app">Open app</Link>
-            <form action="/auth/sign-out" method="post"><button className="button" type="submit">Sign out</button></form>
+            <Link className="button primary" href="/app">
+              Open app
+            </Link>
+            <form action="/auth/sign-out" method="post">
+              <button className="button" type="submit">
+                Sign out
+              </button>
+            </form>
           </div>
         </header>
 
-        <section className={styles.subscriptionCard} aria-label="Mezgeb subscription and identity status">
+        <section
+          className={styles.subscriptionCard}
+          aria-label="Biloo Mezgeb subscription and identity status"
+        >
           <div className={styles.copy}>
             <small>Current plan</small>
             <h2>{planName}</h2>
@@ -101,23 +122,73 @@ export default async function DashboardPage() {
             <p>{identityDescription}</p>
           </div>
           <div className={styles.meta}>
-            <span className={`${styles.badge} ${subscriptionStatus === 'trialing' ? styles.trial : ''}`}>{subscriptionStatus.replace('_', ' ')}</span>
+            <span
+              className={`${styles.badge} ${subscriptionStatus === 'trialing' ? styles.trial : ''}`}
+            >
+              {subscriptionStatus.replace('_', ' ')}
+            </span>
             <span className={styles.badge}>{profile?.identity_status ?? 'unverified'}</span>
-            <Link className={`button white ${styles.action}`} href="/#pricing">Manage plan</Link>
+            <Link className={`button white ${styles.action}`} href="/#pricing">
+              Manage plan
+            </Link>
           </div>
         </section>
 
         {businessesError ? (
-          <section className="dashboardEmpty"><p className="overline">Connection error</p><h2>Your businesses could not be loaded.</h2><p>{businessesError.message}</p></section>
+          <section className="dashboardEmpty">
+            <p className="overline">Connection error</p>
+            <h2>Your businesses could not be loaded.</h2>
+            <p>{businessesError.message}</p>
+          </section>
         ) : businessList.length === 0 ? (
           <section className="dashboardCard">
-            <header className="dashboardCardHeader"><div><p className="overline">First-time setup</p><h2>Create your first production workspace.</h2><p>The guided setup configures your business identity, opening balance, VAT preference and receipt numbering in one protected transaction.</p></div><span className="workspaceStatus">Authentication active</span></header>
-            <Link className="button primary" href="/onboarding">Start guided business setup</Link>
+            <header className="dashboardCardHeader">
+              <div>
+                <p className="overline">First-time setup</p>
+                <h2>Create your first production workspace.</h2>
+                <p>
+                  The guided setup configures your business identity, opening balance, VAT
+                  preference and receipt numbering in one protected transaction.
+                </p>
+              </div>
+              <span className="workspaceStatus">Authentication active</span>
+            </header>
+            <Link className="button primary" href="/onboarding">
+              Start guided business setup
+            </Link>
           </section>
         ) : (
           <section>
-            <header className="dashboardCardHeader"><div><p className="overline">Your businesses</p><h2>Choose a workspace.</h2><p>Ledger, Dube, receipt and report records are loaded from Supabase and visible only to your authenticated account.</p></div><Link className="button" href="/onboarding?new=1">Add business</Link></header>
-            <div className="businessWorkspaceGrid">{businessList.map((business) => <article className="businessWorkspaceCard" key={business.id}><small>{business.vat_registered ? 'VAT-registered business' : 'Standard business'}</small><strong>{business.name}</strong><span>{business.city || 'Location not added'}{business.tin ? ` · TIN ${business.tin}` : ''}</span><Link className="button primary" href={`/app?business=${business.id}`}>Open live workspace</Link></article>)}</div>
+            <header className="dashboardCardHeader">
+              <div>
+                <p className="overline">Your businesses</p>
+                <h2>Choose a workspace.</h2>
+                <p>
+                  Ledger, Dube, receipt and report records are loaded from Supabase and visible only
+                  to your authenticated account.
+                </p>
+              </div>
+              <Link className="button" href="/onboarding?new=1">
+                Add business
+              </Link>
+            </header>
+            <div className="businessWorkspaceGrid">
+              {businessList.map((business) => (
+                <article className="businessWorkspaceCard" key={business.id}>
+                  <small>
+                    {business.vat_registered ? 'VAT-registered business' : 'Standard business'}
+                  </small>
+                  <strong>{business.name}</strong>
+                  <span>
+                    {business.city || 'Location not added'}
+                    {business.tin ? ` · TIN ${business.tin}` : ''}
+                  </span>
+                  <Link className="button primary" href={`/app?business=${business.id}`}>
+                    Open live workspace
+                  </Link>
+                </article>
+              ))}
+            </div>
           </section>
         )}
       </div>

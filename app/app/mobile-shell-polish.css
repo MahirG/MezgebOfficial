@@ -9,7 +9,9 @@
   }
 
   html:has(.productionAppPage) {
-    scroll-padding-top: calc(var(--mezgeb-sticky-header-height) + var(--mezgeb-search-strip-height) + 18px);
+    scroll-padding-top: calc(
+      var(--mezgeb-sticky-header-height) + var(--mezgeb-search-strip-height) + 18px
+    );
     scroll-padding-bottom: calc(var(--mezgeb-footer-height) + 18px);
   }
 
@@ -23,7 +25,9 @@
   }
 
   .cloudWorkspace {
-    padding-top: calc(var(--mezgeb-sticky-header-height) + var(--mezgeb-search-strip-height)) !important;
+    padding-top: calc(
+      var(--mezgeb-sticky-header-height) + var(--mezgeb-search-strip-height)
+    ) !important;
     padding-bottom: calc(var(--mezgeb-footer-height) + 22px) !important;
   }
 
@@ -36,7 +40,7 @@
     isolation: isolate;
     min-height: var(--mezgeb-sticky-header-height) !important;
     padding: calc(10px + env(safe-area-inset-top)) 12px 10px !important;
-    border-bottom: 1px solid rgba(64, 38, 147, 0.10) !important;
+    border-bottom: 1px solid rgba(64, 38, 147, 0.1) !important;
     background: rgba(252, 251, 255, 0.95) !important;
     box-shadow: 0 9px 30px rgba(32, 22, 63, 0.09) !important;
     transform: translateZ(0);
@@ -50,7 +54,7 @@
     left: 0;
     height: 1px;
     background: linear-gradient(90deg, transparent, rgba(91, 59, 245, 0.28), transparent);
-    content: "";
+    content: '';
     pointer-events: none;
   }
 
@@ -58,7 +62,9 @@
     flex: 1 1 auto;
     max-width: calc(100% - 164px);
     border-radius: 14px;
-    transition: transform 150ms ease, opacity 150ms ease;
+    transition:
+      transform 150ms ease,
+      opacity 150ms ease;
   }
 
   .mezgebMobileBrand svg {
@@ -77,7 +83,7 @@
     height: 28px;
     margin-right: 1px;
     background: rgba(67, 44, 129, 0.12);
-    content: "";
+    content: '';
   }
 
   .mezgebMobileUtility,
@@ -117,7 +123,7 @@
     height: 24px;
     border-radius: 99px;
     background: rgba(70, 48, 127, 0.12);
-    content: "";
+    content: '';
     pointer-events: none;
   }
 
@@ -179,11 +185,14 @@
     font-weight: 680 !important;
     line-height: 1.2;
     text-align: left;
-    transition: transform 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+    transition:
+      transform 150ms ease,
+      border-color 150ms ease,
+      box-shadow 150ms ease;
   }
 
   .mezgebMobileSearchBar button::before {
-    content: "⌕";
+    content: '⌕';
     position: absolute;
     left: 15px;
     display: grid;
@@ -195,7 +204,7 @@
   }
 
   .mezgebMobileSearchBar button::after {
-    content: "Search Mezgeb";
+    content: 'Search Biloo Mezgeb';
     overflow: hidden;
     color: #4f485a;
     font-size: 0.82rem;
@@ -255,8 +264,12 @@
   }
 
   .cloudSidebar nav button.active {
-    background: linear-gradient(180deg, rgba(91, 59, 245, 0.16), rgba(91, 59, 245, 0.08)) !important;
-    box-shadow: inset 0 0 0 1px rgba(76, 34, 212, 0.10);
+    background: linear-gradient(
+      180deg,
+      rgba(91, 59, 245, 0.16),
+      rgba(91, 59, 245, 0.08)
+    ) !important;
+    box-shadow: inset 0 0 0 1px rgba(76, 34, 212, 0.1);
   }
 
   /* Card and control polish. */
@@ -295,7 +308,7 @@
 
   .cloudQuickActions button:active,
   .cloudCustomerCard:active {
-    box-shadow: 0 8px 20px rgba(26, 20, 55, 0.10) !important;
+    box-shadow: 0 8px 20px rgba(26, 20, 55, 0.1) !important;
   }
 
   .cloudForm input:focus,
@@ -314,50 +327,50 @@
   }
 
   /* Complete dashboard contrast pass for night mode. */
-  body[data-mezgeb-theme="dark"] .mezgebMobileHeader {
+  body[data-mezgeb-theme='dark'] .mezgebMobileHeader {
     border-bottom-color: rgba(177, 155, 255, 0.14) !important;
     background: rgba(13, 11, 20, 0.96) !important;
     box-shadow: 0 10px 35px rgba(0, 0, 0, 0.34) !important;
   }
 
-  body[data-mezgeb-theme="dark"] .mezgebMobileHeaderActions::before,
-  body[data-mezgeb-theme="dark"] .mezgebMobileLanguageShortcut::after {
+  body[data-mezgeb-theme='dark'] .mezgebMobileHeaderActions::before,
+  body[data-mezgeb-theme='dark'] .mezgebMobileLanguageShortcut::after {
     background: rgba(184, 165, 255, 0.18);
   }
 
-  body[data-mezgeb-theme="dark"] .mezgebMobileLanguageShortcut {
+  body[data-mezgeb-theme='dark'] .mezgebMobileLanguageShortcut {
     border-color: rgba(171, 146, 255, 0.22) !important;
     background: linear-gradient(145deg, rgba(68, 48, 133, 0.62), rgba(31, 27, 43, 0.98)) !important;
     color: #e8e0ff !important;
   }
 
-  body[data-mezgeb-theme="dark"] .mezgebMobileMenuButton {
+  body[data-mezgeb-theme='dark'] .mezgebMobileMenuButton {
     border-color: rgba(177, 155, 255, 0.15) !important;
     background: rgba(31, 27, 43, 0.98) !important;
     color: #f5f1ff !important;
   }
 
-  body[data-mezgeb-theme="dark"] .mezgebMobileSearchBar {
+  body[data-mezgeb-theme='dark'] .mezgebMobileSearchBar {
     border-bottom-color: rgba(177, 155, 255, 0.11) !important;
     background: rgba(10, 9, 16, 0.97) !important;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.24);
   }
 
-  body[data-mezgeb-theme="dark"] .mezgebMobileSearchBar button {
+  body[data-mezgeb-theme='dark'] .mezgebMobileSearchBar button {
     border-color: rgba(177, 155, 255, 0.16) !important;
     background: rgba(28, 24, 40, 0.98) !important;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24) !important;
   }
 
-  body[data-mezgeb-theme="dark"] .mezgebMobileSearchBar button::before {
+  body[data-mezgeb-theme='dark'] .mezgebMobileSearchBar button::before {
     color: #b7a4ff;
   }
 
-  body[data-mezgeb-theme="dark"] .mezgebMobileSearchBar button::after {
+  body[data-mezgeb-theme='dark'] .mezgebMobileSearchBar button::after {
     color: #e4deed;
   }
 
-  body[data-mezgeb-theme="dark"] .cloudSidebar nav {
+  body[data-mezgeb-theme='dark'] .cloudSidebar nav {
     border-color: rgba(177, 155, 255, 0.16) !important;
     background: rgba(18, 15, 27, 0.97) !important;
     box-shadow:
@@ -365,132 +378,136 @@
       inset 0 1px rgba(255, 255, 255, 0.04) !important;
   }
 
-  body[data-mezgeb-theme="dark"] .cloudSidebar nav button {
+  body[data-mezgeb-theme='dark'] .cloudSidebar nav button {
     color: #aaa3b8 !important;
   }
 
-  body[data-mezgeb-theme="dark"] .cloudSidebar nav button.active {
-    background: linear-gradient(180deg, rgba(129, 96, 255, 0.28), rgba(91, 59, 245, 0.14)) !important;
+  body[data-mezgeb-theme='dark'] .cloudSidebar nav button.active {
+    background: linear-gradient(
+      180deg,
+      rgba(129, 96, 255, 0.28),
+      rgba(91, 59, 245, 0.14)
+    ) !important;
     color: #ffffff !important;
     box-shadow: inset 0 0 0 1px rgba(177, 155, 255, 0.18);
   }
 
-  body[data-mezgeb-theme="dark"] .cloudMetricGrid article:not(.cloudPrimaryMetric),
-  body[data-mezgeb-theme="dark"] .cloudQuickActions button,
-  body[data-mezgeb-theme="dark"] .cloudPanel,
-  body[data-mezgeb-theme="dark"] .cloudForm,
-  body[data-mezgeb-theme="dark"] .cloudLedger,
-  body[data-mezgeb-theme="dark"] .cloudReceipts,
-  body[data-mezgeb-theme="dark"] .cloudReports,
-  body[data-mezgeb-theme="dark"] .cloudOperations,
-  body[data-mezgeb-theme="dark"] .cloudCustomerCard {
+  body[data-mezgeb-theme='dark'] .cloudMetricGrid article:not(.cloudPrimaryMetric),
+  body[data-mezgeb-theme='dark'] .cloudQuickActions button,
+  body[data-mezgeb-theme='dark'] .cloudPanel,
+  body[data-mezgeb-theme='dark'] .cloudForm,
+  body[data-mezgeb-theme='dark'] .cloudLedger,
+  body[data-mezgeb-theme='dark'] .cloudReceipts,
+  body[data-mezgeb-theme='dark'] .cloudReports,
+  body[data-mezgeb-theme='dark'] .cloudOperations,
+  body[data-mezgeb-theme='dark'] .cloudCustomerCard {
     border-color: rgba(177, 155, 255, 0.13) !important;
     background: rgba(22, 19, 31, 0.97) !important;
     color: #f7f4ff !important;
   }
 
-  body[data-mezgeb-theme="dark"] .cloudReceiptGrid article,
-  body[data-mezgeb-theme="dark"] .cloudReportGrid article,
-  body[data-mezgeb-theme="dark"] .cloudOperationGrid article {
+  body[data-mezgeb-theme='dark'] .cloudReceiptGrid article,
+  body[data-mezgeb-theme='dark'] .cloudReportGrid article,
+  body[data-mezgeb-theme='dark'] .cloudOperationGrid article {
     border: 1px solid rgba(177, 155, 255, 0.11) !important;
     background: rgba(31, 27, 43, 0.96) !important;
     color: #f7f4ff !important;
   }
 
-  body[data-mezgeb-theme="dark"] .cloudMetricGrid article:not(.cloudPrimaryMetric) small,
-  body[data-mezgeb-theme="dark"] .cloudMetricGrid article:not(.cloudPrimaryMetric) span,
-  body[data-mezgeb-theme="dark"] .cloudPanel header small,
-  body[data-mezgeb-theme="dark"] .cloudLedger header small,
-  body[data-mezgeb-theme="dark"] .cloudForm header small,
-  body[data-mezgeb-theme="dark"] .cloudSectionHeader small,
-  body[data-mezgeb-theme="dark"] .cloudSectionHeader p,
-  body[data-mezgeb-theme="dark"] .cloudHealth p,
-  body[data-mezgeb-theme="dark"] .cloudHealth > div,
-  body[data-mezgeb-theme="dark"] .cloudRow small,
-  body[data-mezgeb-theme="dark"] .cloudCustomerCard em,
-  body[data-mezgeb-theme="dark"] .cloudReceiptGrid small,
-  body[data-mezgeb-theme="dark"] .cloudReceiptGrid p,
-  body[data-mezgeb-theme="dark"] .cloudReportGrid small,
-  body[data-mezgeb-theme="dark"] .cloudReportGrid span,
-  body[data-mezgeb-theme="dark"] .cloudOperationGrid small,
-  body[data-mezgeb-theme="dark"] .cloudEmpty,
-  body[data-mezgeb-theme="dark"] .cloudSecureHint {
+  body[data-mezgeb-theme='dark'] .cloudMetricGrid article:not(.cloudPrimaryMetric) small,
+  body[data-mezgeb-theme='dark'] .cloudMetricGrid article:not(.cloudPrimaryMetric) span,
+  body[data-mezgeb-theme='dark'] .cloudPanel header small,
+  body[data-mezgeb-theme='dark'] .cloudLedger header small,
+  body[data-mezgeb-theme='dark'] .cloudForm header small,
+  body[data-mezgeb-theme='dark'] .cloudSectionHeader small,
+  body[data-mezgeb-theme='dark'] .cloudSectionHeader p,
+  body[data-mezgeb-theme='dark'] .cloudHealth p,
+  body[data-mezgeb-theme='dark'] .cloudHealth > div,
+  body[data-mezgeb-theme='dark'] .cloudRow small,
+  body[data-mezgeb-theme='dark'] .cloudCustomerCard em,
+  body[data-mezgeb-theme='dark'] .cloudReceiptGrid small,
+  body[data-mezgeb-theme='dark'] .cloudReceiptGrid p,
+  body[data-mezgeb-theme='dark'] .cloudReportGrid small,
+  body[data-mezgeb-theme='dark'] .cloudReportGrid span,
+  body[data-mezgeb-theme='dark'] .cloudOperationGrid small,
+  body[data-mezgeb-theme='dark'] .cloudEmpty,
+  body[data-mezgeb-theme='dark'] .cloudSecureHint {
     color: #b8b1c5 !important;
   }
 
-  body[data-mezgeb-theme="dark"] .cloudMetricGrid article:not(.cloudPrimaryMetric) strong,
-  body[data-mezgeb-theme="dark"] .cloudQuickActions button span,
-  body[data-mezgeb-theme="dark"] .cloudPanel h3,
-  body[data-mezgeb-theme="dark"] .cloudLedger h2,
-  body[data-mezgeb-theme="dark"] .cloudForm h2,
-  body[data-mezgeb-theme="dark"] .cloudSectionHeader h2,
-  body[data-mezgeb-theme="dark"] .cloudRow b,
-  body[data-mezgeb-theme="dark"] .cloudRow > strong,
-  body[data-mezgeb-theme="dark"] .cloudCustomerCard strong,
-  body[data-mezgeb-theme="dark"] .cloudCustomerCard > b,
-  body[data-mezgeb-theme="dark"] .cloudReceiptGrid h3,
-  body[data-mezgeb-theme="dark"] .cloudReceiptGrid strong,
-  body[data-mezgeb-theme="dark"] .cloudReportGrid strong,
-  body[data-mezgeb-theme="dark"] .cloudOperationGrid strong {
+  body[data-mezgeb-theme='dark'] .cloudMetricGrid article:not(.cloudPrimaryMetric) strong,
+  body[data-mezgeb-theme='dark'] .cloudQuickActions button span,
+  body[data-mezgeb-theme='dark'] .cloudPanel h3,
+  body[data-mezgeb-theme='dark'] .cloudLedger h2,
+  body[data-mezgeb-theme='dark'] .cloudForm h2,
+  body[data-mezgeb-theme='dark'] .cloudSectionHeader h2,
+  body[data-mezgeb-theme='dark'] .cloudRow b,
+  body[data-mezgeb-theme='dark'] .cloudRow > strong,
+  body[data-mezgeb-theme='dark'] .cloudCustomerCard strong,
+  body[data-mezgeb-theme='dark'] .cloudCustomerCard > b,
+  body[data-mezgeb-theme='dark'] .cloudReceiptGrid h3,
+  body[data-mezgeb-theme='dark'] .cloudReceiptGrid strong,
+  body[data-mezgeb-theme='dark'] .cloudReportGrid strong,
+  body[data-mezgeb-theme='dark'] .cloudOperationGrid strong {
     color: #ffffff !important;
   }
 
-  body[data-mezgeb-theme="dark"] .cloudPanel header button,
-  body[data-mezgeb-theme="dark"] .cloudSectionHeader button,
-  body[data-mezgeb-theme="dark"] .cloudSectionHeader a {
+  body[data-mezgeb-theme='dark'] .cloudPanel header button,
+  body[data-mezgeb-theme='dark'] .cloudSectionHeader button,
+  body[data-mezgeb-theme='dark'] .cloudSectionHeader a {
     color: #b9a8ff !important;
   }
 
-  body[data-mezgeb-theme="dark"] .cloudRow,
-  body[data-mezgeb-theme="dark"] .cloudHealth > div {
-    border-color: rgba(177, 155, 255, 0.10) !important;
+  body[data-mezgeb-theme='dark'] .cloudRow,
+  body[data-mezgeb-theme='dark'] .cloudHealth > div {
+    border-color: rgba(177, 155, 255, 0.1) !important;
   }
 
-  body[data-mezgeb-theme="dark"] .cloudRow > button {
+  body[data-mezgeb-theme='dark'] .cloudRow > button {
     background: rgba(55, 48, 72, 0.95) !important;
     color: #d8d0e5 !important;
   }
 
-  body[data-mezgeb-theme="dark"] .cloudQuickActions i,
-  body[data-mezgeb-theme="dark"] .cloudRow > i.neutral {
+  body[data-mezgeb-theme='dark'] .cloudQuickActions i,
+  body[data-mezgeb-theme='dark'] .cloudRow > i.neutral {
     background: rgba(91, 59, 245, 0.22) !important;
     color: #c4b5ff !important;
   }
 
-  body[data-mezgeb-theme="dark"] .cloudSegment {
+  body[data-mezgeb-theme='dark'] .cloudSegment {
     background: rgba(10, 8, 17, 0.92) !important;
   }
 
-  body[data-mezgeb-theme="dark"] .cloudSegment button {
+  body[data-mezgeb-theme='dark'] .cloudSegment button {
     color: #a9a2b6 !important;
   }
 
-  body[data-mezgeb-theme="dark"] .cloudSegment button.active {
+  body[data-mezgeb-theme='dark'] .cloudSegment button.active {
     background: rgba(48, 41, 64, 0.98) !important;
     color: #ffffff !important;
   }
 
-  body[data-mezgeb-theme="dark"] .cloudForm input::placeholder,
-  body[data-mezgeb-theme="dark"] .cloudForm textarea::placeholder,
-  body[data-mezgeb-theme="dark"] .cloudLedger header input::placeholder,
-  body[data-mezgeb-theme="dark"] .mezgebGlobalSearch input::placeholder {
+  body[data-mezgeb-theme='dark'] .cloudForm input::placeholder,
+  body[data-mezgeb-theme='dark'] .cloudForm textarea::placeholder,
+  body[data-mezgeb-theme='dark'] .cloudLedger header input::placeholder,
+  body[data-mezgeb-theme='dark'] .mezgebGlobalSearch input::placeholder {
     color: #81798e !important;
     opacity: 1;
   }
 
-  body[data-mezgeb-theme="dark"] .mezgebGlobalSearch input,
-  body[data-mezgeb-theme="dark"] .mezgebSearchResults strong,
-  body[data-mezgeb-theme="dark"] .mezgebSearchEmpty strong {
+  body[data-mezgeb-theme='dark'] .mezgebGlobalSearch input,
+  body[data-mezgeb-theme='dark'] .mezgebSearchResults strong,
+  body[data-mezgeb-theme='dark'] .mezgebSearchEmpty strong {
     color: #ffffff !important;
   }
 
-  body[data-mezgeb-theme="dark"] .mezgebSearchResults small,
-  body[data-mezgeb-theme="dark"] .mezgebGlobalSearch > footer {
+  body[data-mezgeb-theme='dark'] .mezgebSearchResults small,
+  body[data-mezgeb-theme='dark'] .mezgebGlobalSearch > footer {
     color: #aaa3b8 !important;
   }
 
-  body[data-mezgeb-theme="dark"] .mezgebSearchResults > button:hover,
-  body[data-mezgeb-theme="dark"] .mezgebSearchResults > button:active {
+  body[data-mezgeb-theme='dark'] .mezgebSearchResults > button:hover,
+  body[data-mezgeb-theme='dark'] .mezgebSearchResults > button:active {
     background: rgba(91, 59, 245, 0.15) !important;
   }
 }

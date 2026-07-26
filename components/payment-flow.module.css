@@ -24,7 +24,12 @@
   position: absolute;
   inset: 16px 4% 8px;
   border-radius: 999px;
-  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, .88), rgba(226, 239, 255, .5) 48%, transparent 76%);
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(255, 255, 255, 0.88),
+    rgba(226, 239, 255, 0.5) 48%,
+    transparent 76%
+  );
   filter: blur(17px);
 }
 
@@ -53,8 +58,10 @@
   overflow: hidden;
   border: 0;
   border-radius: 999px;
-  background: rgba(255, 255, 255, .92);
-  box-shadow: 0 16px 38px rgba(13, 31, 66, .14), inset 0 1px 0 rgba(255, 255, 255, .96);
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow:
+    0 16px 38px rgba(13, 31, 66, 0.14),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
   transform-origin: 50% 65%;
   animation: paymentFloat 4.8s ease-in-out infinite;
 }
@@ -82,15 +89,17 @@
 .paymentChip strong {
   min-width: 0;
   color: #20242d;
-  font-size: .72rem;
+  font-size: 0.72rem;
   font-weight: 850;
-  letter-spacing: -.02em;
+  letter-spacing: -0.02em;
   line-height: 1;
   white-space: nowrap;
 }
 
 .telebirr {
-  box-shadow: 0 16px 38px rgba(1, 114, 187, .18), inset 0 1px 0 rgba(255, 255, 255, .96);
+  box-shadow:
+    0 16px 38px rgba(1, 114, 187, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
 }
 
 .telebirr strong {
@@ -98,7 +107,9 @@
 }
 
 .mpesa {
-  box-shadow: 0 16px 38px rgba(49, 184, 75, .18), inset 0 1px 0 rgba(255, 255, 255, .96);
+  box-shadow:
+    0 16px 38px rgba(49, 184, 75, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
 }
 
 .mpesa strong {
@@ -106,7 +117,9 @@
 }
 
 .cbeBirr {
-  box-shadow: 0 16px 38px rgba(140, 45, 133, .19), inset 0 1px 0 rgba(255, 255, 255, .96);
+  box-shadow:
+    0 16px 38px rgba(140, 45, 133, 0.19),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
 }
 
 .cbeBirr strong {
@@ -114,7 +127,9 @@
 }
 
 .amole {
-  box-shadow: 0 16px 38px rgba(230, 113, 33, .18), inset 0 1px 0 rgba(255, 255, 255, .96);
+  box-shadow:
+    0 16px 38px rgba(230, 113, 33, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
 }
 
 .amole strong {
@@ -122,7 +137,9 @@
 }
 
 .chapa {
-  box-shadow: 0 16px 38px rgba(95, 65, 193, .18), inset 0 1px 0 rgba(255, 255, 255, .96);
+  box-shadow:
+    0 16px 38px rgba(95, 65, 193, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
 }
 
 .chapa strong {
@@ -130,7 +147,9 @@
 }
 
 .kacha {
-  box-shadow: 0 16px 38px rgba(6, 150, 116, .18), inset 0 1px 0 rgba(255, 255, 255, .96);
+  box-shadow:
+    0 16px 38px rgba(6, 150, 116, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.96);
 }
 
 .kacha strong {
@@ -148,8 +167,9 @@
 }
 
 @keyframes paymentFloat {
-  0%, 100% {
-    transform: translateY(4px) scale(.94);
+  0%,
+  100% {
+    transform: translateY(4px) scale(0.94);
   }
 
   42% {
@@ -157,7 +177,7 @@
   }
 
   68% {
-    transform: translateY(1px) scale(.985);
+    transform: translateY(1px) scale(0.985);
   }
 }
 
@@ -192,7 +212,7 @@
   }
 
   .paymentChip strong {
-    font-size: .66rem;
+    font-size: 0.66rem;
   }
 }
 
@@ -226,7 +246,7 @@
   }
 
   .paymentChip strong {
-    font-size: .61rem;
+    font-size: 0.61rem;
   }
 }
 

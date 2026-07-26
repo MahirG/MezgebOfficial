@@ -15,7 +15,7 @@ export type ChapaVerifiedTransaction = {
 };
 
 function asRecord(value: unknown): JsonRecord {
-  return value && typeof value === 'object' && !Array.isArray(value) ? value as JsonRecord : {};
+  return value && typeof value === 'object' && !Array.isArray(value) ? (value as JsonRecord) : {};
 }
 
 function asString(value: unknown): string {
@@ -61,14 +61,14 @@ export async function initializeChapaPayment(input: {
       amount: input.amount.toFixed(2),
       currency: 'ETB',
       email: input.email || undefined,
-      first_name: input.firstName || 'Mezgeb',
+      first_name: input.firstName || 'Biloo Mezgeb',
       last_name: input.lastName || 'Customer',
       phone_number: input.phoneNumber || undefined,
       tx_ref: input.txRef,
       callback_url: input.callbackUrl,
       return_url: input.returnUrl,
       customization: {
-        title: 'Mezgeb subscription',
+        title: 'Biloo Mezgeb subscription',
         description: `${input.planCode} · ${input.billingCycle}`
       },
       meta: {

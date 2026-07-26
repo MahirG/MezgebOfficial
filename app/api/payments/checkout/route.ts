@@ -18,7 +18,7 @@ function getOrigin(request: Request) {
 
 function splitName(value: unknown) {
   const normalized = typeof value === 'string' ? value.trim().replace(/\s+/g, ' ') : '';
-  if (!normalized) return { firstName: 'Mezgeb', lastName: 'Customer' };
+  if (!normalized) return { firstName: 'Biloo Mezgeb', lastName: 'Customer' };
   const [firstName, ...rest] = normalized.split(' ');
   return { firstName, lastName: rest.join(' ') || 'Customer' };
 }
@@ -32,14 +32,21 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid checkout request.' }, { status: 400 });
   }
 
-  const input = body && typeof body === 'object' ? body as Record<string, unknown> : {};
+  const input = body && typeof body === 'object' ? (body as Record<string, unknown>) : {};
   const planCode = typeof input.planCode === 'string' ? input.planCode : '';
   const billingCycle = typeof input.billingCycle === 'string' ? input.billingCycle : '';
   const paymentMethod = input.paymentMethod;
   const idempotencyKey = typeof input.idempotencyKey === 'string' ? input.idempotencyKey : '';
 
-  if (!planCodePattern.test(planCode) || !supportedCycles.has(billingCycle) || !isPaymentMethodCode(paymentMethod)) {
-    return NextResponse.json({ error: 'Choose a valid plan, billing interval and payment method.' }, { status: 400 });
+  if (
+    !planCodePattern.test(planCode) ||
+    !supportedCycles.has(billingCycle) ||
+    !isPaymentMethodCode(paymentMethod)
+  ) {
+    return NextResponse.json(
+      { error: 'Choose a valid plan, billing interval and payment method.' },
+      { status: 400 }
+    );
   }
 
   if (idempotencyKey.length < 16 || idempotencyKey.length > 120) {
@@ -50,13 +57,17 @@ export async function POST(request: Request) {
   const { data: userData, error: userError } = await supabase.auth.getUser();
 
   if (userError || !userData.user) {
-    return NextResponse.json({ error: 'Create or sign in to your Mezgeb account before paying.' }, { status: 401 });
+    return NextResponse.json(
+      { error: 'Create or sign in to your Biloo Mezgeb account before paying.' },
+      { status: 401 }
+    );
   }
 
   if (!isChapaConfigured()) {
     return NextResponse.json(
       {
-        error: 'Secure online payment is engineered but the Chapa merchant secret has not been connected yet.',
+        error:
+          'Secure online payment is engineered but the Chapa merchant secret has not been connected yet.',
         code: 'PAYMENTS_NOT_CONFIGURED'
       },
       { status: 503 }
@@ -100,16 +111,19 @@ export async function POST(request: Request) {
   const amount = Number(intent?.amount_etb ?? 0);
 
   if (!Number.isFinite(amount) || amount <= 0) {
-    return NextResponse.json({ error: 'The selected plan does not have a valid ETB amount.' }, { status: 400 });
+    return NextResponse.json(
+      { error: 'The selected plan does not have a valid ETB amount.' },
+      { status: 400 }
+    );
   }
 
-  const metadata = userData.user.user_metadata && typeof userData.user.user_metadata === 'object'
-    ? userData.user.user_metadata as Record<string, unknown>
-    : {};
+  const metadata =
+    userData.user.user_metadata && typeof userData.user.user_metadata === 'object'
+      ? (userData.user.user_metadata as Record<string, unknown>)
+      : {};
   const { firstName, lastName } = splitName(metadata.full_name || metadata.name);
-  const phoneNumber = typeof metadata.phone === 'string'
-    ? metadata.phone
-    : userData.user.phone || '';
+  const phoneNumber =
+    typeof metadata.phone === 'string' ? metadata.phone : userData.user.phone || '';
   const origin = getOrigin(request);
 
   try {
@@ -143,7 +157,8 @@ export async function POST(request: Request) {
       currency: 'ETB'
     });
   } catch (error) {
-    const reason = error instanceof Error ? error.message : 'The secure checkout could not be started.';
+    const reason =
+      error instanceof Error ? error.message : 'The secure checkout could not be started.';
     await admin.rpc('mezgeb_mark_payment_failed', {
       p_tx_ref: resolvedTxRef,
       p_reason: reason

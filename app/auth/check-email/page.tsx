@@ -20,10 +20,11 @@ export default async function CheckEmailPage({ searchParams }: { searchParams: S
       <section>
         <p className="overline">One last step</p>
         <h1>Check your email.</h1>
-        <p>Your Mezgeb account stays protected until the registration email is confirmed.</p>
+        <p>Your Biloo Mezgeb account stays protected until the registration email is confirmed.</p>
         <ConfirmEmailCard initialEmail={email} nextPath={nextPath} />
         <small>
-          Used the wrong address? <Link href={`/auth/sign-up?next=${encodeURIComponent(nextPath)}`}>Register again</Link>
+          Used the wrong address?{' '}
+          <Link href={`/auth/sign-up?next=${encodeURIComponent(nextPath)}`}>Register again</Link>
         </small>
       </section>
     </main>

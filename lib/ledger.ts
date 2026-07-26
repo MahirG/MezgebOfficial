@@ -11,7 +11,7 @@ export type CustomerBalanceLike = {
 
 export function calculateInclusiveVat(amount: number, rate = 0.15) {
   if (!Number.isFinite(amount) || amount <= 0 || !Number.isFinite(rate) || rate < 0) return 0;
-  return amount * rate / (1 + rate);
+  return (amount * rate) / (1 + rate);
 }
 
 export function calculateLedgerTotals(

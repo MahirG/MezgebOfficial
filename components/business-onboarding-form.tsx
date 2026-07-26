@@ -27,7 +27,8 @@ export function BusinessOnboardingForm() {
     try {
       const supabase = createClient();
       const { data: userData, error: userError } = await supabase.auth.getUser();
-      if (userError || !userData.user) throw userError ?? new Error('Your session has expired. Sign in again.');
+      if (userError || !userData.user)
+        throw userError ?? new Error('Your session has expired. Sign in again.');
 
       const { data: business, error: businessError } = await supabase
         .from('mezgeb_businesses')
@@ -83,12 +84,17 @@ export function BusinessOnboardingForm() {
       </div>
       <label className="dashboardCheckbox">
         <input type="checkbox" name="vatRegistered" />
-        <span><strong>VAT registered</strong><small>Enable 15% VAT-ready records and receipts.</small></span>
+        <span>
+          <strong>VAT registered</strong>
+          <small>Enable 15% VAT-ready records and receipts.</small>
+        </span>
       </label>
       <button className="button primary" type="submit" disabled={busy}>
-        {busy ? 'Creating workspace…' : 'Create my Mezgeb business'}
+        {busy ? 'Creating workspace…' : 'Create my Biloo Mezgeb business'}
       </button>
-      <p role="status" aria-live="polite">{status}</p>
+      <p role="status" aria-live="polite">
+        {status}
+      </p>
     </form>
   );
 }

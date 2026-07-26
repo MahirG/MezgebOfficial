@@ -1,10 +1,10 @@
-# Mezgeb መዝገብ
+# Biloo Mezgeb መዝገብ
 
 Official Next.js application for an Ethiopian small-business ledger covering sales, expenses, VAT-ready receipts, Dube customer credit, mobile money, reports, inventory and business operations.
 
 ## Status
 
-The marketing website and native `/app` workspace share one Mezgeb design system. Production Supabase authentication is connected to project `vcyzgoiconxjmntoreto`, and the protected account dashboard can create and load RLS-isolated business workspaces.
+The marketing website and native `/app` workspace share one Biloo Mezgeb design system. Production Supabase authentication is connected to project `vcyzgoiconxjmntoreto`, and the protected account dashboard can create and load RLS-isolated business workspaces.
 
 The visual application at `/app` still uses browser-local prototype transactions. Do not enter real financial data there until its ledger, Dube, receipts, inventory and reports are switched from local storage to the deployed `mezgeb_*` tables.
 
@@ -22,13 +22,13 @@ Supabase SSR sessions are refreshed through `proxy.ts`. New Auth users automatic
 
 ## Application routes
 
-- `/app` — native Next.js Mezgeb workspace with dashboard, ledger, receipts, Dube, reports and operations
+- `/app` — native Next.js Biloo Mezgeb workspace with dashboard, ledger, receipts, Dube, reports and operations
 - `/demo` — lightweight public product demo
 - `/dashboard` — authenticated account and business workspace selector
 
 ## Connected database
 
-The connected project already contained unrelated live-streaming tables. Mezgeb therefore uses conflict-safe namespaced tables and does not modify those existing records:
+The connected project already contained unrelated live-streaming tables. Biloo Mezgeb therefore uses conflict-safe namespaced tables and does not modify those existing records:
 
 - `mezgeb_profiles`
 - `mezgeb_businesses`
@@ -38,7 +38,7 @@ The connected project already contained unrelated live-streaming tables. Mezgeb 
 - `mezgeb_audit_logs`
 - `mezgeb_deletion_requests`
 
-All Mezgeb tables have Row Level Security enabled. Ownership policies restrict business data to the authenticated owner. The Supabase security advisor reports no unresolved findings after deployment.
+All Biloo Mezgeb tables have Row Level Security enabled. Ownership policies restrict business data to the authenticated owner. The Supabase security advisor reports no unresolved findings after deployment.
 
 ## Stack
 
@@ -56,7 +56,7 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:3000`. Authentication uses the connected Mezgeb Supabase project defined in `.env.example` and `lib/supabase/config.ts`.
+Open `http://localhost:3000`. Authentication uses the connected Biloo Mezgeb Supabase project defined in `.env.example` and `lib/supabase/config.ts`.
 
 ## Database migration
 

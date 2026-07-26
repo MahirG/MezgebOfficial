@@ -77,7 +77,7 @@ export function EthiopianSignUpForm() {
     }
 
     setBusy(true);
-    setStatus('Creating your secure Mezgeb account…');
+    setStatus('Creating your secure Biloo Mezgeb account…');
 
     try {
       const nextPath = safeNextPath();
@@ -125,40 +125,173 @@ export function EthiopianSignUpForm() {
   return (
     <form ref={formRef} className="authForm ethiopianSignup" onSubmit={submit} noValidate>
       <div className="signupProgress" aria-label={`Registration step ${step} of 2`}>
-        <span className="active">1 <b>About you</b></span>
+        <span className="active">
+          1 <b>About you</b>
+        </span>
         <i aria-hidden="true" />
-        <span className={step === 2 ? 'active' : ''}>2 <b>Security</b></span>
+        <span className={step === 2 ? 'active' : ''}>
+          2 <b>Security</b>
+        </span>
       </div>
 
       <fieldset hidden={step !== 1}>
         <legend>Personal and contact information</legend>
         <div className="authGrid">
-          <label>Full legal name<input name="fullName" required autoComplete="name" maxLength={80} placeholder="Mahir Aman" /></label>
-          <label>Ethiopian mobile number<input name="phone" required autoComplete="tel" inputMode="tel" placeholder="0911 234 567" /></label>
-          <label className="fullSpan">Email address<input type="email" name="email" required autoComplete="email" inputMode="email" placeholder="name@example.com" /></label>
-          <label>Region / city administration<select name="region" required defaultValue=""><option value="" disabled>Select location</option>{ETHIOPIAN_REGIONS.map((region) => <option key={region} value={region}>{region}</option>)}</select></label>
-          <label>City, sub-city, zone, or woreda<input name="cityWoreda" required maxLength={100} placeholder="Bole, Addis Ababa" /></label>
-          <label>Preferred language<select name="preferredLanguage" defaultValue="en"><option value="en">English</option><option value="am">Amharic — አማርኛ</option><option value="om">Afaan Oromo</option><option value="ti">Tigrinya — ትግርኛ</option></select></label>
-          <label>Your role<select name="accountRole" defaultValue="owner"><option value="owner">Business owner</option><option value="manager">Manager</option><option value="accountant">Accountant / bookkeeper</option><option value="employee">Employee</option></select></label>
+          <label>
+            Full legal name
+            <input
+              name="fullName"
+              required
+              autoComplete="name"
+              maxLength={80}
+              placeholder="Mahir Aman"
+            />
+          </label>
+          <label>
+            Ethiopian mobile number
+            <input
+              name="phone"
+              required
+              autoComplete="tel"
+              inputMode="tel"
+              placeholder="0911 234 567"
+            />
+          </label>
+          <label className="fullSpan">
+            Email address
+            <input
+              type="email"
+              name="email"
+              required
+              autoComplete="email"
+              inputMode="email"
+              placeholder="name@example.com"
+            />
+          </label>
+          <label>
+            Region / city administration
+            <select name="region" required defaultValue="">
+              <option value="" disabled>
+                Select location
+              </option>
+              {ETHIOPIAN_REGIONS.map((region) => (
+                <option key={region} value={region}>
+                  {region}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            City, sub-city, zone, or woreda
+            <input name="cityWoreda" required maxLength={100} placeholder="Bole, Addis Ababa" />
+          </label>
+          <label>
+            Preferred language
+            <select name="preferredLanguage" defaultValue="en">
+              <option value="en">English</option>
+              <option value="am">Amharic — አማርኛ</option>
+              <option value="om">Afaan Oromo</option>
+              <option value="ti">Tigrinya — ትግርኛ</option>
+            </select>
+          </label>
+          <label>
+            Your role
+            <select name="accountRole" defaultValue="owner">
+              <option value="owner">Business owner</option>
+              <option value="manager">Manager</option>
+              <option value="accountant">Accountant / bookkeeper</option>
+              <option value="employee">Employee</option>
+            </select>
+          </label>
         </div>
-        <button className="button primary authSubmit" type="button" onClick={continueToSecurity}>Continue to security</button>
+        <button className="button primary authSubmit" type="button" onClick={continueToSecurity}>
+          Continue to security
+        </button>
       </fieldset>
 
       <fieldset hidden={step !== 2}>
         <legend>Identity and account security</legend>
-        <div className="identityNotice"><strong>Limited identity record</strong><span>Mezgeb stores the ID type and only the final four characters. The complete document number is not stored until an approved verification service is connected.</span></div>
-        <div className="authGrid">
-          <label>Ethiopian ID type<select name="idType" value={idType} onChange={(event) => setIdType(event.target.value as EthiopianIdType)}>{ETHIOPIAN_ID_TYPES.map((type) => <option key={type.value} value={type.value}>{type.label}</option>)}</select></label>
-          <label>{idType === 'fayda' ? '12-digit Fayda number' : 'Document number'}<input name="identityNumber" required inputMode={idType === 'fayda' ? 'numeric' : 'text'} autoComplete="off" maxLength={30} placeholder={idType === 'fayda' ? '0000 0000 0000' : 'Enter document number'} /></label>
-          <label>Password<input type="password" name="password" minLength={8} required autoComplete="new-password" /></label>
-          <label>Confirm password<input type="password" name="passwordConfirmation" minLength={8} required autoComplete="new-password" /></label>
+        <div className="identityNotice">
+          <strong>Limited identity record</strong>
+          <span>
+            Biloo Mezgeb stores the ID type and only the final four characters. The complete
+            document number is not stored until an approved verification service is connected.
+          </span>
         </div>
-        <label className="authConsent"><input type="checkbox" name="termsAccepted" required /><span>I agree to the <Link href="/terms">Terms</Link> and <Link href="/privacy">Privacy Policy</Link>.</span></label>
-        <label className="authConsent"><input type="checkbox" name="identityConsent" required /><span>I understand that my ID type and final four characters are retained for account-security purposes, while the full number is discarded.</span></label>
-        <div className="signupActions"><button className="button textButton" type="button" onClick={() => setStep(1)}>← Back</button><button className="button primary authSubmit" type="submit" disabled={busy}>{busy ? 'Creating account…' : 'Register and confirm email'}</button></div>
+        <div className="authGrid">
+          <label>
+            Ethiopian ID type
+            <select
+              name="idType"
+              value={idType}
+              onChange={(event) => setIdType(event.target.value as EthiopianIdType)}
+            >
+              {ETHIOPIAN_ID_TYPES.map((type) => (
+                <option key={type.value} value={type.value}>
+                  {type.label}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            {idType === 'fayda' ? '12-digit Fayda number' : 'Document number'}
+            <input
+              name="identityNumber"
+              required
+              inputMode={idType === 'fayda' ? 'numeric' : 'text'}
+              autoComplete="off"
+              maxLength={30}
+              placeholder={idType === 'fayda' ? '0000 0000 0000' : 'Enter document number'}
+            />
+          </label>
+          <label>
+            Password
+            <input
+              type="password"
+              name="password"
+              minLength={8}
+              required
+              autoComplete="new-password"
+            />
+          </label>
+          <label>
+            Confirm password
+            <input
+              type="password"
+              name="passwordConfirmation"
+              minLength={8}
+              required
+              autoComplete="new-password"
+            />
+          </label>
+        </div>
+        <label className="authConsent">
+          <input type="checkbox" name="termsAccepted" required />
+          <span>
+            I agree to the <Link href="/terms">Terms</Link> and{' '}
+            <Link href="/privacy">Privacy Policy</Link>.
+          </span>
+        </label>
+        <label className="authConsent">
+          <input type="checkbox" name="identityConsent" required />
+          <span>
+            I understand that my ID type and final four characters are retained for account-security
+            purposes, while the full number is discarded.
+          </span>
+        </label>
+        <div className="signupActions">
+          <button className="button textButton" type="button" onClick={() => setStep(1)}>
+            ← Back
+          </button>
+          <button className="button primary authSubmit" type="submit" disabled={busy}>
+            {busy ? 'Creating account…' : 'Register and confirm email'}
+          </button>
+        </div>
       </fieldset>
 
-      <p className="authStatus" role="status" aria-live="polite">{status}</p>
+      <p className="authStatus" role="status" aria-live="polite">
+        {status}
+      </p>
     </form>
   );
 }

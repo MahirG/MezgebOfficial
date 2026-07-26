@@ -14,12 +14,25 @@ export default async function SignInPage({ searchParams }: SignInPageProps) {
     <main id="main-content" className="authPage">
       <section>
         <p className="overline">Secure account</p>
-        <h1>Welcome back to Mezgeb.</h1>
-        <p>Sign in to access your protected businesses, ledger records, Dube balances, receipts and reports.</p>
-        {error ? <div className="authError" role="alert">{error}</div> : null}
-        {message ? <div className="authSuccess" role="status">{message}</div> : null}
+        <h1>Welcome back to Biloo Mezgeb.</h1>
+        <p>
+          Sign in to access your protected businesses, ledger records, Dube balances, receipts and
+          reports.
+        </p>
+        {error ? (
+          <div className="authError" role="alert">
+            {error}
+          </div>
+        ) : null}
+        {message ? (
+          <div className="authSuccess" role="status">
+            {message}
+          </div>
+        ) : null}
         <AuthForm mode="sign-in" />
-        <small>No account? <Link href="/auth/sign-up">Create one securely</Link></small>
+        <small>
+          No account? <Link href="/auth/sign-up">Create one securely</Link>
+        </small>
       </section>
     </main>
   );

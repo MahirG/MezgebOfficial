@@ -15,8 +15,12 @@
     padding: calc(11px + env(safe-area-inset-top)) 14px 11px !important;
     overflow: visible !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.74) !important;
-    background:
-      linear-gradient(118deg, rgba(255, 255, 255, 0.94), rgba(243, 238, 255, 0.89) 56%, rgba(235, 247, 255, 0.91)) !important;
+    background: linear-gradient(
+      118deg,
+      rgba(255, 255, 255, 0.94),
+      rgba(243, 238, 255, 0.89) 56%,
+      rgba(235, 247, 255, 0.91)
+    ) !important;
     box-shadow:
       0 15px 40px rgba(37, 20, 82, 0.14),
       inset 0 1px 0 rgba(255, 255, 255, 0.96) !important;
@@ -27,7 +31,7 @@
   }
 
   .mezgebMobileHeader::after {
-    content: "";
+    content: '';
     position: absolute;
     right: 14px;
     bottom: -1px;
@@ -41,8 +45,14 @@
     position: relative !important;
     z-index: 2 !important;
     border-color: rgba(76, 34, 212, 0.13) !important;
-    background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(241,237,253,.92)) !important;
-    box-shadow: 0 10px 25px rgba(39, 22, 78, 0.12), inset 0 1px rgba(255,255,255,.98) !important;
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.98),
+      rgba(241, 237, 253, 0.92)
+    ) !important;
+    box-shadow:
+      0 10px 25px rgba(39, 22, 78, 0.12),
+      inset 0 1px rgba(255, 255, 255, 0.98) !important;
     backdrop-filter: blur(18px) saturate(175%) !important;
     -webkit-backdrop-filter: blur(18px) saturate(175%) !important;
   }
@@ -58,17 +68,25 @@
   .mezgebMobileTopTheme,
   .mezgebMobileAccountShortcut {
     border-color: rgba(255, 255, 255, 0.84) !important;
-    background: linear-gradient(145deg, rgba(255,255,255,.98), rgba(241,237,253,.92)) !important;
-    box-shadow: 0 10px 25px rgba(39, 22, 78, 0.12), inset 0 1px rgba(255,255,255,.98) !important;
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.98),
+      rgba(241, 237, 253, 0.92)
+    ) !important;
+    box-shadow:
+      0 10px 25px rgba(39, 22, 78, 0.12),
+      inset 0 1px rgba(255, 255, 255, 0.98) !important;
     backdrop-filter: blur(18px) saturate(175%) !important;
     -webkit-backdrop-filter: blur(18px) saturate(175%) !important;
   }
 
   .mezgebMobileAccountShortcut {
     background:
-      radial-gradient(circle at 78% 18%, rgba(255,208,96,.45), transparent 35%),
+      radial-gradient(circle at 78% 18%, rgba(255, 208, 96, 0.45), transparent 35%),
       linear-gradient(145deg, #3212aa, #6846f6) !important;
-    box-shadow: 0 12px 28px rgba(60, 28, 177, 0.27), inset 0 1px rgba(255,255,255,.22) !important;
+    box-shadow:
+      0 12px 28px rgba(60, 28, 177, 0.27),
+      inset 0 1px rgba(255, 255, 255, 0.22) !important;
   }
 
   .mezgebMobileSearchBar {
@@ -78,7 +96,11 @@
     left: 0 !important;
     z-index: 1440 !important;
     padding: 8px 14px 10px !important;
-    background: linear-gradient(180deg, rgba(247,244,252,.95), rgba(243,241,249,.88)) !important;
+    background: linear-gradient(
+      180deg,
+      rgba(247, 244, 252, 0.95),
+      rgba(243, 241, 249, 0.88)
+    ) !important;
     box-shadow: 0 11px 26px rgba(39, 24, 72, 0.07) !important;
     backdrop-filter: blur(25px) saturate(180%) !important;
     -webkit-backdrop-filter: blur(25px) saturate(180%) !important;
@@ -95,9 +117,16 @@
     grid-template-rows: auto auto minmax(0, 1fr) auto auto !important;
     overflow: hidden !important;
     background:
-      radial-gradient(circle at 92% 0%, rgba(105, 71, 247, 0.20), transparent 21rem),
-      linear-gradient(160deg, rgba(255,255,255,.985), rgba(245,241,255,.975) 63%, rgba(237,247,255,.975)) !important;
-    box-shadow: -30px 0 90px rgba(26, 13, 61, 0.29), inset 1px 0 rgba(255,255,255,.92) !important;
+      radial-gradient(circle at 92% 0%, rgba(105, 71, 247, 0.2), transparent 21rem),
+      linear-gradient(
+        160deg,
+        rgba(255, 255, 255, 0.985),
+        rgba(245, 241, 255, 0.975) 63%,
+        rgba(237, 247, 255, 0.975)
+      ) !important;
+    box-shadow:
+      -30px 0 90px rgba(26, 13, 61, 0.29),
+      inset 1px 0 rgba(255, 255, 255, 0.92) !important;
     backdrop-filter: blur(33px) saturate(195%) !important;
     -webkit-backdrop-filter: blur(33px) saturate(195%) !important;
   }
@@ -119,10 +148,16 @@
     z-index: 4 !important;
     margin: 12px -4px 0 !important;
     padding: 10px !important;
-    border: 1px solid rgba(255,255,255,.84) !important;
+    border: 1px solid rgba(255, 255, 255, 0.84) !important;
     border-radius: 22px !important;
-    background: linear-gradient(145deg, rgba(255,255,255,.94), rgba(237,231,255,.91)) !important;
-    box-shadow: 0 18px 42px rgba(43, 23, 91, 0.16), inset 0 1px rgba(255,255,255,.98) !important;
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.94),
+      rgba(237, 231, 255, 0.91)
+    ) !important;
+    box-shadow:
+      0 18px 42px rgba(43, 23, 91, 0.16),
+      inset 0 1px rgba(255, 255, 255, 0.98) !important;
     backdrop-filter: blur(26px) saturate(190%) !important;
     -webkit-backdrop-filter: blur(26px) saturate(190%) !important;
   }
@@ -132,7 +167,9 @@
   .mezgebDrawerSettings a {
     min-height: 54px !important;
     border-radius: 15px !important;
-    transition: background 160ms ease, transform 160ms ease !important;
+    transition:
+      background 160ms ease,
+      transform 160ms ease !important;
   }
 
   .mezgebDrawerSettings label:focus-within,
@@ -143,7 +180,7 @@
 
   .mezgebDrawerSettings button:active,
   .mezgebDrawerSettings a:active {
-    transform: scale(.98);
+    transform: scale(0.98);
   }
 
   .cloudSidebar nav {
@@ -160,11 +197,17 @@
     min-height: 70px !important;
     padding: 7px !important;
     overflow: visible !important;
-    border: 1px solid rgba(255,255,255,.84) !important;
+    border: 1px solid rgba(255, 255, 255, 0.84) !important;
     border-radius: 25px !important;
-    background:
-      linear-gradient(120deg, rgba(255,255,255,.95), rgba(239,234,255,.92) 55%, rgba(235,246,255,.93)) !important;
-    box-shadow: 0 22px 56px rgba(32,17,72,.24), inset 0 1px rgba(255,255,255,.98) !important;
+    background: linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0.95),
+      rgba(239, 234, 255, 0.92) 55%,
+      rgba(235, 246, 255, 0.93)
+    ) !important;
+    box-shadow:
+      0 22px 56px rgba(32, 17, 72, 0.24),
+      inset 0 1px rgba(255, 255, 255, 0.98) !important;
     backdrop-filter: blur(30px) saturate(205%) !important;
     -webkit-backdrop-filter: blur(30px) saturate(205%) !important;
     transform: translate3d(0, 0, 0);
@@ -172,12 +215,12 @@
   }
 
   .cloudSidebar nav::before {
-    content: "";
+    content: '';
     position: absolute;
     inset: 0;
     z-index: -1;
     border-radius: inherit;
-    background: radial-gradient(circle at 50% 100%, rgba(101,69,246,.17), transparent 62%);
+    background: radial-gradient(circle at 50% 100%, rgba(101, 69, 246, 0.17), transparent 62%);
     pointer-events: none;
   }
 
@@ -188,24 +231,34 @@
     padding: 6px 3px !important;
     border-radius: 18px !important;
     color: #756d83 !important;
-    transition: transform 170ms cubic-bezier(.2,.8,.2,1), color 170ms ease, background 170ms ease, box-shadow 170ms ease !important;
+    transition:
+      transform 170ms cubic-bezier(0.2, 0.8, 0.2, 1),
+      color 170ms ease,
+      background 170ms ease,
+      box-shadow 170ms ease !important;
   }
 
   .cloudSidebar nav button i {
     font-size: 1.08rem !important;
-    transition: transform 170ms cubic-bezier(.2,.8,.2,1) !important;
+    transition: transform 170ms cubic-bezier(0.2, 0.8, 0.2, 1) !important;
   }
 
   .cloudSidebar nav button span {
-    font-size: .57rem !important;
+    font-size: 0.57rem !important;
     font-weight: 760 !important;
-    letter-spacing: -.01em;
+    letter-spacing: -0.01em;
   }
 
   .cloudSidebar nav button.active {
-    background: linear-gradient(145deg, rgba(76,34,212,.97), rgba(104,70,246,.91)) !important;
+    background: linear-gradient(
+      145deg,
+      rgba(76, 34, 212, 0.97),
+      rgba(104, 70, 246, 0.91)
+    ) !important;
     color: #fff !important;
-    box-shadow: 0 12px 24px rgba(76,34,212,.29), inset 0 1px rgba(255,255,255,.34) !important;
+    box-shadow:
+      0 12px 24px rgba(76, 34, 212, 0.29),
+      inset 0 1px rgba(255, 255, 255, 0.34) !important;
   }
 
   .cloudSidebar nav button.active i {
@@ -213,45 +266,66 @@
   }
 
   .cloudSidebar nav button:active {
-    transform: scale(.94) !important;
+    transform: scale(0.94) !important;
   }
 
-  body[data-mezgeb-theme="dark"] .mezgebMobileHeader {
-    border-bottom-color: rgba(180,155,255,.13) !important;
-    background: linear-gradient(120deg, rgba(17,14,27,.95), rgba(31,23,52,.92) 58%, rgba(15,27,39,.93)) !important;
-    box-shadow: 0 16px 42px rgba(0,0,0,.39), inset 0 1px rgba(255,255,255,.07) !important;
+  body[data-mezgeb-theme='dark'] .mezgebMobileHeader {
+    border-bottom-color: rgba(180, 155, 255, 0.13) !important;
+    background: linear-gradient(
+      120deg,
+      rgba(17, 14, 27, 0.95),
+      rgba(31, 23, 52, 0.92) 58%,
+      rgba(15, 27, 39, 0.93)
+    ) !important;
+    box-shadow:
+      0 16px 42px rgba(0, 0, 0, 0.39),
+      inset 0 1px rgba(255, 255, 255, 0.07) !important;
   }
 
-  body[data-mezgeb-theme="dark"] .mezgebMobileHeaderActions .mezgebMobileMenuButton,
-  body[data-mezgeb-theme="dark"] .mezgebMobileTopTheme {
-    border-color: rgba(173,148,255,.14) !important;
-    background: linear-gradient(145deg, rgba(37,31,51,.98), rgba(23,20,33,.96)) !important;
+  body[data-mezgeb-theme='dark'] .mezgebMobileHeaderActions .mezgebMobileMenuButton,
+  body[data-mezgeb-theme='dark'] .mezgebMobileTopTheme {
+    border-color: rgba(173, 148, 255, 0.14) !important;
+    background: linear-gradient(145deg, rgba(37, 31, 51, 0.98), rgba(23, 20, 33, 0.96)) !important;
     color: #f7f3ff !important;
-    box-shadow: 0 10px 26px rgba(0,0,0,.33), inset 0 1px rgba(255,255,255,.08) !important;
+    box-shadow:
+      0 10px 26px rgba(0, 0, 0, 0.33),
+      inset 0 1px rgba(255, 255, 255, 0.08) !important;
   }
 
-  body[data-mezgeb-theme="dark"] .mezgebMobileSearchBar {
-    background: linear-gradient(180deg, rgba(14,12,21,.96), rgba(11,10,17,.91)) !important;
+  body[data-mezgeb-theme='dark'] .mezgebMobileSearchBar {
+    background: linear-gradient(180deg, rgba(14, 12, 21, 0.96), rgba(11, 10, 17, 0.91)) !important;
   }
 
-  body[data-mezgeb-theme="dark"] .mezgebMobileDrawer {
+  body[data-mezgeb-theme='dark'] .mezgebMobileDrawer {
     background:
-      radial-gradient(circle at 92% 0%, rgba(105,71,247,.23), transparent 21rem),
-      linear-gradient(160deg, rgba(16,13,24,.99), rgba(24,18,40,.985) 64%, rgba(13,22,31,.985)) !important;
+      radial-gradient(circle at 92% 0%, rgba(105, 71, 247, 0.23), transparent 21rem),
+      linear-gradient(
+        160deg,
+        rgba(16, 13, 24, 0.99),
+        rgba(24, 18, 40, 0.985) 64%,
+        rgba(13, 22, 31, 0.985)
+      ) !important;
   }
 
-  body[data-mezgeb-theme="dark"] .mezgebDrawerSettings,
-  body[data-mezgeb-theme="dark"] .cloudSidebar nav {
-    border-color: rgba(172,148,255,.14) !important;
-    background: linear-gradient(125deg, rgba(31,27,43,.97), rgba(26,20,43,.95) 58%, rgba(19,31,41,.95)) !important;
-    box-shadow: 0 22px 56px rgba(0,0,0,.43), inset 0 1px rgba(255,255,255,.08) !important;
+  body[data-mezgeb-theme='dark'] .mezgebDrawerSettings,
+  body[data-mezgeb-theme='dark'] .cloudSidebar nav {
+    border-color: rgba(172, 148, 255, 0.14) !important;
+    background: linear-gradient(
+      125deg,
+      rgba(31, 27, 43, 0.97),
+      rgba(26, 20, 43, 0.95) 58%,
+      rgba(19, 31, 41, 0.95)
+    ) !important;
+    box-shadow:
+      0 22px 56px rgba(0, 0, 0, 0.43),
+      inset 0 1px rgba(255, 255, 255, 0.08) !important;
   }
 
-  body[data-mezgeb-theme="dark"] .cloudSidebar nav button {
+  body[data-mezgeb-theme='dark'] .cloudSidebar nav button {
     color: #aaa1ba !important;
   }
 
-  body[data-mezgeb-theme="dark"] .cloudSidebar nav button.active {
+  body[data-mezgeb-theme='dark'] .cloudSidebar nav button.active {
     color: #fff !important;
   }
 }

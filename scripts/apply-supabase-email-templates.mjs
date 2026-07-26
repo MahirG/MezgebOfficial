@@ -21,7 +21,9 @@ function validateConfiguration(config) {
     }
   }
 
-  const linkTemplates = required.filter((key) => key !== 'mailer_templates_reauthentication_content');
+  const linkTemplates = required.filter(
+    (key) => key !== 'mailer_templates_reauthentication_content'
+  );
   for (const key of linkTemplates) {
     if (!config[key].includes('{{ .ConfirmationURL }}')) {
       throw new Error(`${key} must preserve Supabase's ConfirmationURL variable.`);
@@ -29,7 +31,7 @@ function validateConfiguration(config) {
   }
 
   if (!config.mailer_templates_reauthentication_content.includes('{{ .Token }}')) {
-    throw new Error('The reauthentication template must preserve Supabase\'s Token variable.');
+    throw new Error("The reauthentication template must preserve Supabase's Token variable.");
   }
 }
 
@@ -37,12 +39,16 @@ validateConfiguration(mezgebAuthEmailConfig);
 
 if (dryRun) {
   const templates = Object.keys(mezgebAuthEmailConfig).filter((key) => key.includes('templates_'));
-  console.log(`Validated ${templates.length} Mezgeb email templates for project ${projectRef}.`);
+  console.log(
+    `Validated ${templates.length} Biloo Mezgeb email templates for project ${projectRef}.`
+  );
   process.exit(0);
 }
 
 if (!accessToken) {
-  console.error('SUPABASE_ACCESS_TOKEN is required. Create it in your Supabase account settings and store it as a local environment variable or protected CI secret.');
+  console.error(
+    'SUPABASE_ACCESS_TOKEN is required. Create it in your Supabase account settings and store it as a local environment variable or protected CI secret.'
+  );
   process.exit(1);
 }
 
@@ -60,4 +66,4 @@ if (!response.ok) {
   throw new Error(`Supabase Auth template update failed (${response.status}): ${body}`);
 }
 
-console.log(`Mezgeb authentication email templates were applied to ${projectRef}.`);
+console.log(`Biloo Mezgeb authentication email templates were applied to ${projectRef}.`);

@@ -1,14 +1,14 @@
-# Mezgeb Supabase email templates
+# Biloo Mezgeb Supabase email templates
 
-This directory contains the production email design system for Mezgeb authentication and account-security messages.
+This directory contains the production email design system for Biloo Mezgeb authentication and account-security messages.
 
 ## Visual system
 
-- Mezgeb midnight navy, trusted blue and Ethiopian gold accents
+- Biloo Mezgeb midnight navy, trusted blue and Ethiopian gold accents
 - Table-based email layout for broad inbox compatibility
 - Responsive mobile presentation
 - System fonts only; no blocked external font downloads
-- Text-based Mezgeb mark so the brand remains visible when images are disabled
+- Text-based Biloo Mezgeb mark so the brand remains visible when images are disabled
 - Hidden preheader text for a cleaner inbox preview
 - Clear call-to-action buttons plus plain-link fallbacks
 - Security notices for sensitive account changes
@@ -70,7 +70,7 @@ export SUPABASE_PROJECT_REF="vcyzgoiconxjmntoreto"
 npm run email:apply
 ```
 
-The project reference defaults to the Mezgeb project. The script updates Auth email subjects, HTML bodies, and enables the included security notifications.
+The project reference defaults to the Biloo Mezgeb project. The script updates Auth email subjects, HTML bodies, and enables the included security notifications.
 
 ## Dashboard alternative
 
@@ -78,4 +78,4 @@ Hosted Supabase templates can also be applied manually from **Authentication →
 
 ## Deliverability note
 
-A custom SMTP provider should be configured before production launch so emails use a Mezgeb-controlled sender domain, SPF, DKIM and DMARC. Email-link tracking should remain disabled because link rewriting can interfere with authentication links.
+A custom SMTP provider should be configured before production launch so emails use a Biloo Mezgeb-controlled sender domain, SPF, DKIM and DMARC. Email-link tracking should remain disabled because link rewriting can interfere with authentication links.

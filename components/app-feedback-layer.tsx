@@ -13,7 +13,8 @@ type Feedback = {
 const SUCCESS_PATTERN = /saved|recorded|added|issued|removed|synced|completed|updated|confirmed/i;
 const LOADING_PATTERN = /saving|processing|loading|syncing|refreshing|issuing|adding|recording/i;
 const DUPLICATE_PATTERN = /already|duplicate|exists/i;
-const ERROR_PATTERN = /error|failed|could not|invalid|required|missing|enter |choose |must |unable/i;
+const ERROR_PATTERN =
+  /error|failed|could not|invalid|required|missing|enter |choose |must |unable/i;
 
 function classifyMessage(message: string): Feedback {
   if (LOADING_PATTERN.test(message)) {
@@ -32,7 +33,7 @@ function classifyMessage(message: string): Feedback {
     return { tone: 'error', title: 'Check the form', message };
   }
 
-  return { tone: 'info', title: 'Mezgeb update', message };
+  return { tone: 'info', title: 'Biloo Mezgeb update', message };
 }
 
 function labelForField(field: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement) {
@@ -46,31 +47,49 @@ function labelForField(field: HTMLInputElement | HTMLSelectElement | HTMLTextAre
     if (directText) return directText;
   }
 
-  return field.getAttribute('aria-label')
-    || field.getAttribute('name')
-    || (field instanceof HTMLSelectElement ? 'selection' : 'field');
+  return (
+    field.getAttribute('aria-label') ||
+    field.getAttribute('name') ||
+    (field instanceof HTMLSelectElement ? 'selection' : 'field')
+  );
 }
 
 function fieldInForm(form: HTMLFormElement, labelFragment: string) {
   const labels = Array.from(form.querySelectorAll<HTMLLabelElement>('label'));
-  const label = labels.find((candidate) => candidate.textContent?.toLowerCase().includes(labelFragment));
-  return label?.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('input, select, textarea') ?? null;
+  const label = labels.find((candidate) =>
+    candidate.textContent?.toLowerCase().includes(labelFragment)
+  );
+  return (
+    label?.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
+      'input, select, textarea'
+    ) ?? null
+  );
 }
 
 function findField(labelFragment: string) {
   const labels = Array.from(document.querySelectorAll<HTMLLabelElement>('.cloudForm label'));
-  const label = labels.find((candidate) => candidate.textContent?.toLowerCase().includes(labelFragment));
-  return label?.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>('input, select, textarea') ?? null;
+  const label = labels.find((candidate) =>
+    candidate.textContent?.toLowerCase().includes(labelFragment)
+  );
+  return (
+    label?.querySelector<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>(
+      'input, select, textarea'
+    ) ?? null
+  );
 }
 
 function markFieldError(field: HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement) {
   field.classList.add('appFieldError');
   field.setAttribute('aria-invalid', 'true');
   field.focus({ preventScroll: false });
-  field.addEventListener('input', () => {
-    field.classList.remove('appFieldError');
-    field.removeAttribute('aria-invalid');
-  }, { once: true });
+  field.addEventListener(
+    'input',
+    () => {
+      field.classList.remove('appFieldError');
+      field.removeAttribute('aria-invalid');
+    },
+    { once: true }
+  );
 }
 
 function focusRelatedField(message: string) {
@@ -107,43 +126,57 @@ export function AppFeedbackLayer() {
     clearOperationTimer();
   }, [clearDismissTimer, clearOperationTimer]);
 
-  const announce = useCallback((nextFeedback: Feedback, force = false) => {
-    if (!force && lastMessageRef.current === nextFeedback.message) return;
+  const announce = useCallback(
+    (nextFeedback: Feedback, force = false) => {
+      if (!force && lastMessageRef.current === nextFeedback.message) return;
 
-    clearDismissTimer();
-    if (nextFeedback.tone !== 'loading') clearOperationTimer();
-    lastMessageRef.current = nextFeedback.message;
-    setFeedback(nextFeedback);
+      clearDismissTimer();
+      if (nextFeedback.tone !== 'loading') clearOperationTimer();
+      lastMessageRef.current = nextFeedback.message;
+      setFeedback(nextFeedback);
 
-    if (nextFeedback.tone === 'error') {
-      navigator.vibrate?.([55, 35, 55]);
-      focusRelatedField(nextFeedback.message);
-    } else if (nextFeedback.tone === 'success') {
-      navigator.vibrate?.(45);
-    }
+      if (nextFeedback.tone === 'error') {
+        navigator.vibrate?.([55, 35, 55]);
+        focusRelatedField(nextFeedback.message);
+      } else if (nextFeedback.tone === 'success') {
+        navigator.vibrate?.(45);
+      }
 
-    if (nextFeedback.tone !== 'loading') {
-      dismissTimerRef.current = window.setTimeout(() => setFeedback(null), nextFeedback.tone === 'error' ? 7000 : 5200);
-    }
-  }, [clearDismissTimer, clearOperationTimer]);
+      if (nextFeedback.tone !== 'loading') {
+        dismissTimerRef.current = window.setTimeout(
+          () => setFeedback(null),
+          nextFeedback.tone === 'error' ? 7000 : 5200
+        );
+      }
+    },
+    [clearDismissTimer, clearOperationTimer]
+  );
 
-  const beginLoading = useCallback((message: string) => {
-    clearOperationTimer();
-    announce({ tone: 'loading', title: 'Saving securely', message }, true);
-    operationTimerRef.current = window.setTimeout(() => {
-      announce({
-        tone: 'error',
-        title: 'Still working',
-        message: 'This is taking longer than expected. Check your connection and try again.'
-      }, true);
-    }, 20000);
-  }, [announce, clearOperationTimer]);
+  const beginLoading = useCallback(
+    (message: string) => {
+      clearOperationTimer();
+      announce({ tone: 'loading', title: 'Saving securely', message }, true);
+      operationTimerRef.current = window.setTimeout(() => {
+        announce(
+          {
+            tone: 'error',
+            title: 'Still working',
+            message: 'This is taking longer than expected. Check your connection and try again.'
+          },
+          true
+        );
+      }, 20000);
+    },
+    [announce, clearOperationTimer]
+  );
 
   useEffect(() => {
     const root = document.getElementById('mezgeb-application') ?? document.body;
 
     const readNotice = () => {
-      const message = document.querySelector<HTMLElement>('.mezgebNotice span')?.textContent?.trim();
+      const message = document
+        .querySelector<HTMLElement>('.mezgebNotice span')
+        ?.textContent?.trim();
       if (!message) return;
       announce(classifyMessage(message));
     };
@@ -162,11 +195,14 @@ export function AppFeedbackLayer() {
         if (!Number.isFinite(numericAmount) || numericAmount <= 0) {
           event.preventDefault();
           markFieldError(amountField);
-          announce({
-            tone: 'error',
-            title: 'Enter a valid amount',
-            message: 'Amount must be greater than zero before this entry can be saved.'
-          }, true);
+          announce(
+            {
+              tone: 'error',
+              title: 'Enter a valid amount',
+              message: 'Amount must be greater than zero before this entry can be saved.'
+            },
+            true
+          );
           return;
         }
       }
@@ -176,11 +212,14 @@ export function AppFeedbackLayer() {
         if (nameField instanceof HTMLInputElement && nameField.value.trim().length < 2) {
           event.preventDefault();
           markFieldError(nameField);
-          announce({
-            tone: 'error',
-            title: 'Enter the customer name',
-            message: 'Customer name must contain at least two characters.'
-          }, true);
+          announce(
+            {
+              tone: 'error',
+              title: 'Enter the customer name',
+              message: 'Customer name must contain at least two characters.'
+            },
+            true
+          );
           return;
         }
       }
@@ -200,11 +239,18 @@ export function AppFeedbackLayer() {
     const handleInvalid = (event: Event) => {
       event.preventDefault();
       const field = event.target;
-      if (!(field instanceof HTMLInputElement || field instanceof HTMLSelectElement || field instanceof HTMLTextAreaElement)) return;
+      if (!(
+        field instanceof HTMLInputElement ||
+        field instanceof HTMLSelectElement ||
+        field instanceof HTMLTextAreaElement
+      ))
+        return;
       if (validationLockRef.current) return;
 
       validationLockRef.current = true;
-      window.setTimeout(() => { validationLockRef.current = false; }, 250);
+      window.setTimeout(() => {
+        validationLockRef.current = false;
+      }, 250);
 
       const fieldLabel = labelForField(field);
       const message = field.validity.valueMissing
@@ -231,18 +277,24 @@ export function AppFeedbackLayer() {
 
   if (!feedback) return null;
 
-  const icon = feedback.tone === 'loading'
-    ? null
-    : feedback.tone === 'success'
-      ? '✓'
-      : feedback.tone === 'duplicate'
-        ? '↺'
-        : feedback.tone === 'error'
-          ? '!'
-          : 'i';
+  const icon =
+    feedback.tone === 'loading'
+      ? null
+      : feedback.tone === 'success'
+        ? '✓'
+        : feedback.tone === 'duplicate'
+          ? '↺'
+          : feedback.tone === 'error'
+            ? '!'
+            : 'i';
 
   return (
-    <div className={`appFeedbackLayer ${feedback.tone}`} role={feedback.tone === 'error' ? 'alert' : 'status'} aria-live={feedback.tone === 'error' ? 'assertive' : 'polite'} aria-atomic="true">
+    <div
+      className={`appFeedbackLayer ${feedback.tone}`}
+      role={feedback.tone === 'error' ? 'alert' : 'status'}
+      aria-live={feedback.tone === 'error' ? 'assertive' : 'polite'}
+      aria-atomic="true"
+    >
       <div className="appFeedbackCard" aria-busy={feedback.tone === 'loading'}>
         <div className="appFeedbackIcon" aria-hidden="true">
           {feedback.tone === 'loading' ? <span className="appFeedbackSpinner" /> : icon}
@@ -252,9 +304,18 @@ export function AppFeedbackLayer() {
           <span>{feedback.message}</span>
         </div>
         {feedback.tone !== 'loading' ? (
-          <button className="appFeedbackClose" type="button" onClick={() => setFeedback(null)} aria-label="Dismiss confirmation">×</button>
+          <button
+            className="appFeedbackClose"
+            type="button"
+            onClick={() => setFeedback(null)}
+            aria-label="Dismiss confirmation"
+          >
+            ×
+          </button>
         ) : null}
-        {feedback.tone === 'loading' ? <span className="appFeedbackProgress" aria-hidden="true" /> : null}
+        {feedback.tone === 'loading' ? (
+          <span className="appFeedbackProgress" aria-hidden="true" />
+        ) : null}
       </div>
     </div>
   );

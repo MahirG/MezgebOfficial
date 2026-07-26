@@ -13,7 +13,9 @@ export function PasswordRecoveryForm() {
 
     const formElement = event.currentTarget;
     const form = new FormData(formElement);
-    const email = String(form.get('email') ?? '').trim().toLowerCase();
+    const email = String(form.get('email') ?? '')
+      .trim()
+      .toLowerCase();
     if (!email) {
       setStatus('Enter your registered email address.');
       return;
@@ -33,7 +35,9 @@ export function PasswordRecoveryForm() {
       setStatus('Check your email. A password-reset link has been sent when the account exists.');
       formElement.reset();
     } catch (error) {
-      setStatus(error instanceof Error ? error.message : 'The reset request could not be completed.');
+      setStatus(
+        error instanceof Error ? error.message : 'The reset request could not be completed.'
+      );
     } finally {
       setBusy(false);
     }
@@ -48,7 +52,9 @@ export function PasswordRecoveryForm() {
       <button className="button primary authSubmit" type="submit" disabled={busy}>
         {busy ? 'Please wait…' : 'Send password-reset link'}
       </button>
-      <p className="authStatus" role="status" aria-live="polite">{status}</p>
+      <p className="authStatus" role="status" aria-live="polite">
+        {status}
+      </p>
     </form>
   );
 }

@@ -48,12 +48,20 @@ export function UpdatePasswordForm() {
       </label>
       <label>
         Confirm new password
-        <input type="password" name="confirmation" minLength={8} required autoComplete="new-password" />
+        <input
+          type="password"
+          name="confirmation"
+          minLength={8}
+          required
+          autoComplete="new-password"
+        />
       </label>
       <button className="button primary authSubmit" type="submit" disabled={busy}>
         {busy ? 'Please wait…' : 'Update password'}
       </button>
-      <p className="authStatus" role="status" aria-live="polite">{status}</p>
+      <p className="authStatus" role="status" aria-live="polite">
+        {status}
+      </p>
     </form>
   );
 }

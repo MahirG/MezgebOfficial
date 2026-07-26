@@ -1,0 +1,100 @@
+/* Biloo Mezgeb identity layer. Loaded last to preserve application behavior while making Biloo the authoritative visual brand. */
+:root {
+  --bg: #f1f5f9;
+  --surface: #fff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --blue: #1e3a8a;
+  --green: #15805f;
+  --rose: #be3a55;
+  --line: rgba(15, 23, 42, 0.1);
+  --shadow: 0 30px 90px rgba(15, 23, 42, 0.1);
+}
+::selection {
+  background: rgba(30, 58, 138, 0.24);
+  color: #0f172a;
+}
+body {
+  background: #f1f5f9;
+  color: #0f172a;
+  accent-color: #1e3a8a;
+}
+.siteHeader {
+  background: rgba(248, 250, 252, 0.9);
+  border-bottom-color: rgba(15, 23, 42, 0.08);
+}
+.brandMark {
+  background: #0f172a;
+  color: #f8fafc;
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.2);
+}
+.brandMark svg {
+  width: 26px;
+  height: 26px;
+}
+.brand small {
+  color: #64748b;
+}
+.navLinks a {
+  color: #475569;
+}
+.navLinks a:hover,
+.textButton {
+  color: #1e3a8a;
+}
+.primary {
+  background: #1e3a8a;
+  color: #f8fafc;
+}
+.primary:hover {
+  background: #172f72;
+}
+.hero {
+  background:
+    radial-gradient(circle at 72% 20%, rgba(30, 58, 138, 0.16), transparent 34%),
+    linear-gradient(#f8fafc, #f1f5f9);
+}
+.hero h1 span {
+  background: linear-gradient(90deg, #1e3a8a, #3e63bd, #0f172a);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.primaryMetric,
+.secondaryDark,
+.darkStatement {
+  background: #0f172a;
+}
+.featureCard.large {
+  background: radial-gradient(circle at 85% 15%, rgba(30, 58, 138, 0.14), transparent 32%), #fff;
+}
+.pricing article.featured,
+.complianceCard {
+  background: #0f172a;
+}
+.siteFooter {
+  background: #f8fafc;
+}
+.authPage,
+.pageShell,
+.legalPage {
+  color: #0f172a;
+}
+.authCard,
+.dashboardShell,
+.appShell,
+.workspaceShell {
+  --blue: #1e3a8a;
+  --text: #0f172a;
+  --muted: #64748b;
+}
+:focus-visible {
+  outline-color: #1e3a8a;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+}

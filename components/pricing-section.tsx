@@ -27,14 +27,20 @@ function createIdempotencyKey() {
   return `mezgeb-${Date.now()}-${Math.random().toString(36).slice(2)}-${Math.random().toString(36).slice(2)}`;
 }
 
-function planReturnUrl(planCode: string, billingCycle: BillingCycle, mode: 'trial' | 'pay' | 'review' = 'review') {
+function planReturnUrl(
+  planCode: string,
+  billingCycle: BillingCycle,
+  mode: 'trial' | 'pay' | 'review' = 'review'
+) {
   const params = new URLSearchParams({ plan: planCode, billing: billingCycle });
   if (mode !== 'review') params.set(mode, '1');
   return `/?${params.toString()}#pricing`;
 }
 
 export function PricingSection({ plans, subscription }: PricingSectionProps) {
-  const [billingCycle, setBillingCycle] = useState<BillingCycle>(subscription?.billingCycle ?? 'monthly');
+  const [billingCycle, setBillingCycle] = useState<BillingCycle>(
+    subscription?.billingCycle ?? 'monthly'
+  );
   const [busyPlan, setBusyPlan] = useState<string | null>(null);
   const [selectedPlan, setSelectedPlan] = useState<PricingPlan | null>(null);
   const [selectedMethod, setSelectedMethod] = useState<PaymentMethodCode>('telebirr');
@@ -68,21 +74,33 @@ export function PricingSection({ plans, subscription }: PricingSectionProps) {
     const requestedPlanCode = params.get('plan');
     if (!requestedPlanCode) return;
 
-    const requestedPlan = plans.find((plan) => plan.code === requestedPlanCode && !plan.customPricing);
+    const requestedPlan = plans.find(
+      (plan) => plan.code === requestedPlanCode && !plan.customPricing
+    );
     if (!requestedPlan) return;
 
     const requestedBilling = params.get('billing');
-    if (requestedBilling === 'monthly' || requestedBilling === 'annual') setBillingCycle(requestedBilling);
+    const initializationTimer = window.setTimeout(() => {
+      if (requestedBilling === 'monthly' || requestedBilling === 'annual') {
+        setBillingCycle(requestedBilling);
+      }
 
-    setSelectedPlan(requestedPlan);
-    setSelectedMethod('telebirr');
-    setCheckoutMessage(params.get('pay') === '1'
-      ? 'Continue below to open secure payment.'
-      : params.get('trial') === '1'
-        ? 'Continue below to activate your trial.'
-        : 'Review the plan and choose how to continue.');
+      setSelectedPlan(requestedPlan);
+      setSelectedMethod('telebirr');
+      setCheckoutMessage(
+        params.get('pay') === '1'
+          ? 'Continue below to open secure payment.'
+          : params.get('trial') === '1'
+            ? 'Continue below to activate your trial.'
+            : 'Review the plan and choose how to continue.'
+      );
 
-    requestAnimationFrame(() => document.getElementById('pricing')?.scrollIntoView({ block: 'start' }));
+      requestAnimationFrame(() =>
+        document.getElementById('pricing')?.scrollIntoView({ block: 'start' })
+      );
+    }, 0);
+
+    return () => window.clearTimeout(initializationTimer);
   }, [plans]);
 
   function amountFor(plan: PricingPlan) {
@@ -104,8 +122,8 @@ export function PricingSection({ plans, subscription }: PricingSectionProps) {
   async function selectPlan(planCode: string) {
     if (busyPlan || checkoutBusy) return;
     setBusyPlan(planCode);
-    setCheckoutMessage('Starting your Mezgeb trial securely…');
-    setMessage('Saving your Mezgeb plan securely…');
+    setCheckoutMessage('Starting your Biloo Mezgeb trial securely…');
+    setMessage('Saving your Biloo Mezgeb plan securely…');
 
     try {
       const response = await fetch('/api/subscriptions/select', {
@@ -120,7 +138,7 @@ export function PricingSection({ plans, subscription }: PricingSectionProps) {
         return;
       }
 
-      const result = await response.json() as { error?: string };
+      const result = (await response.json()) as { error?: string };
       if (!response.ok) throw new Error(result.error || 'The plan could not be selected.');
 
       window.location.assign('/dashboard?plan=updated');
@@ -155,7 +173,7 @@ export function PricingSection({ plans, subscription }: PricingSectionProps) {
         return;
       }
 
-      const result = await response.json() as { checkoutUrl?: string; error?: string };
+      const result = (await response.json()) as { checkoutUrl?: string; error?: string };
       if (!response.ok || !result.checkoutUrl) {
         throw new Error(result.error || 'The secure checkout could not be opened.');
       }
@@ -163,7 +181,9 @@ export function PricingSection({ plans, subscription }: PricingSectionProps) {
       setCheckoutMessage('Redirecting to Chapa secure checkout…');
       window.location.assign(result.checkoutUrl);
     } catch (error) {
-      setCheckoutMessage(error instanceof Error ? error.message : 'The secure checkout could not be opened.');
+      setCheckoutMessage(
+        error instanceof Error ? error.message : 'The secure checkout could not be opened.'
+      );
       setCheckoutBusy(false);
     }
   }
@@ -176,7 +196,11 @@ export function PricingSection({ plans, subscription }: PricingSectionProps) {
         <header className={styles.header}>
           <p className="overline">Transparent ETB pricing</p>
           <h2>Choose the operating level that fits the business.</h2>
-          <p>Review the plan, select a familiar Ethiopian payment method and continue through a server-verified checkout. A paid plan activates only after the provider status, amount, currency and reference match Mezgeb’s protected payment intent.</p>
+          <p>
+            Review the plan, select a familiar Ethiopian payment method and continue through a
+            server-verified checkout. A paid plan activates only after the provider status, amount,
+            currency and reference match Biloo Mezgeb’s protected payment intent.
+          </p>
           <div className={styles.billingSwitch} aria-label="Billing interval">
             <button
               className={billingCycle === 'monthly' ? styles.active : ''}
@@ -193,17 +217,31 @@ export function PricingSection({ plans, subscription }: PricingSectionProps) {
               onClick={() => setBillingCycle('annual')}
             >
               Yearly
-              {maximumSaving > 0 ? <span className={styles.saving}>Save up to ETB {formatEtb(maximumSaving)}</span> : null}
+              {maximumSaving > 0 ? (
+                <span className={styles.saving}>Save up to ETB {formatEtb(maximumSaving)}</span>
+              ) : null}
             </button>
           </div>
 
-          <div className={styles.paymentRail} aria-label="Ethiopian payment methods available through secure checkout">
-            <span className={styles.paymentRailLabel}><b>Secure ETB checkout</b><small>Powered by Chapa</small></span>
+          <div
+            className={styles.paymentRail}
+            aria-label="Ethiopian payment methods available through secure checkout"
+          >
+            <span className={styles.paymentRailLabel}>
+              <b>Secure ETB checkout</b>
+              <small>Powered by Chapa</small>
+            </span>
             <div className={styles.paymentRailMethods}>
               {paymentMethods.map((method) => (
                 <span className={styles.paymentRailMethod} key={method.code} title={method.name}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={method.source} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" />
+                  <img
+                    src={method.source}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                    referrerPolicy="no-referrer"
+                  />
                   <strong>{method.shortLabel}</strong>
                 </span>
               ))}
@@ -226,7 +264,11 @@ export function PricingSection({ plans, subscription }: PricingSectionProps) {
             const actionHref = current ? '/dashboard' : planReturnUrl(plan.code, billingCycle);
 
             return (
-              <article className={`${styles.card} ${plan.featured ? styles.featured : ''}`} data-subscription-card key={plan.code}>
+              <article
+                className={`${styles.card} ${plan.featured ? styles.featured : ''}`}
+                data-subscription-card
+                key={plan.code}
+              >
                 <div className={styles.planTop}>
                   <div>
                     <small>{plan.name}</small>
@@ -238,19 +280,34 @@ export function PricingSection({ plans, subscription }: PricingSectionProps) {
                 <p className={styles.audience}>{plan.audience}</p>
                 <h3 className={styles.price}>
                   {plan.customPricing ? 'Custom' : <>ETB {formatEtb(amount)}</>}
-                  {!plan.customPricing ? <span>/ {billingCycle === 'annual' ? 'year' : 'month'}</span> : null}
+                  {!plan.customPricing ? (
+                    <span>/ {billingCycle === 'annual' ? 'year' : 'month'}</span>
+                  ) : null}
                 </h3>
-                {billingCycle === 'annual' && saving > 0 ? <span className={styles.annualValue}>Save ETB {formatEtb(saving)} each year</span> : null}
+                {billingCycle === 'annual' && saving > 0 ? (
+                  <span className={styles.annualValue}>Save ETB {formatEtb(saving)} each year</span>
+                ) : null}
                 <p className={styles.description}>{plan.description}</p>
                 <span className={styles.capacity}>{plan.capacity}</span>
-                {plan.trialDays > 0 ? <span className={styles.trial}>{plan.trialDays}-day trial · no payment required</span> : null}
+                {plan.trialDays > 0 ? (
+                  <span className={styles.trial}>
+                    {plan.trialDays}-day trial · no payment required
+                  </span>
+                ) : null}
 
                 <ul className={styles.features}>
-                  {plan.features.map((feature) => <li key={feature}>{feature}</li>)}
+                  {plan.features.map((feature) => (
+                    <li key={feature}>{feature}</li>
+                  ))}
                 </ul>
 
                 {plan.customPricing ? (
-                  <a className={`button secondaryDark ${styles.action}`} href="mailto:info@hisabtech.com?subject=Mezgeb%20Enterprise%20pricing">Talk to enterprise sales</a>
+                  <a
+                    className={`button secondaryDark ${styles.action}`}
+                    href="mailto:info@hisabtech.com?subject=Biloo Mezgeb%20Enterprise%20pricing"
+                  >
+                    Talk to enterprise sales
+                  </a>
                 ) : (
                   <a
                     className={`button ${plan.featured ? 'white' : 'secondaryDark'} ${styles.action}`}
@@ -267,24 +324,40 @@ export function PricingSection({ plans, subscription }: PricingSectionProps) {
                     {busyPlan === plan.code ? 'Please wait…' : buttonLabel}
                   </a>
                 )}
-                {!plan.customPricing && !current ? <span className={styles.secureHint}>Trial or secure ETB payment available</span> : null}
-                {current ? <span className={styles.secureHint}>Open your account dashboard to review this subscription</span> : null}
+                {!plan.customPricing && !current ? (
+                  <span className={styles.secureHint}>Trial or secure ETB payment available</span>
+                ) : null}
+                {current ? (
+                  <span className={styles.secureHint}>
+                    Open your account dashboard to review this subscription
+                  </span>
+                ) : null}
               </article>
             );
           })}
         </div>
 
-        <p className={styles.status} role="status" aria-live="polite">{message}</p>
+        <p className={styles.status} role="status" aria-live="polite">
+          {message}
+        </p>
         <div className={styles.billingNote}>
           <strong>Payment activation is server controlled.</strong>
-          <span>Mezgeb creates an idempotent payment intent, redirects through Chapa, verifies the transaction again on the server and activates the subscription atomically. A browser redirect alone never marks a plan as paid.</span>
+          <span>
+            Biloo Mezgeb creates an idempotent payment intent, redirects through Chapa, verifies the
+            transaction again on the server and activates the subscription atomically. A browser
+            redirect alone never marks a plan as paid.
+          </span>
         </div>
       </div>
 
       {selectedPlan ? (
-        <div className={styles.checkoutBackdrop} role="presentation" onMouseDown={(event) => {
-          if (event.target === event.currentTarget) closeCheckout();
-        }}>
+        <div
+          className={styles.checkoutBackdrop}
+          role="presentation"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) closeCheckout();
+          }}
+        >
           <section
             className={styles.checkoutDialog}
             id="mezgeb-checkout-dialog"
@@ -292,18 +365,38 @@ export function PricingSection({ plans, subscription }: PricingSectionProps) {
             aria-modal="true"
             aria-labelledby="mezgeb-checkout-title"
           >
-            <button className={styles.closeButton} type="button" aria-label="Close payment options" onClick={closeCheckout}>×</button>
+            <button
+              className={styles.closeButton}
+              type="button"
+              aria-label="Close payment options"
+              onClick={closeCheckout}
+            >
+              ×
+            </button>
 
             <div className={styles.checkoutIntro}>
-              <p>Mezgeb secure checkout</p>
-              <h3 id="mezgeb-checkout-title">{selectedPlan.name} · ETB {formatEtb(selectedAmount)}</h3>
-              <span>{billingCycle === 'annual' ? 'Annual billing' : 'Monthly billing'} · ETB currency</span>
+              <p>Biloo Mezgeb secure checkout</p>
+              <h3 id="mezgeb-checkout-title">
+                {selectedPlan.name} · ETB {formatEtb(selectedAmount)}
+              </h3>
+              <span>
+                {billingCycle === 'annual' ? 'Annual billing' : 'Monthly billing'} · ETB currency
+              </span>
             </div>
 
             <div className={styles.orderSummary}>
-              <span><small>Plan</small><strong>{selectedPlan.name}</strong></span>
-              <span><small>Billing</small><strong>{billingCycle === 'annual' ? 'Yearly' : 'Monthly'}</strong></span>
-              <span><small>Total</small><strong>ETB {formatEtb(selectedAmount)}</strong></span>
+              <span>
+                <small>Plan</small>
+                <strong>{selectedPlan.name}</strong>
+              </span>
+              <span>
+                <small>Billing</small>
+                <strong>{billingCycle === 'annual' ? 'Yearly' : 'Monthly'}</strong>
+              </span>
+              <span>
+                <small>Total</small>
+                <strong>ETB {formatEtb(selectedAmount)}</strong>
+              </span>
             </div>
 
             <fieldset className={styles.paymentChooser}>
@@ -319,15 +412,27 @@ export function PricingSection({ plans, subscription }: PricingSectionProps) {
                     onClick={() => setSelectedMethod(method.code)}
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={method.source} alt="" loading="eager" decoding="async" referrerPolicy="no-referrer" />
-                    <span><strong>{method.name}</strong><small>{method.description}</small></span>
+                    <img
+                      src={method.source}
+                      alt=""
+                      loading="eager"
+                      decoding="async"
+                      referrerPolicy="no-referrer"
+                    />
+                    <span>
+                      <strong>{method.name}</strong>
+                      <small>{method.description}</small>
+                    </span>
                     <i aria-hidden="true">{selectedMethod === method.code ? '✓' : ''}</i>
                   </button>
                 ))}
               </div>
             </fieldset>
 
-            <p className={styles.providerNote}>Your preferred method is recorded with the payment intent. Final channel availability is confirmed inside the merchant’s live Chapa checkout configuration.</p>
+            <p className={styles.providerNote}>
+              Your preferred method is recorded with the payment intent. Final channel availability
+              is confirmed inside the merchant’s live Chapa checkout configuration.
+            </p>
 
             <div className={styles.checkoutActions}>
               {selectedPlan.trialDays > 0 ? (
@@ -347,11 +452,15 @@ export function PricingSection({ plans, subscription }: PricingSectionProps) {
                 disabled={checkoutBusy || busyPlan !== null}
                 onClick={startSecurePayment}
               >
-                {checkoutBusy ? 'Opening secure checkout…' : `Pay ETB ${formatEtb(selectedAmount)} securely`}
+                {checkoutBusy
+                  ? 'Opening secure checkout…'
+                  : `Pay ETB ${formatEtb(selectedAmount)} securely`}
               </button>
             </div>
 
-            <p className={styles.checkoutStatus} role="status" aria-live="polite">{checkoutMessage}</p>
+            <p className={styles.checkoutStatus} role="status" aria-live="polite">
+              {checkoutMessage}
+            </p>
             <div className={styles.checkoutSafety}>
               <span>🔒 Server-calculated amount</span>
               <span>↻ Duplicate-charge protection</span>

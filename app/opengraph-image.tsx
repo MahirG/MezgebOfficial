@@ -1,6 +1,6 @@
 import { ImageResponse } from 'next/og';
 
-export const alt = 'Mezgeb — Your business, clearly recorded';
+export const alt = 'Biloo Mezgeb — Your business, clearly recorded';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -19,9 +19,7 @@ export default function Image() {
         fontFamily: 'sans-serif'
       }}
     >
-      <div style={{ display: 'flex', fontSize: 34, color: '#0071e3' }}>
-        Mezgeb መዝገብ
-      </div>
+      <div style={{ display: 'flex', fontSize: 34, color: '#0071e3' }}>Biloo Mezgeb መዝገብ</div>
       <div
         style={{
           display: 'flex',
