@@ -67,15 +67,26 @@ jobs:
         with:
           node-version: 22
 
-      - name: Validate deployment mirror
-        run: |
-          npm install --no-audit --no-fund --silent
-          npm run format:check
-          npm run lint
-          npm run typecheck
-          npm test
-          npm run email:validate
-          npm run build
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund --silent
+
+      - name: Check formatting
+        run: npm run format:check
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Validate Supabase email templates
+        run: npm run email:validate
+
+      - name: Production build
+        run: npm run build
 
       - name: Commit deployment mirror
         shell: bash
