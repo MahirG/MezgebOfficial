@@ -1,18 +1,22 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
 type FeedbackKind = 'success' | 'error' | 'info' | 'loading';
 type ToastState = { kind: 'success' | 'error'; message: string } | null;
 
-type AudioWindow = Window & typeof globalThis & {
-  webkitAudioContext?: typeof AudioContext;
-};
+type AudioWindow = Window &
+  typeof globalThis & {
+    webkitAudioContext?: typeof AudioContext;
+  };
 
-const successWords = /saved|synced|added|recorded|issued|updated|received|complete|completed|active|ready|confirmed|created|sent|connected/i;
-const errorWords = /error|failed|unable|invalid|could not|not found|required|choose|enter a|unavailable|denied|expired|removed/i;
-const loadingWords = /saving|loading|syncing|please wait|sending|joining|refreshing|processing|connecting/i;
+const successWords =
+  /saved|synced|added|recorded|issued|updated|received|complete|completed|active|ready|confirmed|created|sent|connected/i;
+const errorWords =
+  /error|failed|unable|invalid|could not|not found|required|choose|enter a|unavailable|denied|expired|removed/i;
+const loadingWords =
+  /saving|loading|syncing|please wait|sending|joining|refreshing|processing|connecting/i;
 
 function classifyMessage(message: string): FeedbackKind {
   if (loadingWords.test(message)) return 'loading';
@@ -25,7 +29,8 @@ function isInternalNavigation(element: Element) {
   const anchor = element.closest('a[href]') as HTMLAnchorElement | null;
   if (!anchor) return false;
   if (anchor.target === '_blank' || anchor.hasAttribute('download')) return false;
-  if (anchor.protocol !== window.location.protocol || anchor.host !== window.location.host) return false;
+  if (anchor.protocol !== window.location.protocol || anchor.host !== window.location.host)
+    return false;
   return !anchor.hash || anchor.pathname !== window.location.pathname;
 }
 
@@ -37,42 +42,50 @@ export function ExperienceOrchestrator() {
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [toast, setToast] = useState<ToastState>(null);
 
-  function ensureAudio() {
+  const ensureAudio = useCallback(() => {
     if (audioContext.current) return audioContext.current;
     const Context = window.AudioContext || (window as AudioWindow).webkitAudioContext;
     if (!Context) return null;
     audioContext.current = new Context();
     return audioContext.current;
-  }
+  }, []);
 
-  function playFeedback(kind: 'success' | 'error' | 'info') {
-    if (!audioArmed.current || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const context = ensureAudio();
-    if (!context) return;
-    void context.resume();
+  const playFeedback = useCallback(
+    (kind: 'success' | 'error' | 'info') => {
+      if (!audioArmed.current || window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+        return;
+      const context = ensureAudio();
+      if (!context) return;
+      void context.resume();
 
-    const now = context.currentTime;
-    const frequencies = kind === 'success' ? [523.25, 659.25] : kind === 'error' ? [220, 174.61] : [392];
-    frequencies.forEach((frequency, index) => {
-      const oscillator = context.createOscillator();
-      const gain = context.createGain();
-      oscillator.type = kind === 'error' ? 'triangle' : 'sine';
-      oscillator.frequency.setValueAtTime(frequency, now + index * 0.08);
-      gain.gain.setValueAtTime(0.0001, now + index * 0.08);
-      gain.gain.exponentialRampToValueAtTime(kind === 'error' ? 0.055 : 0.04, now + index * 0.08 + 0.015);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + index * 0.08 + 0.2);
-      oscillator.connect(gain);
-      gain.connect(context.destination);
-      oscillator.start(now + index * 0.08);
-      oscillator.stop(now + index * 0.08 + 0.22);
-    });
-  }
+      const now = context.currentTime;
+      const frequencies =
+        kind === 'success' ? [523.25, 659.25] : kind === 'error' ? [220, 174.61] : [392];
+      frequencies.forEach((frequency, index) => {
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        oscillator.type = kind === 'error' ? 'triangle' : 'sine';
+        oscillator.frequency.setValueAtTime(frequency, now + index * 0.08);
+        gain.gain.setValueAtTime(0.0001, now + index * 0.08);
+        gain.gain.exponentialRampToValueAtTime(
+          kind === 'error' ? 0.055 : 0.04,
+          now + index * 0.08 + 0.015
+        );
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + index * 0.08 + 0.2);
+        oscillator.connect(gain);
+        gain.connect(context.destination);
+        oscillator.start(now + index * 0.08);
+        oscillator.stop(now + index * 0.08 + 0.22);
+      });
+    },
+    [ensureAudio]
+  );
 
-  function showNetworkToast(nextToast: NonNullable<ToastState>) {
+  const showNetworkToast = useCallback((nextToast: NonNullable<ToastState>) => {
     if (toastTimer.current) clearTimeout(toastTimer.current);
     setToast(nextToast);
     toastTimer.current = setTimeout(() => setToast(null), 3600);
-  }
+  }, []);
 
   useEffect(() => {
     document.documentElement.classList.remove('mezgebNavigating');
@@ -83,18 +96,23 @@ export function ExperienceOrchestrator() {
 
     const onPointerDown = (event: PointerEvent) => {
       audioArmed.current = true;
-      const target = event.target instanceof Element ? event.target.closest(interactiveSelector) : null;
+      const target =
+        event.target instanceof Element ? event.target.closest(interactiveSelector) : null;
       if (!target) return;
       target.classList.add('mezgebPressed');
       window.setTimeout(() => target.classList.remove('mezgebPressed'), 150);
-      if ('vibrate' in navigator && target.matches('button, [role="button"], .button')) navigator.vibrate(7);
+      if ('vibrate' in navigator && target.matches('button, [role="button"], .button'))
+        navigator.vibrate(7);
     };
 
     const onClick = (event: MouseEvent) => {
       const target = event.target instanceof Element ? event.target : null;
       if (target && isInternalNavigation(target)) {
         document.documentElement.classList.add('mezgebNavigating');
-        window.setTimeout(() => document.documentElement.classList.remove('mezgebNavigating'), 1400);
+        window.setTimeout(
+          () => document.documentElement.classList.remove('mezgebNavigating'),
+          1400
+        );
       }
     };
 
@@ -125,21 +143,33 @@ export function ExperienceOrchestrator() {
 
     const observer = new MutationObserver((records) => {
       records.forEach((record) => {
-        const target = record.target instanceof Element ? record.target : record.target.parentElement;
-        if (target?.matches('[role="status"], [role="alert"], .mezgebNotice')) updateFeedbackElement(target);
-        target?.querySelectorAll?.('[role="status"], [role="alert"], .mezgebNotice').forEach(updateFeedbackElement);
+        const target =
+          record.target instanceof Element ? record.target : record.target.parentElement;
+        if (target?.matches('[role="status"], [role="alert"], .mezgebNotice'))
+          updateFeedbackElement(target);
+        target
+          ?.querySelectorAll?.('[role="status"], [role="alert"], .mezgebNotice')
+          .forEach(updateFeedbackElement);
       });
     });
 
-    document.querySelectorAll('[role="status"], [role="alert"], .mezgebNotice').forEach(updateFeedbackElement);
+    document
+      .querySelectorAll('[role="status"], [role="alert"], .mezgebNotice')
+      .forEach(updateFeedbackElement);
     observer.observe(document.body, { subtree: true, childList: true, characterData: true });
 
     const onOffline = () => {
-      showNetworkToast({ kind: 'error', message: 'You are offline. Unsaved cloud actions will wait until the connection returns.' });
+      showNetworkToast({
+        kind: 'error',
+        message: 'You are offline. Unsaved cloud actions will wait until the connection returns.'
+      });
       playFeedback('error');
     };
     const onOnline = () => {
-      showNetworkToast({ kind: 'success', message: 'Connection restored. Mezgeb is ready to sync again.' });
+      showNetworkToast({
+        kind: 'success',
+        message: 'Connection restored. Mezgeb is ready to sync again.'
+      });
       playFeedback('success');
     };
 
@@ -163,12 +193,17 @@ export function ExperienceOrchestrator() {
       if (toastTimer.current) clearTimeout(toastTimer.current);
       void audioContext.current?.close();
     };
-  }, []);
+  }, [playFeedback, showNetworkToast]);
 
   return (
     <>
       <span className="mezgebRouteProgress" aria-hidden="true" />
-      {toast ? <div className={`mezgebSystemToast ${toast.kind}`} role="status"><span aria-hidden="true">{toast.kind === 'success' ? '✓' : '!'}</span>{toast.message}</div> : null}
+      {toast ? (
+        <div className={`mezgebSystemToast ${toast.kind}`} role="status">
+          <span aria-hidden="true">{toast.kind === 'success' ? '✓' : '!'}</span>
+          {toast.message}
+        </div>
+      ) : null}
     </>
   );
 }

@@ -22,17 +22,30 @@ export function HomeHero() {
           <span>Know every birr.</span>
         </h1>
         <p className={styles.lead}>
-          Mezgeb brings the daily ledger, Dube customer credit, receipts, payment channels and performance reporting into one focused mobile operating system for Ethiopian businesses.
+          Mezgeb brings the daily ledger, Dube customer credit, receipts, payment channels and
+          performance reporting into one focused mobile operating system for Ethiopian businesses.
         </p>
         <div className={styles.actions}>
-          <Link className="button primary" href="/auth/sign-up">Start 14-day trial</Link>
-          <Link className={styles.secondaryAction} href="/demo">Explore the mobile app <span>↗</span></Link>
+          <Link className="button primary" href="/auth/sign-up">
+            Start 14-day trial
+          </Link>
+          <Link className={styles.secondaryAction} href="/demo">
+            Explore the mobile app <span>↗</span>
+          </Link>
         </div>
         <div className={styles.signals} aria-label="Product highlights">
-          <span><b>ETB</b> first</span>
-          <span><b>15%</b> VAT workflow</span>
-          <span><b>Dube</b> built in</span>
-          <span><b>Realtime</b> sync</span>
+          <span>
+            <b>ETB</b> first
+          </span>
+          <span>
+            <b>15%</b> VAT workflow
+          </span>
+          <span>
+            <b>Dube</b> built in
+          </span>
+          <span>
+            <b>Realtime</b> sync
+          </span>
         </div>
       </div>
 

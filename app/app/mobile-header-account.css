@@ -45,7 +45,7 @@
     height: 44px !important;
     min-width: 44px !important;
     min-height: 44px !important;
-    border: 1px solid rgba(17, 24, 39, 0.10) !important;
+    border: 1px solid rgba(17, 24, 39, 0.1) !important;
     border-radius: 13px !important;
     background: #ffffff !important;
     color: #24212b !important;
@@ -173,28 +173,28 @@
     touch-action: manipulation;
   }
 
-  body[data-mezgeb-theme="dark"] .mezgebMobileUtility,
-  body[data-mezgeb-theme="dark"] .mezgebMobileMenuButton {
+  body[data-mezgeb-theme='dark'] .mezgebMobileUtility,
+  body[data-mezgeb-theme='dark'] .mezgebMobileMenuButton {
     border-color: rgba(255, 255, 255, 0.11) !important;
     background: #211d2b !important;
     color: #f8f5ff !important;
     box-shadow: 0 5px 16px rgba(0, 0, 0, 0.26) !important;
   }
 
-  body[data-mezgeb-theme="dark"] .mezgebMobileAccountShortcut {
+  body[data-mezgeb-theme='dark'] .mezgebMobileAccountShortcut {
     border-color: rgba(255, 255, 255, 0.14) !important;
     background: #6d4df6 !important;
     color: #ffffff !important;
   }
 
-  body[data-mezgeb-theme="dark"] .mezgebDrawerSettings {
-    border-top-color: rgba(255, 255, 255, 0.10) !important;
+  body[data-mezgeb-theme='dark'] .mezgebDrawerSettings {
+    border-top-color: rgba(255, 255, 255, 0.1) !important;
     background: transparent !important;
   }
 
-  body[data-mezgeb-theme="dark"] .mezgebDrawerSettings label:focus-within,
-  body[data-mezgeb-theme="dark"] .mezgebDrawerSettings button:hover,
-  body[data-mezgeb-theme="dark"] .mezgebDrawerSettings a:hover {
+  body[data-mezgeb-theme='dark'] .mezgebDrawerSettings label:focus-within,
+  body[data-mezgeb-theme='dark'] .mezgebDrawerSettings button:hover,
+  body[data-mezgeb-theme='dark'] .mezgebDrawerSettings a:hover {
     background: rgba(130, 102, 255, 0.12) !important;
   }
 }

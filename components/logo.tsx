@@ -7,7 +7,11 @@ export function Logo({ compact = false }: { compact?: boolean }) {
           <path d="M5 17.5h14M9 8h6M9 11.5h6" />
         </svg>
       </span>
-      {!compact && <span>Mezgeb<small>መዝገብ · Business ledger</small></span>}
+      {!compact && (
+        <span>
+          Mezgeb<small>መዝገብ · Business ledger</small>
+        </span>
+      )}
     </span>
   );
 }

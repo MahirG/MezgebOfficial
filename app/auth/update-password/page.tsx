@@ -13,9 +13,14 @@ export default async function UpdatePasswordPage() {
       <section>
         <p className="overline">Secure password</p>
         <h1>Choose a new password.</h1>
-        <p>Use a unique password with at least eight characters. Your active recovery session is protected by Supabase Auth.</p>
+        <p>
+          Use a unique password with at least eight characters. Your active recovery session is
+          protected by Supabase Auth.
+        </p>
         <UpdatePasswordForm />
-        <small><Link href="/dashboard">Return to dashboard</Link></small>
+        <small>
+          <Link href="/dashboard">Return to dashboard</Link>
+        </small>
       </section>
     </main>
   );

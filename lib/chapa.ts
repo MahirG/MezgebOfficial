@@ -15,7 +15,7 @@ export type ChapaVerifiedTransaction = {
 };
 
 function asRecord(value: unknown): JsonRecord {
-  return value && typeof value === 'object' && !Array.isArray(value) ? value as JsonRecord : {};
+  return value && typeof value === 'object' && !Array.isArray(value) ? (value as JsonRecord) : {};
 }
 
 function asString(value: unknown): string {

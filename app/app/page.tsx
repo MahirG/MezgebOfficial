@@ -18,7 +18,8 @@ import './mobile-header-account.css';
 // Production redeploy trigger; no application behavior is changed.
 export const metadata: Metadata = {
   title: 'Mezgeb workspace',
-  description: 'Record secure business transactions, Dube customer credit, receipts and reports in Mezgeb.'
+  description:
+    'Record secure business transactions, Dube customer credit, receipts and reports in Mezgeb.'
 };
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
@@ -40,7 +41,9 @@ export default async function MezgebAppPage({ searchParams }: { searchParams: Se
       .maybeSingle(),
     supabase
       .from('mezgeb_businesses')
-      .select('id, name, business_type, region, city, phone, tin, vat_registered, opening_balance, receipt_prefix, onboarding_completed_at')
+      .select(
+        'id, name, business_type, region, city, phone, tin, vat_registered, opening_balance, receipt_prefix, onboarding_completed_at'
+      )
       .order('created_at', { ascending: true })
   ]);
 
@@ -48,20 +51,28 @@ export default async function MezgebAppPage({ searchParams }: { searchParams: Se
   if (!businesses?.length) redirect('/onboarding');
 
   const requested = typeof params.business === 'string' ? params.business : null;
-  const activeBusiness = businesses.find((item) => item.id === requested)
-    ?? businesses.find((item) => item.id === profile?.last_business_id)
-    ?? businesses[0];
+  const activeBusiness =
+    businesses.find((item) => item.id === requested) ??
+    businesses.find((item) => item.id === profile?.last_business_id) ??
+    businesses[0];
 
-  const [{ data: rawTransactions, error: transactionError }, { data: customerBalances, error: customerError }] = await Promise.all([
+  const [
+    { data: rawTransactions, error: transactionError },
+    { data: customerBalances, error: customerError }
+  ] = await Promise.all([
     supabase
       .from('mezgeb_transactions')
-      .select('id, business_id, customer_id, type, description, amount, vat_amount, payment_method, occurred_at, category, reference, notes, due_at, mezgeb_customers(name)')
+      .select(
+        'id, business_id, customer_id, type, description, amount, vat_amount, payment_method, occurred_at, category, reference, notes, due_at, mezgeb_customers(name)'
+      )
       .eq('business_id', activeBusiness.id)
       .order('occurred_at', { ascending: false })
       .limit(250),
     supabase
       .from('mezgeb_customer_balances')
-      .select('id, business_id, name, phone, notes, credit_limit, balance, last_activity_at, earliest_due_at')
+      .select(
+        'id, business_id, name, phone, notes, credit_limit, balance, last_activity_at, earliest_due_at'
+      )
       .eq('business_id', activeBusiness.id)
       .order('name', { ascending: true })
   ]);
@@ -102,7 +113,11 @@ export default async function MezgebAppPage({ searchParams }: { searchParams: Se
     earliestDueAt: item.earliest_due_at
   }));
 
-  const userName = profile?.full_name || String(user.user_metadata?.full_name ?? '') || user.email?.split('@')[0] || 'Business owner';
+  const userName =
+    profile?.full_name ||
+    String(user.user_metadata?.full_name ?? '') ||
+    user.email?.split('@')[0] ||
+    'Business owner';
   const appBusinesses = businesses.map((business) => ({
     id: business.id,
     name: business.name,
@@ -118,7 +133,11 @@ export default async function MezgebAppPage({ searchParams }: { searchParams: Se
 
   return (
     <main id="main-content" className="mezgebAppPage productionAppPage">
-      <section className="container nativeAppShell" id="mezgeb-application" aria-label="Mezgeb application">
+      <section
+        className="container nativeAppShell"
+        id="mezgeb-application"
+        aria-label="Mezgeb application"
+      >
         <MezgebApplication
           userId={user.id}
           userName={userName}
@@ -126,7 +145,9 @@ export default async function MezgebAppPage({ searchParams }: { searchParams: Se
           activeBusinessId={activeBusiness.id}
           initialTransactions={transactions}
           initialCustomers={customers}
-          initialTourStep={profile?.product_tour_completed_at ? 5 : Number(profile?.product_tour_step ?? 0)}
+          initialTourStep={
+            profile?.product_tour_completed_at ? 5 : Number(profile?.product_tour_step ?? 0)
+          }
           forceTour={params.tour === '1'}
         />
         <MezgebMobileControlsGate

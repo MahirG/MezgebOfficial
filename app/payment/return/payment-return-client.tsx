@@ -6,9 +6,19 @@ import styles from './payment-return.module.css';
 
 type PaymentState = 'checking' | 'paid' | 'pending' | 'failed' | 'invalid';
 
-export function PaymentReturnClient({ txRef, initialStatus }: { txRef: string; initialStatus: string }) {
+export function PaymentReturnClient({
+  txRef,
+  initialStatus
+}: {
+  txRef: string;
+  initialStatus: string;
+}) {
   const [state, setState] = useState<PaymentState>(txRef ? 'checking' : 'invalid');
-  const [message, setMessage] = useState(initialStatus === 'pending' ? 'The provider is still confirming this payment.' : 'Confirming the payment with Chapa…');
+  const [message, setMessage] = useState(
+    initialStatus === 'pending'
+      ? 'The provider is still confirming this payment.'
+      : 'Confirming the payment with Chapa…'
+  );
 
   useEffect(() => {
     if (!txRef) return;
@@ -19,12 +29,20 @@ export function PaymentReturnClient({ txRef, initialStatus }: { txRef: string; i
     async function verify() {
       attempt += 1;
       try {
-        const response = await fetch(`/api/payments/verify?tx_ref=${encodeURIComponent(txRef)}`, { cache: 'no-store' });
-        const result = await response.json() as { status?: string; message?: string; error?: string };
+        const response = await fetch(`/api/payments/verify?tx_ref=${encodeURIComponent(txRef)}`, {
+          cache: 'no-store'
+        });
+        const result = (await response.json()) as {
+          status?: string;
+          message?: string;
+          error?: string;
+        };
         if (cancelled) return;
 
         if (response.status === 401) {
-          window.location.assign(`/auth/sign-in?next=${encodeURIComponent(`/payment/return?tx_ref=${txRef}`)}`);
+          window.location.assign(
+            `/auth/sign-in?next=${encodeURIComponent(`/payment/return?tx_ref=${txRef}`)}`
+          );
           return;
         }
 
@@ -42,17 +60,23 @@ export function PaymentReturnClient({ txRef, initialStatus }: { txRef: string; i
 
         if (attempt < 5) {
           setState('pending');
-          setMessage(result.message || 'Payment received. Waiting for final provider confirmation…');
+          setMessage(
+            result.message || 'Payment received. Waiting for final provider confirmation…'
+          );
           timer = setTimeout(verify, 2200);
           return;
         }
 
         setState('pending');
-        setMessage('Confirmation is taking longer than usual. Your account will update automatically after the verified webhook arrives.');
+        setMessage(
+          'Confirmation is taking longer than usual. Your account will update automatically after the verified webhook arrives.'
+        );
       } catch {
         if (cancelled) return;
         setState('pending');
-        setMessage('We could not confirm the payment yet. No second charge will be created by refreshing this page.');
+        setMessage(
+          'We could not confirm the payment yet. No second charge will be created by refreshing this page.'
+        );
       }
     }
 
@@ -82,12 +106,19 @@ export function PaymentReturnClient({ txRef, initialStatus }: { txRef: string; i
         <p className={styles.message}>{message}</p>
         {txRef ? <code className={styles.reference}>{txRef}</code> : null}
         <div className={styles.actions}>
-          <Link className="button primary" href="/dashboard">Open dashboard</Link>
-          <Link className={styles.secondary} href="/#pricing">Back to pricing</Link>
+          <Link className="button primary" href="/dashboard">
+            Open dashboard
+          </Link>
+          <Link className={styles.secondary} href="/#pricing">
+            Back to pricing
+          </Link>
         </div>
         <div className={styles.safetyNote}>
           <strong>Verified activation only</strong>
-          <span>Mezgeb activates a paid plan only after the provider reference, status, amount and ETB currency match the original server-side payment intent.</span>
+          <span>
+            Mezgeb activates a paid plan only after the provider reference, status, amount and ETB
+            currency match the original server-side payment intent.
+          </span>
         </div>
       </section>
     </main>

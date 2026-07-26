@@ -9,7 +9,8 @@ export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get('code');
   const next = safeInternalPath(requestUrl.searchParams.get('next'));
-  const providerError = requestUrl.searchParams.get('error_description') ?? requestUrl.searchParams.get('error');
+  const providerError =
+    requestUrl.searchParams.get('error_description') ?? requestUrl.searchParams.get('error');
 
   if (code) {
     const supabase = await createClient();
@@ -22,6 +23,9 @@ export async function GET(request: Request) {
   }
 
   const signIn = new URL('/auth/sign-in', requestUrl.origin);
-  signIn.searchParams.set('error', providerError ?? 'The authentication link is invalid or expired.');
+  signIn.searchParams.set(
+    'error',
+    providerError ?? 'The authentication link is invalid or expired.'
+  );
   return NextResponse.redirect(signIn);
 }

@@ -15,7 +15,7 @@
     --mezgeb-mobile-muted: #706b7c;
     --mezgeb-mobile-bg: #f5f3fa;
     --mezgeb-mobile-card: rgba(255, 255, 255, 0.96);
-    --mezgeb-mobile-border: rgba(45, 15, 168, 0.10);
+    --mezgeb-mobile-border: rgba(45, 15, 168, 0.1);
     --mezgeb-mobile-shadow: 0 18px 55px rgba(31, 20, 67, 0.16);
   }
 
@@ -48,7 +48,13 @@
     z-index: 1000;
     display: block;
     color: var(--mezgeb-mobile-ink);
-    font-family: Inter, "Noto Sans Ethiopic", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family:
+      Inter,
+      'Noto Sans Ethiopic',
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      sans-serif;
   }
 
   .cloudTopbar {
@@ -74,7 +80,7 @@
     min-height: calc(72px + env(safe-area-inset-top));
     padding: calc(10px + env(safe-area-inset-top)) 14px 10px;
     border-bottom: 1px solid rgba(45, 15, 168, 0.08);
-    background: rgba(252, 251, 255, 0.90);
+    background: rgba(252, 251, 255, 0.9);
     box-shadow: 0 8px 30px rgba(32, 22, 63, 0.08);
     backdrop-filter: blur(26px) saturate(170%);
     -webkit-backdrop-filter: blur(26px) saturate(170%);
@@ -99,7 +105,7 @@
     flex: 0 0 auto;
     width: 44px;
     height: 44px;
-    filter: drop-shadow(0 9px 16px rgba(45, 15, 168, 0.20));
+    filter: drop-shadow(0 9px 16px rgba(45, 15, 168, 0.2));
   }
 
   .mezgebMobileBrand > span {
@@ -251,7 +257,11 @@
   }
 
   .cloudSidebar nav button.active {
-    background: linear-gradient(180deg, rgba(91, 59, 245, 0.14), rgba(91, 59, 245, 0.07)) !important;
+    background: linear-gradient(
+      180deg,
+      rgba(91, 59, 245, 0.14),
+      rgba(91, 59, 245, 0.07)
+    ) !important;
     color: var(--mezgeb-mobile-brand-deep) !important;
   }
 
@@ -333,7 +343,7 @@
     flex-direction: column;
     padding: calc(14px + env(safe-area-inset-top)) 16px calc(16px + env(safe-area-inset-bottom));
     overflow-y: auto;
-    border-left: 1px solid rgba(255, 255, 255, 0.80);
+    border-left: 1px solid rgba(255, 255, 255, 0.8);
     background:
       radial-gradient(circle at 100% 0%, rgba(91, 59, 245, 0.13), transparent 19rem),
       rgba(253, 252, 255, 0.98);
@@ -566,7 +576,7 @@
     border: 1px solid rgba(255, 255, 255, 0.88);
     border-radius: 26px;
     background: rgba(253, 252, 255, 0.98);
-    box-shadow: 0 32px 100px rgba(15, 8, 39, 0.30);
+    box-shadow: 0 32px 100px rgba(15, 8, 39, 0.3);
     animation: mezgebSearchIn 220ms cubic-bezier(0.2, 0.86, 0.3, 1);
     backdrop-filter: blur(32px) saturate(165%);
     -webkit-backdrop-filter: blur(32px) saturate(165%);
@@ -738,32 +748,32 @@
     font-size: 0.58rem;
   }
 
-  .cloudMezgebApp[dir="rtl"] .cloudRow,
-  .cloudMezgebApp[dir="rtl"] .cloudSectionHeader,
-  .cloudMezgebApp[dir="rtl"] .cloudPanel > header,
-  .cloudMezgebApp[dir="rtl"] .cloudLedger > header,
-  .cloudMezgebApp[dir="rtl"] .cloudForm > header {
+  .cloudMezgebApp[dir='rtl'] .cloudRow,
+  .cloudMezgebApp[dir='rtl'] .cloudSectionHeader,
+  .cloudMezgebApp[dir='rtl'] .cloudPanel > header,
+  .cloudMezgebApp[dir='rtl'] .cloudLedger > header,
+  .cloudMezgebApp[dir='rtl'] .cloudForm > header {
     text-align: right;
   }
 
-  .mezgebMobileControls[data-dir="rtl"] .mezgebMobileDrawer {
+  .mezgebMobileControls[data-dir='rtl'] .mezgebMobileDrawer {
     right: auto;
     left: 0;
-    border-right: 1px solid rgba(255, 255, 255, 0.80);
+    border-right: 1px solid rgba(255, 255, 255, 0.8);
     border-left: 0;
     box-shadow: 28px 0 75px rgba(18, 10, 44, 0.24);
     animation-name: mezgebDrawerInRtl;
     direction: rtl;
   }
 
-  .mezgebMobileControls[data-dir="rtl"] .mezgebMobileBrand,
-  .mezgebMobileControls[data-dir="rtl"] .mezgebDrawerNavigation button,
-  .mezgebMobileControls[data-dir="rtl"] .mezgebSearchResults > button,
-  .mezgebMobileControls[data-dir="rtl"] .mezgebMobileSearchBar button {
+  .mezgebMobileControls[data-dir='rtl'] .mezgebMobileBrand,
+  .mezgebMobileControls[data-dir='rtl'] .mezgebDrawerNavigation button,
+  .mezgebMobileControls[data-dir='rtl'] .mezgebSearchResults > button,
+  .mezgebMobileControls[data-dir='rtl'] .mezgebMobileSearchBar button {
     text-align: right;
   }
 
-  body[data-mezgeb-theme="dark"] {
+  body[data-mezgeb-theme='dark'] {
     --mezgeb-mobile-ink: #f6f2ff;
     --mezgeb-mobile-muted: #aaa3b8;
     --mezgeb-mobile-bg: #090811;
@@ -773,31 +783,31 @@
     color-scheme: dark;
   }
 
-  body[data-mezgeb-theme="dark"] .productionAppPage,
-  body[data-mezgeb-theme="dark"] .cloudWorkspace {
+  body[data-mezgeb-theme='dark'] .productionAppPage,
+  body[data-mezgeb-theme='dark'] .cloudWorkspace {
     background:
-      radial-gradient(circle at 8% 0%, rgba(91, 59, 245, 0.20), transparent 25rem),
+      radial-gradient(circle at 8% 0%, rgba(91, 59, 245, 0.2), transparent 25rem),
       linear-gradient(180deg, #0f0c19 0%, #08070e 100%) !important;
     color: var(--mezgeb-mobile-ink) !important;
   }
 
-  body[data-mezgeb-theme="dark"] .mezgebMobileHeader,
-  body[data-mezgeb-theme="dark"] .mezgebMobileSearchBar {
+  body[data-mezgeb-theme='dark'] .mezgebMobileHeader,
+  body[data-mezgeb-theme='dark'] .mezgebMobileSearchBar {
     border-color: rgba(167, 143, 255, 0.12);
     background: rgba(13, 11, 20, 0.91);
   }
 
-  body[data-mezgeb-theme="dark"] .mezgebMobileUtility,
-  body[data-mezgeb-theme="dark"] .mezgebMobileLanguageShortcut,
-  body[data-mezgeb-theme="dark"] .mezgebMobileMenuButton,
-  body[data-mezgeb-theme="dark"] .mezgebMobileSearchBar kbd {
+  body[data-mezgeb-theme='dark'] .mezgebMobileUtility,
+  body[data-mezgeb-theme='dark'] .mezgebMobileLanguageShortcut,
+  body[data-mezgeb-theme='dark'] .mezgebMobileMenuButton,
+  body[data-mezgeb-theme='dark'] .mezgebMobileSearchBar kbd {
     border-color: rgba(167, 143, 255, 0.13);
     background: rgba(31, 27, 43, 0.96);
     color: #f5f1ff;
   }
 
-  body[data-mezgeb-theme="dark"] .mezgebMobileDrawer,
-  body[data-mezgeb-theme="dark"] .mezgebGlobalSearch {
+  body[data-mezgeb-theme='dark'] .mezgebMobileDrawer,
+  body[data-mezgeb-theme='dark'] .mezgebGlobalSearch {
     border-color: rgba(167, 143, 255, 0.14);
     background:
       radial-gradient(circle at 100% 0%, rgba(91, 59, 245, 0.22), transparent 20rem),
@@ -805,82 +815,102 @@
     color: var(--mezgeb-mobile-ink);
   }
 
-  body[data-mezgeb-theme="dark"] .mezgebDrawerBusiness,
-  body[data-mezgeb-theme="dark"] .mezgebDrawerSettings select,
-  body[data-mezgeb-theme="dark"] .mezgebMobileDrawer > header > button,
-  body[data-mezgeb-theme="dark"] .mezgebGlobalSearch > header button {
+  body[data-mezgeb-theme='dark'] .mezgebDrawerBusiness,
+  body[data-mezgeb-theme='dark'] .mezgebDrawerSettings select,
+  body[data-mezgeb-theme='dark'] .mezgebMobileDrawer > header > button,
+  body[data-mezgeb-theme='dark'] .mezgebGlobalSearch > header button {
     border-color: rgba(167, 143, 255, 0.13);
     background: rgba(31, 27, 43, 0.96);
     color: #f5f1ff;
   }
 
-  body[data-mezgeb-theme="dark"] .cloudPanel,
-  body[data-mezgeb-theme="dark"] .cloudForm,
-  body[data-mezgeb-theme="dark"] .cloudLedger,
-  body[data-mezgeb-theme="dark"] .cloudReceipts,
-  body[data-mezgeb-theme="dark"] .cloudReports,
-  body[data-mezgeb-theme="dark"] .cloudOperations,
-  body[data-mezgeb-theme="dark"] .cloudMetricGrid article:not(.cloudPrimaryMetric),
-  body[data-mezgeb-theme="dark"] .cloudReceiptGrid article,
-  body[data-mezgeb-theme="dark"] .cloudReportGrid article,
-  body[data-mezgeb-theme="dark"] .cloudOperationGrid article,
-  body[data-mezgeb-theme="dark"] .cloudCustomerCard {
+  body[data-mezgeb-theme='dark'] .cloudPanel,
+  body[data-mezgeb-theme='dark'] .cloudForm,
+  body[data-mezgeb-theme='dark'] .cloudLedger,
+  body[data-mezgeb-theme='dark'] .cloudReceipts,
+  body[data-mezgeb-theme='dark'] .cloudReports,
+  body[data-mezgeb-theme='dark'] .cloudOperations,
+  body[data-mezgeb-theme='dark'] .cloudMetricGrid article:not(.cloudPrimaryMetric),
+  body[data-mezgeb-theme='dark'] .cloudReceiptGrid article,
+  body[data-mezgeb-theme='dark'] .cloudReportGrid article,
+  body[data-mezgeb-theme='dark'] .cloudOperationGrid article,
+  body[data-mezgeb-theme='dark'] .cloudCustomerCard {
     border-color: rgba(167, 143, 255, 0.12) !important;
     background: rgba(22, 19, 31, 0.94) !important;
     color: #f6f2ff !important;
     box-shadow: 0 16px 44px rgba(0, 0, 0, 0.25) !important;
   }
 
-  body[data-mezgeb-theme="dark"] .cloudForm input,
-  body[data-mezgeb-theme="dark"] .cloudForm select,
-  body[data-mezgeb-theme="dark"] .cloudForm textarea,
-  body[data-mezgeb-theme="dark"] .cloudLedger header input {
+  body[data-mezgeb-theme='dark'] .cloudForm input,
+  body[data-mezgeb-theme='dark'] .cloudForm select,
+  body[data-mezgeb-theme='dark'] .cloudForm textarea,
+  body[data-mezgeb-theme='dark'] .cloudLedger header input {
     border-color: rgba(167, 143, 255, 0.16) !important;
     background-color: rgba(10, 8, 17, 0.92) !important;
     color: #f7f4ff !important;
   }
 
-  body[data-mezgeb-theme="dark"] .cloudForm label,
-  body[data-mezgeb-theme="dark"] .cloudPanel h3,
-  body[data-mezgeb-theme="dark"] .cloudLedger h2,
-  body[data-mezgeb-theme="dark"] .cloudForm h2,
-  body[data-mezgeb-theme="dark"] .cloudSectionHeader h2,
-  body[data-mezgeb-theme="dark"] .cloudRow b,
-  body[data-mezgeb-theme="dark"] .cloudRow > strong,
-  body[data-mezgeb-theme="dark"] .cloudCustomerCard strong,
-  body[data-mezgeb-theme="dark"] .cloudCustomerCard > b,
-  body[data-mezgeb-theme="dark"] .cloudReportGrid strong,
-  body[data-mezgeb-theme="dark"] .cloudOperationGrid strong {
+  body[data-mezgeb-theme='dark'] .cloudForm label,
+  body[data-mezgeb-theme='dark'] .cloudPanel h3,
+  body[data-mezgeb-theme='dark'] .cloudLedger h2,
+  body[data-mezgeb-theme='dark'] .cloudForm h2,
+  body[data-mezgeb-theme='dark'] .cloudSectionHeader h2,
+  body[data-mezgeb-theme='dark'] .cloudRow b,
+  body[data-mezgeb-theme='dark'] .cloudRow > strong,
+  body[data-mezgeb-theme='dark'] .cloudCustomerCard strong,
+  body[data-mezgeb-theme='dark'] .cloudCustomerCard > b,
+  body[data-mezgeb-theme='dark'] .cloudReportGrid strong,
+  body[data-mezgeb-theme='dark'] .cloudOperationGrid strong {
     color: #f7f4ff !important;
   }
 
-  body[data-mezgeb-theme="dark"] .cloudRow,
-  body[data-mezgeb-theme="dark"] .cloudHealth > div {
+  body[data-mezgeb-theme='dark'] .cloudRow,
+  body[data-mezgeb-theme='dark'] .cloudHealth > div {
     border-color: rgba(167, 143, 255, 0.09) !important;
   }
 
-  body[data-mezgeb-theme="dark"] .cloudSidebar {
+  body[data-mezgeb-theme='dark'] .cloudSidebar {
     border-color: rgba(167, 143, 255, 0.15) !important;
     background: rgba(19, 16, 28, 0.92) !important;
   }
 
   @keyframes mezgebDrawerIn {
-    from { opacity: 0; transform: translateX(30px); }
-    to { opacity: 1; transform: translateX(0); }
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 
   @keyframes mezgebDrawerInRtl {
-    from { opacity: 0; transform: translateX(-30px); }
-    to { opacity: 1; transform: translateX(0); }
+    from {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 
   @keyframes mezgebSearchIn {
-    from { opacity: 0; transform: translateY(-10px) scale(0.98); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
+    from {
+      opacity: 0;
+      transform: translateY(-10px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
   }
 
   @keyframes mezgebMobileSpin {
-    to { transform: rotate(360deg); }
+    to {
+      transform: rotate(360deg);
+    }
   }
 }
 
