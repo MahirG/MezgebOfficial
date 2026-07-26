@@ -1,0 +1,86 @@
+name: Sync Biloo Mezgeb production mirror
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-biloo-mezgeb-production
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Mezgeb Vercel deployment mirror
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Checkout canonical Biloo Mezgeb source
+        uses: actions/checkout@v4
+        with:
+          repository: MahirG/biloo_group
+          ref: biloo-mezgeb-production
+          path: _biloo_mezgeb_source
+
+      - name: Replace mirror with canonical Biloo source
+        shell: bash
+        run: |
+          mkdir -p /tmp/biloo-mezgeb-source
+          rsync -a \
+            --exclude='.git' \
+            --exclude='.github' \
+            --exclude='.next' \
+            --exclude='node_modules' \
+            --exclude='test-results' \
+            --exclude='playwright-report' \
+            _biloo_mezgeb_source/ /tmp/biloo-mezgeb-source/
+
+          find . -mindepth 1 -maxdepth 1 \
+            ! -name '.git' \
+            ! -name '.github' \
+            ! -name '_biloo_mezgeb_source' \
+            -exec rm -rf {} +
+
+          rm -rf _biloo_mezgeb_source
+          rsync -a /tmp/biloo-mezgeb-source/ ./
+
+          cat > DEPLOYMENT_MIRROR.md <<'EOF'
+          # Biloo Mezgeb Vercel deployment mirror
+
+          This repository branch is a deployment mirror for the existing `mezgeb-official` Vercel project.
+
+          - Canonical source: `MahirG/biloo_group`, branch `biloo-mezgeb-production`
+          - Canonical monorepo path: `MahirG/biloo_group/apps/mezgeb`
+          - Existing Vercel project, environment variables, Supabase authentication, database namespace, and domains are preserved.
+          - Product changes must originate in the Biloo repository and be mirrored here only for deployment continuity.
+          EOF
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate deployment mirror
+        run: |
+          npm install --no-audit --no-fund --silent
+          npm run format:check
+          npm run lint
+          npm run typecheck
+          npm test
+          npm run email:validate
+          npm run build
+
+      - name: Commit deployment mirror
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Deploy Biloo Mezgeb from canonical Biloo source"
+          git push origin HEAD:main
