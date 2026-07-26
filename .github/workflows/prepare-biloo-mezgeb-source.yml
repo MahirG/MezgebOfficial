@@ -43,12 +43,13 @@ jobs:
               if count != 1:
                   raise SystemExit('Pricing CTA test structure not found')
 
-          old = "await expect(page).toHaveURL(/\\/auth\\/sign-up\\?next=%2Fdashboard/);"
-          new = "await expect(page).toHaveURL(/\\/auth\\/sign-up\\?next=%2F%3Fplan%3Dstarter%26billing%3Dannual%26trial%3D1%23pricing/);"
-          if new not in text:
-              if old not in text:
+          expected_return = "%2F%3Fplan%3Dstarter%26billing%3Dannual%26trial%3D1%23pricing"
+          if expected_return not in text:
+              pattern = r"await expect\(page\)\.toHaveURL\(\s*/\\/auth\\/sign-up\\\?next=%2Fdashboard/\s*\);"
+              replacement = "await expect(page).toHaveURL(\n    /\\/auth\\/sign-up\\?next=%2F%3Fplan%3Dstarter%26billing%3Dannual%26trial%3D1%23pricing/\n  );"
+              text, count = re.subn(pattern, replacement, text, count=1)
+              if count != 1:
                   raise SystemExit('Pricing checkout return URL expectation not found')
-              text = text.replace(old, new, 1)
 
           path.write_text(text, encoding='utf-8')
           PY
