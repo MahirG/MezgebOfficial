@@ -1,1 +1,1 @@
-Run the deterministic migration patch script, validate the preserved source, and commit the prepared result.
+Run the formatting-independent migration patch, validate the source, and commit the prepared Biloo Mezgeb snapshot.
