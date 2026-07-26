@@ -1,8 +1,9 @@
 name: Sync Biloo Mezgeb production mirror
 
 on:
-  push:
-    branches: [main]
+  pull_request:
+    branches: [agent/biloo-mezgeb-deploy-runner-base]
+    types: [opened, synchronize, reopened]
 
 permissions:
   contents: write
@@ -13,7 +14,7 @@ concurrency:
 
 jobs:
   sync:
-    if: github.actor != 'github-actions[bot]'
+    if: github.head_ref == 'main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Mezgeb Vercel deployment mirror
