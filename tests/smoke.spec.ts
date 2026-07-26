@@ -91,7 +91,7 @@ test('pricing loads four ETB tiers and opens the secure payment selector', async
   await expect(page.getByText('ETB 45,000').first()).toBeVisible();
   await expect(page.getByText('ETB 95,000').first()).toBeVisible();
   await page
-    .getByRole('button', { name: /Start 14-day trial/i })
+    .getByRole('link', { name: /Start 14-day trial/i })
     .first()
     .click();
 
