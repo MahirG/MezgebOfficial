@@ -109,7 +109,9 @@ test('pricing loads four ETB tiers and opens the secure payment selector', async
     'true'
   );
   await dialog.getByRole('button', { name: /Start 14-day trial/i }).click();
-  await expect(page).toHaveURL(/\/auth\/sign-up\?next=%2Fdashboard/);
+  await expect(page).toHaveURL(
+    /\/auth\/sign-up\?next=%2F%3Fplan%3Dstarter%26billing%3Dannual%26trial%3D1%23pricing/
+  );
 });
 
 test('pricing text stays inside every visible card', async ({ page }) => {
