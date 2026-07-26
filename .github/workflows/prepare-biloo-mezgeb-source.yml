@@ -22,7 +22,7 @@ jobs:
         with:
           ref: archive/biloo-mezgeb-source
 
-      - name: Scope pricing checkout browser test
+      - name: Align pricing checkout browser expectations
         shell: bash
         run: |
           python - <<'PY'
@@ -31,9 +31,10 @@ jobs:
 
           path = Path('tests/smoke.spec.ts')
           text = path.read_text(encoding='utf-8')
+
           if ".locator('section#pricing')" not in text:
               pattern = r"(await page\s*\n\s*)(\.getByRole\('link', \{ name: /Start 14-day trial/i \}\)\s*\n\s*\.first\(\)\s*\n\s*\.click\(\);)"
-              updated, count = re.subn(
+              text, count = re.subn(
                   pattern,
                   r"\1.locator('section#pricing')\n    \2",
                   text,
@@ -41,7 +42,15 @@ jobs:
               )
               if count != 1:
                   raise SystemExit('Pricing CTA test structure not found')
-              path.write_text(updated, encoding='utf-8')
+
+          old = "await expect(page).toHaveURL(/\\/auth\\/sign-up\\?next=%2Fdashboard/);"
+          new = "await expect(page).toHaveURL(/\\/auth\\/sign-up\\?next=%2F%3Fplan%3Dstarter%26billing%3Dannual%26trial%3D1%23pricing/);"
+          if new not in text:
+              if old not in text:
+                  raise SystemExit('Pricing checkout return URL expectation not found')
+              text = text.replace(old, new, 1)
+
+          path.write_text(text, encoding='utf-8')
           PY
 
       - name: Set up Node.js
@@ -62,11 +71,11 @@ jobs:
       - name: Remove migration validation note
         run: rm -f docs/BILOO_BROWSER_VALIDATION.md
 
-      - name: Commit validated browser-test correction
+      - name: Commit validated browser-test expectations
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "Scope pricing checkout browser test"
+          git commit -m "Align pricing checkout browser expectations"
           git push origin HEAD:archive/biloo-mezgeb-source
