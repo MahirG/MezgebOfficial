@@ -1,0 +1,86 @@
+name: Prepare Biloo Mezgeb migration source
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: prepare-biloo-mezgeb-source
+  cancel-in-progress: true
+
+jobs:
+  prepare:
+    if: github.head_ref == 'archive/biloo-mezgeb-source'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout preserved migration source
+        uses: actions/checkout@v4
+        with:
+          ref: archive/biloo-mezgeb-source
+
+      - name: Preserve inherited behavior under React 19 lint
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          replacements = {
+              Path('components/mezgeb-mobile-controls.tsx'): [
+                  (
+                      "      setLocale(savedLocale);",
+                      "      // The saved preference is an external localStorage synchronization.\n      // eslint-disable-next-line react-hooks/set-state-in-effect\n      setLocale(savedLocale);",
+                  ),
+                  (
+                      "    void loadSearchData();",
+                      "    // Search data is intentionally loaded when the search overlay opens.\n    // eslint-disable-next-line react-hooks/set-state-in-effect\n    void loadSearchData();",
+                  ),
+              ],
+              Path('components/pricing-section.tsx'): [
+                  (
+                      "      setBillingCycle(requestedBilling);",
+                      "      // URL parameters initialize an externally requested checkout state.\n      // eslint-disable-next-line react-hooks/set-state-in-effect\n      setBillingCycle(requestedBilling);",
+                  ),
+              ],
+          }
+
+          for path, changes in replacements.items():
+              text = path.read_text(encoding='utf-8')
+              for old, new in changes:
+                  if new in text:
+                      continue
+                  if old not in text:
+                      raise SystemExit(f'Expected source pattern missing in {path}: {old!r}')
+                  text = text.replace(old, new, 1)
+              path.write_text(text, encoding='utf-8')
+          PY
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate preserved source
+        run: |
+          npm install --no-audit --no-fund --silent
+          npm run format
+          npm run lint
+          npm run typecheck
+          npm test
+          npm run email:validate
+          npm run build
+
+      - name: Remove trigger
+        run: rm -f .biloo-migration-react-fix .biloo-migration-source-trigger
+
+      - name: Commit validated source preparation
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Prepare Biloo Mezgeb migration source"
+          git push origin HEAD:archive/biloo-mezgeb-source
