@@ -70,6 +70,9 @@ jobs:
       - name: Install dependencies
         run: npm install --no-audit --no-fund --silent
 
+      - name: Format generated mirror metadata
+        run: npx prettier --write DEPLOYMENT_MIRROR.md
+
       - name: Check formatting
         run: npm run format:check
 
