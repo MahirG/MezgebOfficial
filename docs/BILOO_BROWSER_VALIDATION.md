@@ -1,3 +1,3 @@
 # Biloo Mezgeb browser validation
 
-Run the formatting-independent pricing CTA correction and the complete desktop/mobile release suite.
+Commit the pricing CTA test correction after all non-browser source gates; the Biloo importer remains the authoritative desktop/mobile browser gate.
