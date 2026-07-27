@@ -1,0 +1,1040 @@
+/* Mezgeb Prime Cinema — faithful visual layer for the supplied HTML design. */
+
+:root {
+  --mz-orange-600: #bf480f;
+  --mz-orange-500: #d9531a;
+  --mz-orange-400: #f07a43;
+  --mz-orange-300: #ffa57a;
+  --mz-mint-500: #37cd8f;
+  --mz-mint-400: #6bdcac;
+  --mz-rose-500: #e5484d;
+  --mz-gold-500: #fca311;
+  --mz-app-max: 480px;
+  --mz-safe-top: env(safe-area-inset-top, 0px);
+  --mz-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --mz-ease: cubic-bezier(.4, 0, .2, 1);
+  --mz-ease-out: cubic-bezier(.16, 1, .3, 1);
+  --mz-spring: cubic-bezier(.34, 1.56, .64, 1);
+}
+
+.productionAppPage,
+.cloudMezgebApp,
+body[data-mezgeb-theme='dark'] .productionAppPage,
+.cloudMezgebApp[data-mezgeb-theme='dark'] {
+  --mz-bg: #1a1815;
+  --mz-bg-soft: #22201d;
+  --mz-surface: #2a2926;
+  --mz-surface-2: #22201d;
+  --mz-surface-3: #363431;
+  --mz-text: #f5f4f2;
+  --mz-text-2: #d8d5d0;
+  --mz-text-3: #aaa7a4;
+  --mz-text-4: #7e7b78;
+  --mz-border: rgba(255, 255, 255, .10);
+  --mz-border-2: rgba(255, 255, 255, .16);
+  --mz-accent: #ff7a43;
+  --mz-accent-2: #f06322;
+  --mz-accent-strong: #ff9e70;
+  --mz-accent-soft: rgba(255, 122, 67, .20);
+  --mz-accent-tint: rgba(255, 122, 67, .12);
+  --mz-mint-soft: rgba(107, 220, 172, .18);
+  --mz-rose-soft: rgba(248, 113, 113, .18);
+  --mz-shadow-card: 0 1px 3px rgba(0, 0, 0, .35);
+  --mz-shadow-lg: 0 2px 8px rgba(0, 0, 0, .4), 0 12px 28px -8px rgba(0, 0, 0, .55);
+  --mz-shadow-xl: 0 4px 16px rgba(0, 0, 0, .5), 0 24px 48px -16px rgba(0, 0, 0, .6);
+}
+
+body[data-mezgeb-theme='light'] .productionAppPage,
+.cloudMezgebApp[data-mezgeb-theme='light'] {
+  --mz-bg: #faf9f7;
+  --mz-bg-soft: #f2f0ec;
+  --mz-surface: #ffffff;
+  --mz-surface-2: #faf9f7;
+  --mz-surface-3: #f2f0ec;
+  --mz-text: #22201d;
+  --mz-text-2: #363431;
+  --mz-text-3: #7e7b78;
+  --mz-text-4: #aaa7a4;
+  --mz-border: #e8e5e2;
+  --mz-border-2: #c7c4c1;
+  --mz-accent: #d9531a;
+  --mz-accent-2: #bf480f;
+  --mz-accent-strong: #9c3a08;
+  --mz-accent-soft: rgba(217, 83, 26, .12);
+  --mz-accent-tint: rgba(217, 83, 26, .06);
+  --mz-mint-soft: #d7f5ea;
+  --mz-rose-soft: #fee2e2;
+  --mz-shadow-card: 0 1px 3px rgba(34, 32, 29, .05);
+  --mz-shadow-lg: 0 2px 8px rgba(34, 32, 29, .06), 0 12px 28px -8px rgba(34, 32, 29, .10);
+  --mz-shadow-xl: 0 4px 16px rgba(34, 32, 29, .08), 0 24px 48px -16px rgba(34, 32, 29, .14);
+}
+
+html:has(.productionAppPage),
+body:has(.productionAppPage) {
+  min-height: 100%;
+  margin: 0;
+  background: #0e0d0b !important;
+  color: var(--mz-text);
+  overscroll-behavior: none;
+}
+
+body:has(.productionAppPage) {
+  overflow: hidden;
+  font-family: 'Plus Jakarta Sans', 'Noto Sans Ethiopic', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+
+body:has(.productionAppPage) .siteHeader,
+body:has(.productionAppPage) .siteFooter,
+body:has(.productionAppPage) .skipLink,
+body:has(.productionAppPage) .mezgebRouteProgress {
+  display: none !important;
+}
+
+.productionAppPage {
+  width: 100%;
+  min-height: 100dvh;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.productionAppPage .nativeAppShell {
+  width: min(100%, var(--mz-app-max)) !important;
+  min-height: 100dvh !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  overflow: hidden;
+  background: var(--mz-bg) !important;
+  box-shadow: 0 0 70px rgba(0, 0, 0, .55);
+}
+
+.cloudMezgebApp {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  max-width: var(--mz-app-max) !important;
+  height: 100dvh !important;
+  min-height: 100dvh !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: var(--mz-bg) !important;
+  color: var(--mz-text) !important;
+  box-shadow: none !important;
+}
+
+.cloudWorkspace {
+  position: relative !important;
+  width: 100% !important;
+  height: 100dvh !important;
+  min-height: 0 !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding: calc(116px + var(--mz-safe-top)) 0 calc(92px + var(--mz-safe-bottom)) !important;
+  background: var(--mz-bg) !important;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cloudWorkspace::-webkit-scrollbar { display: none; }
+.cloudTopbar { display: none !important; }
+
+.cloudContent {
+  width: 100% !important;
+  padding: 16px !important;
+  background: transparent !important;
+}
+
+.mezgebMobileControls {
+  position: fixed !important;
+  top: 0;
+  left: 50%;
+  z-index: 1200;
+  width: min(100%, var(--mz-app-max));
+  transform: translateX(-50%);
+  color: var(--mz-text);
+  pointer-events: none;
+}
+
+.mezgebMobileHeader,
+.mezgebMobileSearchBar,
+.mezgebMobileDrawer,
+.mezgebGlobalSearch,
+.mezgebMobileBackdrop,
+.mezgebSearchBackdrop { pointer-events: auto; }
+
+.mezgebMobileHeader {
+  position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  min-height: calc(66px + var(--mz-safe-top)) !important;
+  padding: calc(12px + var(--mz-safe-top)) 14px 10px !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--mz-border) !important;
+  background: color-mix(in srgb, var(--mz-surface) 92%, transparent) !important;
+  box-shadow: none !important;
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+}
+
+.mezgebMobileBrand {
+  display: flex !important;
+  align-items: center !important;
+  min-width: 0;
+  gap: 10px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--mz-text) !important;
+}
+
+.mezgebMobileBrand svg,
+.mezgebDrawerBrand svg { display: none !important; }
+
+.mezgebMobileBrand::before,
+.mezgebDrawerBrand::before {
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  content: 'መ';
+  border-radius: 11px;
+  background: linear-gradient(135deg, var(--mz-orange-400), var(--mz-orange-500) 50%, var(--mz-orange-600));
+  color: #fff;
+  box-shadow: 0 3px 12px rgba(217, 83, 26, .34);
+  font-family: 'Noto Sans Ethiopic', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.mezgebMobileBrand > span {
+  display: flex !important;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.mezgebMobileBrand strong {
+  color: var(--mz-text) !important;
+  font-size: 1.02rem !important;
+  font-weight: 800 !important;
+  line-height: 1.05 !important;
+  letter-spacing: -.02em !important;
+}
+
+.mezgebMobileBrand small {
+  overflow: hidden;
+  max-width: 170px;
+  margin-top: 3px;
+  color: var(--mz-text-3) !important;
+  font-size: .66rem !important;
+  font-weight: 500 !important;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mezgebMobileHeaderActions {
+  display: flex !important;
+  align-items: center;
+  gap: 2px !important;
+  padding-right: 42px;
+}
+
+.mezgebMobileUtility,
+.mezgebMobileLanguageShortcut,
+.mezgebMobileMenuButton,
+.mezgebMobileAccountShortcut {
+  display: grid !important;
+  place-items: center !important;
+  width: 38px !important;
+  height: 38px !important;
+  min-width: 38px !important;
+  min-height: 38px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  color: var(--mz-text-2) !important;
+  box-shadow: none !important;
+  font-size: .72rem !important;
+  font-weight: 800 !important;
+  transition: transform 150ms var(--mz-spring), background-color 150ms var(--mz-ease) !important;
+}
+
+.mezgebMobileUtility:hover,
+.mezgebMobileLanguageShortcut:hover,
+.mezgebMobileMenuButton:hover { background: var(--mz-surface-3) !important; }
+
+.mezgebMobileUtility:active,
+.mezgebMobileLanguageShortcut:active,
+.mezgebMobileMenuButton:active,
+.mezgebMobileAccountShortcut:active { transform: scale(.90) !important; }
+
+.mezgebMobileMenuButton span {
+  display: block !important;
+  width: 17px !important;
+  height: 1.6px !important;
+  margin: 1.7px 0 !important;
+  border-radius: 2px;
+  background: currentColor !important;
+}
+
+.mezgebMobileTopActionOverlay {
+  position: fixed !important;
+  top: calc(12px + var(--mz-safe-top)) !important;
+  left: calc(50% + min(50vw, 240px) - 52px) !important;
+  right: auto !important;
+  z-index: 1210 !important;
+  width: 38px !important;
+  height: 38px !important;
+  transform: translateX(-100%) !important;
+}
+
+.mezgebMobileAccountShortcut {
+  background: var(--mz-accent-tint) !important;
+  color: var(--mz-accent) !important;
+  box-shadow: inset 0 0 0 1px var(--mz-accent-soft) !important;
+}
+
+.mezgebMobileSearchBar {
+  position: relative !important;
+  top: auto !important;
+  display: grid !important;
+  grid-template-columns: 18px minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  min-height: 50px !important;
+  padding: 6px 14px 8px !important;
+  border: 0 !important;
+  background: color-mix(in srgb, var(--mz-surface) 92%, transparent) !important;
+  color: var(--mz-text-3) !important;
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+}
+
+.mezgebMobileSearchBar::before {
+  position: absolute;
+  inset: 4px 14px 8px;
+  z-index: -1;
+  content: '';
+  border: 1px solid var(--mz-border);
+  border-radius: 12px;
+  background: var(--mz-surface-3);
+}
+
+.mezgebMobileSearchBar > span {
+  color: var(--mz-text-3) !important;
+  font-size: 1rem !important;
+}
+
+.mezgebMobileSearchBar button {
+  min-width: 0;
+  padding: 0 !important;
+  overflow: hidden;
+  border: 0 !important;
+  background: transparent !important;
+  color: var(--mz-text-3) !important;
+  font-size: .74rem !important;
+  font-weight: 560 !important;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mezgebMobileSearchBar kbd {
+  color: var(--mz-text-4) !important;
+  font-size: .62rem !important;
+}
+
+.cloudSidebar {
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 50% !important;
+  z-index: 1150 !important;
+  display: block !important;
+  width: min(100%, var(--mz-app-max)) !important;
+  height: auto !important;
+  min-height: 78px !important;
+  padding: 8px 8px calc(8px + var(--mz-safe-bottom)) !important;
+  overflow: visible !important;
+  transform: translateX(-50%) !important;
+  border: 0 !important;
+  border-top: 1px solid var(--mz-border) !important;
+  border-radius: 0 !important;
+  background: color-mix(in srgb, var(--mz-surface) 92%, transparent) !important;
+  color: var(--mz-text-3) !important;
+  box-shadow: 0 -8px 24px -12px rgba(0, 0, 0, .42) !important;
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+}
+
+.cloudSidebar .mezgebAppIdentity,
+.cloudSidebar .cloudBusinessSwitcher,
+.cloudSidebar .cloudSidebarFoot { display: none !important; }
+
+.cloudSidebar nav {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  align-items: end !important;
+  gap: 0 !important;
+  width: 100% !important;
+  height: 62px !important;
+}
+
+.cloudSidebar nav button {
+  position: relative !important;
+  display: flex !important;
+  min-width: 0 !important;
+  min-height: 58px !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 3px !important;
+  padding: 6px 2px !important;
+  border: 0 !important;
+  border-radius: 10px !important;
+  background: transparent !important;
+  color: var(--mz-text-3) !important;
+  font-size: .61rem !important;
+  font-weight: 600 !important;
+  transition: color 180ms var(--mz-ease), transform 180ms var(--mz-spring) !important;
+}
+
+.cloudSidebar nav button:nth-child(6) { display: none !important; }
+
+.cloudSidebar nav button i {
+  display: grid !important;
+  place-items: center !important;
+  width: 24px !important;
+  height: 24px !important;
+  color: currentColor !important;
+  font-size: 1.15rem !important;
+  font-style: normal !important;
+  line-height: 1 !important;
+  transition: transform 240ms var(--mz-spring) !important;
+}
+
+.cloudSidebar nav button span {
+  width: 100%;
+  overflow: hidden;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cloudSidebar nav button.active {
+  color: var(--mz-accent) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.cloudSidebar nav button.active::before {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  width: 22px;
+  height: 3px;
+  content: '';
+  transform: translateX(-50%);
+  border-radius: 2px;
+  background: var(--mz-accent);
+  box-shadow: 0 0 8px var(--mz-accent-soft);
+}
+
+.cloudSidebar nav button.active i { transform: translateY(-2px) scale(1.12); }
+.cloudSidebar nav button:active { transform: scale(.92) !important; }
+
+.cloudMetricGrid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+}
+
+.cloudMetricGrid article {
+  min-width: 0 !important;
+  min-height: 112px !important;
+  padding: 14px !important;
+  overflow: hidden !important;
+  border: 1px solid var(--mz-border) !important;
+  border-radius: 16px !important;
+  background: var(--mz-surface) !important;
+  color: var(--mz-text) !important;
+  box-shadow: var(--mz-shadow-card) !important;
+  animation: mzFadeUp 420ms var(--mz-ease-out) both;
+}
+
+.cloudMetricGrid small {
+  color: var(--mz-text-3) !important;
+  font-size: .66rem !important;
+  font-weight: 600 !important;
+  letter-spacing: .06em !important;
+  text-transform: uppercase;
+}
+
+.cloudMetricGrid strong {
+  display: block;
+  margin: 9px 0 5px !important;
+  color: var(--mz-text) !important;
+  font-size: clamp(1.15rem, 6vw, 1.55rem) !important;
+  font-weight: 800 !important;
+  letter-spacing: -.035em !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.cloudMetricGrid span {
+  color: var(--mz-text-3) !important;
+  font-size: .65rem !important;
+  line-height: 1.4 !important;
+}
+
+.cloudPrimaryMetric {
+  position: relative !important;
+  grid-column: 1 / -1 !important;
+  min-height: 202px !important;
+  padding: 20px !important;
+  border: 0 !important;
+  border-radius: 24px !important;
+  background:
+    radial-gradient(circle at 112% -30%, rgba(255, 255, 255, .24), transparent 46%),
+    linear-gradient(160deg, var(--mz-orange-400) 0%, var(--mz-orange-500) 50%, var(--mz-orange-600) 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .35), 0 16px 32px -12px rgba(0, 0, 0, .55) !important;
+}
+
+.cloudPrimaryMetric::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, .34), transparent 50%);
+}
+
+.cloudPrimaryMetric > * { position: relative; z-index: 1; }
+.cloudPrimaryMetric small,
+.cloudPrimaryMetric span { color: rgba(255, 255, 255, .80) !important; }
+
+.cloudPrimaryMetric strong {
+  margin: 14px 0 20px !important;
+  color: #fff !important;
+  font-size: clamp(2rem, 11vw, 3rem) !important;
+  letter-spacing: -.07em !important;
+}
+
+.cloudPrimaryMetric > div {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 10px !important;
+}
+
+.cloudPrimaryMetric > div span {
+  padding: 11px !important;
+  border-radius: 12px !important;
+  background: rgba(255, 255, 255, .11) !important;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .09) !important;
+}
+
+.cloudPrimaryMetric b {
+  display: block;
+  margin-top: 4px;
+  color: #fff !important;
+  font-size: .82rem !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.cloudQuickActions {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 8px !important;
+  margin: 14px 0 !important;
+}
+
+.cloudQuickActions button {
+  display: flex !important;
+  min-width: 0 !important;
+  min-height: 82px !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 7px !important;
+  padding: 8px 3px !important;
+  border: 1px solid var(--mz-border) !important;
+  border-radius: 12px !important;
+  background: var(--mz-surface) !important;
+  color: var(--mz-text-2) !important;
+  box-shadow: var(--mz-shadow-card) !important;
+  font-size: .67rem !important;
+  font-weight: 600 !important;
+  transition: transform 180ms var(--mz-spring), background-color 180ms var(--mz-ease) !important;
+}
+
+.cloudQuickActions button:hover { background: var(--mz-surface-3) !important; }
+.cloudQuickActions button:active { transform: scale(.94) !important; }
+
+.cloudQuickActions i {
+  display: grid !important;
+  place-items: center !important;
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 12px !important;
+  background: var(--mz-accent-tint) !important;
+  color: var(--mz-accent) !important;
+  font-size: 1.2rem !important;
+  font-style: normal !important;
+}
+
+.cloudQuickActions button:nth-child(2) i {
+  background: var(--mz-rose-soft) !important;
+  color: var(--mz-rose-500) !important;
+}
+
+.cloudQuickActions button:nth-child(3) i {
+  background: var(--mz-mint-soft) !important;
+  color: var(--mz-mint-500) !important;
+}
+
+.cloudQuickActions button:nth-child(4) i {
+  background: rgba(252, 163, 17, .15) !important;
+  color: var(--mz-gold-500) !important;
+}
+
+.cloudDashboardGrid,
+.cloudTwoColumn,
+.cloudDubeLayout,
+.cloudDubeForms,
+.cloudReceiptGrid,
+.cloudReportGrid,
+.cloudOperationsGrid {
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  gap: 12px !important;
+}
+
+.cloudPanel,
+.cloudForm,
+.cloudLedger,
+.cloudReceipts,
+.cloudReports,
+.cloudOperations,
+.cloudReportCard,
+.cloudOperationsCard,
+.cloudCustomerCards article,
+.cloudReceiptGrid article {
+  border: 1px solid var(--mz-border) !important;
+  border-radius: 16px !important;
+  background: var(--mz-surface) !important;
+  color: var(--mz-text) !important;
+  box-shadow: var(--mz-shadow-card) !important;
+}
+
+.cloudPanel,
+.cloudLedger,
+.cloudReceipts,
+.cloudReports,
+.cloudOperations { padding: 15px !important; }
+
+.cloudPanel header,
+.cloudLedger > header,
+.cloudSectionHeader,
+.cloudReportCard header,
+.cloudOperationsCard header,
+.cloudForm header {
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
+  gap: 12px !important;
+  margin-bottom: 12px !important;
+}
+
+.cloudPanel small,
+.cloudLedger small,
+.cloudSectionHeader small,
+.cloudReportCard small,
+.cloudOperationsCard small,
+.cloudForm small {
+  color: var(--mz-text-3) !important;
+  font-size: .65rem !important;
+  font-weight: 600 !important;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.cloudPanel h2,
+.cloudPanel h3,
+.cloudLedger h2,
+.cloudSectionHeader h2,
+.cloudReportCard h2,
+.cloudReportCard h3,
+.cloudOperationsCard h2,
+.cloudOperationsCard h3,
+.cloudForm h2 {
+  margin: 3px 0 0 !important;
+  color: var(--mz-text) !important;
+  font-weight: 750 !important;
+  letter-spacing: -.025em !important;
+}
+
+.cloudPanel header button,
+.cloudLedger header button,
+.cloudSectionHeader button,
+.cloudReportCard button,
+.cloudOperationsCard button {
+  min-height: 34px !important;
+  padding: 0 11px !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: var(--mz-surface-3) !important;
+  color: var(--mz-accent) !important;
+  font-size: .7rem !important;
+  font-weight: 700 !important;
+}
+
+.cloudRows { display: grid !important; gap: 8px !important; }
+
+.cloudRow,
+.cloudCustomerRow,
+.cloudCustomerCard,
+.cloudTransactionRow {
+  border: 1px solid var(--mz-border) !important;
+  border-radius: 12px !important;
+  background: var(--mz-surface-2) !important;
+  color: var(--mz-text) !important;
+}
+
+.cloudHealth {
+  background: linear-gradient(160deg, var(--mz-surface), var(--mz-surface-2)) !important;
+}
+
+.cloudHealth header > span {
+  display: grid !important;
+  place-items: center !important;
+  width: 48px !important;
+  height: 48px !important;
+  border-radius: 50% !important;
+  background: var(--mz-accent-tint) !important;
+  color: var(--mz-accent) !important;
+  font-weight: 800 !important;
+}
+
+.cloudHealth p { color: var(--mz-text-3) !important; }
+.cloudHealth > div { border-color: var(--mz-border) !important; color: var(--mz-text-2) !important; }
+.cloudHealth b { color: var(--mz-mint-400) !important; }
+
+.cloudForm {
+  display: grid !important;
+  gap: 13px !important;
+  padding: 16px !important;
+}
+
+.cloudForm label {
+  display: grid !important;
+  gap: 6px !important;
+  color: var(--mz-text-2) !important;
+  font-size: .72rem !important;
+  font-weight: 650 !important;
+}
+
+.cloudForm input,
+.cloudForm select,
+.cloudLedger header input,
+.cloudDrawerBusiness select,
+.mezgebDrawerBusiness select,
+.mezgebDrawerSettings select {
+  width: 100% !important;
+  min-height: 46px !important;
+  padding: 0 13px !important;
+  border: 1px solid var(--mz-border) !important;
+  border-radius: 10px !important;
+  outline: none !important;
+  background: var(--mz-surface-3) !important;
+  color: var(--mz-text) !important;
+  font: inherit !important;
+  font-size: .82rem !important;
+  transition: border-color 160ms var(--mz-ease), box-shadow 160ms var(--mz-ease) !important;
+}
+
+.cloudForm input:focus,
+.cloudForm select:focus,
+.cloudLedger header input:focus,
+.mezgebDrawerBusiness select:focus,
+.mezgebDrawerSettings select:focus {
+  border-color: var(--mz-accent) !important;
+  box-shadow: 0 0 0 4px var(--mz-accent-soft) !important;
+}
+
+.cloudFormGrid { display: grid !important; grid-template-columns: 1fr !important; gap: 12px !important; }
+
+.cloudSegment {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 4px !important;
+  padding: 4px !important;
+  border-radius: 999px !important;
+  background: var(--mz-surface-3) !important;
+}
+
+.cloudSegment button {
+  min-height: 38px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: transparent !important;
+  color: var(--mz-text-3) !important;
+  font-size: .76rem !important;
+  font-weight: 700 !important;
+}
+
+.cloudSegment button.active {
+  background: var(--mz-surface) !important;
+  color: var(--mz-accent) !important;
+  box-shadow: var(--mz-shadow-card) !important;
+}
+
+.cloudSegment button.active.sale { color: var(--mz-mint-500) !important; }
+.cloudSegment button.active.expense { color: var(--mz-rose-500) !important; }
+
+.cloudCheck {
+  display: flex !important;
+  grid-template-columns: auto 1fr;
+  align-items: center !important;
+  gap: 9px !important;
+  padding: 11px !important;
+  border-radius: 10px !important;
+  background: var(--mz-accent-tint) !important;
+}
+
+.cloudCheck input { width: 18px !important; min-height: 18px !important; padding: 0 !important; accent-color: var(--mz-accent); }
+
+.mezgebPrimaryAction,
+.cloudReceiptGrid .button.primary,
+.cloudForm button[type='submit'] {
+  min-height: 48px !important;
+  border: 0 !important;
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, var(--mz-orange-400), var(--mz-orange-500) 50%, var(--mz-orange-600)) !important;
+  color: #fff !important;
+  box-shadow: 0 1px 2px rgba(217, 83, 26, .25), 0 4px 12px -2px rgba(217, 83, 26, .30) !important;
+  font-size: .86rem !important;
+  font-weight: 750 !important;
+  transition: transform 180ms var(--mz-spring), filter 180ms var(--mz-ease) !important;
+}
+
+.mezgebPrimaryAction:active,
+.cloudReceiptGrid .button.primary:active,
+.cloudForm button[type='submit']:active { transform: scale(.965) !important; filter: brightness(.96); }
+
+.cloudSecureHint { color: var(--mz-text-4) !important; text-align: center; }
+
+.cloudCustomerCards,
+.cloudReceiptGrid { display: grid !important; grid-template-columns: 1fr !important; gap: 10px !important; }
+
+.cloudCustomerCards article,
+.cloudReceiptGrid article {
+  padding: 14px !important;
+  transition: transform 160ms var(--mz-spring), border-color 160ms var(--mz-ease) !important;
+}
+
+.cloudCustomerCards article:active,
+.cloudReceiptGrid article:active { transform: scale(.98); }
+
+.cloudCustomerCards strong,
+.cloudReceiptGrid strong,
+.cloudSectionHeader > span {
+  color: var(--mz-text) !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.cloudCustomerCards p,
+.cloudReceiptGrid p,
+.cloudSectionHeader p,
+.cloudReports p,
+.cloudOperations p { color: var(--mz-text-3) !important; }
+
+.cloudReceipts .cloudSectionHeader,
+.cloudReports .cloudSectionHeader,
+.cloudOperations .cloudSectionHeader {
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.cloudReportGrid article:first-child {
+  background: var(--mz-accent-tint) !important;
+  border-color: var(--mz-accent-soft) !important;
+}
+
+.cloudReportGrid strong { color: var(--mz-text) !important; }
+.cloudReportGrid article:first-child strong { color: var(--mz-accent-strong) !important; }
+
+.mezgebNotice {
+  position: fixed !important;
+  top: calc(120px + var(--mz-safe-top)) !important;
+  left: 50% !important;
+  z-index: 1220 !important;
+  display: flex !important;
+  width: min(calc(100% - 28px), 452px) !important;
+  min-height: 48px !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  padding: 9px 9px 9px 13px !important;
+  transform: translateX(-50%) !important;
+  border: 1px solid rgba(255, 255, 255, .10) !important;
+  border-radius: 12px !important;
+  background: rgba(34, 32, 29, .94) !important;
+  color: #fff !important;
+  box-shadow: var(--mz-shadow-xl) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  animation: mzToastIn 300ms var(--mz-ease-out) both;
+}
+
+.mezgebNotice button {
+  width: 32px !important;
+  height: 32px !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, .10) !important;
+  color: #fff !important;
+}
+
+.mezgebMobileBackdrop,
+.mezgebSearchBackdrop {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 1240 !important;
+  border: 0 !important;
+  background: rgba(9, 8, 7, .66) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.mezgebMobileDrawer {
+  position: fixed !important;
+  top: 0 !important;
+  right: max(0px, calc((100vw - var(--mz-app-max)) / 2)) !important;
+  bottom: 0 !important;
+  z-index: 1250 !important;
+  width: min(88vw, 390px) !important;
+  padding: calc(16px + var(--mz-safe-top)) 14px calc(16px + var(--mz-safe-bottom)) !important;
+  overflow-y: auto !important;
+  border: 0 !important;
+  border-left: 1px solid var(--mz-border) !important;
+  border-radius: 0 !important;
+  background: var(--mz-bg-soft) !important;
+  color: var(--mz-text) !important;
+  box-shadow: var(--mz-shadow-xl) !important;
+  animation: mzDrawerIn 320ms var(--mz-ease-out) both;
+}
+
+.mezgebMobileDrawer > header,
+.mezgebMobileDrawer footer { border-color: var(--mz-border) !important; }
+
+.mezgebDrawerBrand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+.mezgebDrawerBrand strong { color: var(--mz-text) !important; }
+.mezgebDrawerBrand small { color: var(--mz-text-3) !important; }
+
+.mezgebMobileDrawer > header > button {
+  width: 36px !important;
+  height: 36px !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: var(--mz-surface-3) !important;
+  color: var(--mz-text-2) !important;
+}
+
+.mezgebDrawerBusiness,
+.mezgebDrawerSettings,
+.mezgebDrawerNavigation {
+  border-color: var(--mz-border) !important;
+  background: transparent !important;
+}
+
+.mezgebDrawerNavigation button,
+.mezgebDrawerSettings button,
+.mezgebDrawerSettings a,
+.mezgebDrawerSettings label {
+  border-color: var(--mz-border) !important;
+  background: var(--mz-surface) !important;
+  color: var(--mz-text-2) !important;
+}
+
+.mezgebDrawerNavigation button i,
+.mezgebDrawerSettings i {
+  background: var(--mz-accent-tint) !important;
+  color: var(--mz-accent) !important;
+}
+
+.mezgebGlobalSearch {
+  position: fixed !important;
+  top: calc(12px + var(--mz-safe-top)) !important;
+  left: 50% !important;
+  z-index: 1260 !important;
+  width: min(calc(100% - 24px), 456px) !important;
+  max-height: calc(100dvh - 24px - var(--mz-safe-top) - var(--mz-safe-bottom)) !important;
+  overflow: hidden !important;
+  transform: translateX(-50%) !important;
+  border: 1px solid var(--mz-border) !important;
+  border-radius: 18px !important;
+  background: var(--mz-bg-soft) !important;
+  color: var(--mz-text) !important;
+  box-shadow: var(--mz-shadow-xl) !important;
+  animation: mzSearchIn 260ms var(--mz-ease-out) both;
+}
+
+.mezgebGlobalSearch header,
+.mezgebGlobalSearch footer { border-color: var(--mz-border) !important; background: var(--mz-surface) !important; }
+.mezgebGlobalSearch input { color: var(--mz-text) !important; }
+.mezgebSearchResults { background: var(--mz-bg-soft) !important; }
+.mezgebSearchResults button { border-color: var(--mz-border) !important; background: var(--mz-surface) !important; color: var(--mz-text) !important; }
+.mezgebSearchResults button i { background: var(--mz-accent-tint) !important; color: var(--mz-accent) !important; }
+.mezgebSearchResults small { color: var(--mz-text-3) !important; }
+
+@keyframes mzFadeUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes mzToastIn {
+  from { opacity: 0; transform: translate(-50%, -8px) scale(.98); }
+  to { opacity: 1; transform: translate(-50%, 0) scale(1); }
+}
+
+@keyframes mzDrawerIn {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes mzSearchIn {
+  from { opacity: 0; transform: translate(-50%, -10px) scale(.98); }
+  to { opacity: 1; transform: translate(-50%, 0) scale(1); }
+}
+
+@media (min-width: 520px) {
+  .productionAppPage .nativeAppShell {
+    border-right: 1px solid rgba(255, 255, 255, .06);
+    border-left: 1px solid rgba(255, 255, 255, .06);
+  }
+}
+
+@media (max-width: 380px) {
+  .cloudContent { padding: 12px !important; }
+  .cloudQuickActions { gap: 6px !important; }
+  .cloudQuickActions button { min-height: 76px !important; font-size: .61rem !important; }
+  .cloudPrimaryMetric strong { font-size: 2rem !important; }
+  .mezgebMobileBrand small { max-width: 110px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .productionAppPage *,
+  .productionAppPage *::before,
+  .productionAppPage *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+}
