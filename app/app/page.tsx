@@ -15,6 +15,7 @@ import './mobile-controls.css';
 import './mobile-shell-polish.css';
 import './mobile-header-account.css';
 import './premium-mobile.css';
+import './premium-mobile-fixes.css';
 
 // Production redeploy trigger; no application behavior is changed.
 export const metadata: Metadata = {
