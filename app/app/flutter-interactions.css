@@ -1,0 +1,450 @@
+/* Tactile Flutter interaction layer for the authenticated Mezgeb workspace. */
+
+.flutterFab { display: none !important; }
+
+[data-mz-interactive='true'] {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+[data-mz-interactive='true'].mzPressed {
+  transform: scale(0.975) !important;
+  transition-duration: 80ms !important;
+}
+
+.mzRipple {
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  background: color-mix(in srgb, currentColor 17%, transparent);
+  pointer-events: none;
+  transform: scale(0);
+  opacity: 0.7;
+  animation: mzRippleOut 580ms var(--flutter-emphasized) forwards;
+}
+
+.mzViewEntering {
+  animation: mzInteractiveViewIn 380ms var(--flutter-emphasized) both !important;
+}
+
+body.mzAppScrolled .flutterAppBar {
+  min-height: 86px;
+  padding-top: calc(10px + var(--flutter-safe-top));
+  padding-bottom: 10px;
+  background: color-mix(in srgb, var(--fl-surface-container-low) 94%, transparent);
+  box-shadow: 0 7px 22px color-mix(in srgb, var(--fl-shadow) 12%, transparent);
+}
+
+body.mzAppScrolled .flutterAppBarLeading > div > span { opacity: 0; transform: translateY(-5px); }
+body.mzAppScrolled .flutterAppBarLeading h1 { margin-top: -8px; font-size: 1.45rem; }
+
+.flutterAppBar,
+.flutterAppBarLeading > div > span,
+.flutterAppBarLeading h1 {
+  transition:
+    min-height 240ms var(--flutter-emphasized),
+    padding 240ms var(--flutter-emphasized),
+    background 220ms ease,
+    box-shadow 220ms ease,
+    opacity 180ms ease,
+    transform 240ms var(--flutter-emphasized),
+    font-size 240ms var(--flutter-emphasized),
+    margin 240ms var(--flutter-emphasized);
+}
+
+.cloudMetricGrid article[role='button'] {
+  cursor: pointer;
+  outline: 0;
+  transition:
+    transform 230ms var(--flutter-spring),
+    box-shadow 230ms var(--flutter-ease),
+    border-color 180ms ease,
+    filter 180ms ease !important;
+}
+
+.cloudMetricGrid article[role='button']:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--fl-elevation-3) !important;
+}
+
+.cloudMetricGrid article[role='button']:focus-visible {
+  border-color: var(--fl-primary) !important;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--fl-primary) 22%, transparent), var(--fl-elevation-3) !important;
+}
+
+.cloudMetricGrid article[role='button']::before {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  z-index: 3;
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  content: '›';
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--fl-primary) 10%, transparent);
+  color: var(--fl-primary);
+  font-size: 1.2rem;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 180ms ease, transform 220ms var(--flutter-spring);
+}
+
+.cloudPrimaryMetric[role='button']::before {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.cloudMetricGrid article[role='button']:hover::before,
+.cloudMetricGrid article[role='button']:focus-visible::before {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.cloudRows > article,
+.cloudRows > div,
+.cloudTransactionRow,
+.cloudCustomerRow {
+  cursor: default;
+  transition:
+    background 180ms var(--flutter-ease),
+    transform 190ms var(--flutter-spring),
+    box-shadow 180ms var(--flutter-ease) !important;
+}
+
+.cloudRows > article:hover,
+.cloudRows > div:hover,
+.cloudTransactionRow:hover,
+.cloudCustomerRow:hover {
+  transform: translateX(4px);
+  box-shadow: inset 3px 0 0 var(--fl-primary);
+}
+
+.cloudForm input:focus,
+.cloudForm select:focus,
+.cloudForm textarea:focus,
+.cloudLedger input:focus,
+.cloudDrawer input:focus,
+.cloudDrawer select:focus,
+.cloudDrawer textarea:focus {
+  border-color: var(--fl-primary) !important;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--fl-primary) 16%, transparent) !important;
+  transform: translateY(-1px);
+}
+
+.cloudForm input,
+.cloudForm select,
+.cloudForm textarea,
+.cloudLedger input,
+.cloudDrawer input,
+.cloudDrawer select,
+.cloudDrawer textarea {
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease,
+    transform 180ms var(--flutter-spring) !important;
+}
+
+.mezgebPrimaryAction:disabled {
+  position: relative;
+  color: transparent !important;
+  cursor: progress !important;
+}
+
+.mezgebPrimaryAction:disabled::after {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 20px;
+  height: 20px;
+  content: '';
+  border: 2px solid color-mix(in srgb, var(--fl-on-primary) 38%, transparent);
+  border-top-color: var(--fl-on-primary);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: mzSpin 700ms linear infinite;
+}
+
+.mzInteractionLayer {
+  position: fixed;
+  inset: 0;
+  z-index: 1900;
+  pointer-events: none;
+}
+
+.mzPullIndicator {
+  position: fixed;
+  top: calc(10px + var(--flutter-safe-top));
+  left: calc(var(--flutter-rail-width) + 50%);
+  z-index: 1880;
+  display: flex;
+  min-width: 148px;
+  height: 46px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 16px;
+  border: 1px solid var(--fl-outline-variant);
+  border-radius: 999px;
+  background: var(--fl-surface-container-lowest);
+  color: var(--fl-on-surface);
+  box-shadow: var(--fl-elevation-2);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, calc(-64px + var(--mz-pull, 0px)));
+  transition: opacity 140ms ease, background 180ms ease;
+}
+
+.mzPullIndicator.visible { opacity: 1; }
+.mzPullIndicator.ready { background: var(--fl-primary-container); color: var(--fl-on-primary-container); }
+.mzPullIndicator span { font-size: 1.2rem; transform: rotate(calc(var(--mz-pull, 0px) * 3deg)); }
+.mzPullIndicator small { font-size: 0.68rem; font-weight: 720; }
+
+.mzFabBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1901;
+  border: 0;
+  background: color-mix(in srgb, var(--fl-scrim) 42%, transparent);
+  pointer-events: auto;
+  backdrop-filter: blur(2px);
+  animation: mzFadeIn 180ms ease both;
+}
+
+.mzSpeedDial {
+  position: fixed;
+  right: 30px;
+  bottom: 28px;
+  z-index: 1902;
+  display: grid;
+  justify-items: end;
+  gap: 12px;
+  pointer-events: auto;
+}
+
+.mzSpeedDialActions {
+  display: grid;
+  gap: 9px;
+  justify-items: end;
+  pointer-events: none;
+}
+
+.mzSpeedDialActions button {
+  display: flex;
+  min-width: 148px;
+  height: 52px;
+  align-items: center;
+  gap: 11px;
+  padding: 0 16px 0 10px;
+  border: 1px solid var(--fl-outline-variant);
+  border-radius: 18px;
+  background: var(--fl-surface-container-lowest);
+  color: var(--fl-on-surface);
+  box-shadow: var(--fl-elevation-2);
+  font: inherit;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(18px) scale(0.92);
+  transition:
+    opacity 160ms ease,
+    transform 250ms var(--flutter-spring),
+    background 180ms ease;
+}
+
+.mzSpeedDial.open .mzSpeedDialActions { pointer-events: auto; }
+.mzSpeedDial.open .mzSpeedDialActions button { opacity: 1; transform: translateY(0) scale(1); }
+.mzSpeedDial.open .mzSpeedDialActions button:nth-child(1) { transition-delay: 20ms; }
+.mzSpeedDial.open .mzSpeedDialActions button:nth-child(2) { transition-delay: 45ms; }
+.mzSpeedDial.open .mzSpeedDialActions button:nth-child(3) { transition-delay: 70ms; }
+.mzSpeedDial.open .mzSpeedDialActions button:nth-child(4) { transition-delay: 95ms; }
+.mzSpeedDialActions button:hover { background: var(--fl-surface-container-high); }
+.mzSpeedDialActions button:active { transform: scale(0.95) !important; }
+.mzSpeedDialActions button span {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--fl-primary-container);
+  color: var(--fl-on-primary-container);
+  font-size: 1rem;
+}
+.mzSpeedDialActions button b { font-size: 0.76rem; font-weight: 740; }
+
+.mzSpeedDialFab {
+  display: flex;
+  min-width: 148px;
+  height: 58px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 20px;
+  background: var(--fl-primary-container);
+  color: var(--fl-on-primary-container);
+  box-shadow: var(--fl-elevation-3);
+  font: inherit;
+  cursor: pointer;
+  transition: transform 210ms var(--flutter-spring), box-shadow 180ms ease, border-radius 220ms var(--flutter-emphasized);
+}
+.mzSpeedDialFab:hover { transform: translateY(-2px); }
+.mzSpeedDialFab:active { transform: scale(0.94); }
+.mzSpeedDial.open .mzSpeedDialFab { border-radius: 50%; min-width: 58px; width: 58px; padding: 0; }
+.mzSpeedDialFab span { font-size: 1.55rem; line-height: 1; transition: transform 260ms var(--flutter-spring); }
+.mzSpeedDial.open .mzSpeedDialFab span { transform: rotate(90deg); }
+.mzSpeedDialFab b { font-size: 0.8rem; font-weight: 760; white-space: nowrap; }
+.mzSpeedDial.open .mzSpeedDialFab b { display: none; }
+
+.mzSnackbar {
+  position: fixed;
+  left: calc(var(--flutter-rail-width) + 50%);
+  bottom: 28px;
+  z-index: 1930;
+  display: grid;
+  width: min(420px, calc(100vw - var(--flutter-rail-width) - 48px));
+  min-height: 54px;
+  grid-template-columns: 30px minmax(0, 1fr) 36px;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 9px 8px 14px;
+  border-radius: 18px;
+  background: var(--fl-on-surface);
+  color: var(--fl-surface);
+  box-shadow: var(--fl-elevation-3);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 28px) scale(0.96);
+  transition: opacity 180ms ease, transform 260ms var(--flutter-spring);
+}
+.mzSnackbar.visible { opacity: 1; pointer-events: auto; transform: translate(-50%, 0) scale(1); }
+.mzSnackbar > span {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--fl-success-container);
+  color: var(--fl-success);
+  font-weight: 900;
+}
+.mzSnackbar p { margin: 0; font-size: 0.75rem; font-weight: 660; }
+.mzSnackbar button {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--fl-surface) 12%, transparent);
+  color: inherit;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.mzSuccessBurst {
+  position: fixed;
+  top: 50%;
+  left: calc(var(--flutter-rail-width) + 50%);
+  z-index: 1920;
+  width: 12px;
+  height: 12px;
+  pointer-events: none;
+}
+.mzSuccessBurst i {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 3px;
+  background: var(--fl-primary);
+  animation: mzParticle 760ms var(--flutter-emphasized) both;
+}
+.mzSuccessBurst i:nth-child(3n + 1) { background: var(--fl-tertiary); }
+.mzSuccessBurst i:nth-child(3n + 2) { background: var(--fl-warning); }
+.mzSuccessBurst i:nth-child(1) { --x: -90px; --y: -64px; }
+.mzSuccessBurst i:nth-child(2) { --x: -48px; --y: -102px; }
+.mzSuccessBurst i:nth-child(3) { --x: 0px; --y: -112px; }
+.mzSuccessBurst i:nth-child(4) { --x: 48px; --y: -96px; }
+.mzSuccessBurst i:nth-child(5) { --x: 92px; --y: -54px; }
+.mzSuccessBurst i:nth-child(6) { --x: 108px; --y: 0px; }
+.mzSuccessBurst i:nth-child(7) { --x: 84px; --y: 58px; }
+.mzSuccessBurst i:nth-child(8) { --x: 40px; --y: 92px; }
+.mzSuccessBurst i:nth-child(9) { --x: -8px; --y: 104px; }
+.mzSuccessBurst i:nth-child(10) { --x: -58px; --y: 84px; }
+.mzSuccessBurst i:nth-child(11) { --x: -98px; --y: 46px; }
+.mzSuccessBurst i:nth-child(12) { --x: -110px; --y: -8px; }
+
+.mzShortcutHint {
+  position: fixed;
+  right: 30px;
+  bottom: 100px;
+  z-index: 1200;
+  color: var(--fl-on-surface-variant);
+  font-size: 0.6rem;
+  opacity: 0.58;
+}
+.mzShortcutHint kbd {
+  min-width: 21px;
+  padding: 3px 6px;
+  border: 1px solid var(--fl-outline-variant);
+  border-radius: 7px;
+  background: var(--fl-surface-container-low);
+  color: var(--fl-on-surface);
+  font: inherit;
+  font-weight: 800;
+}
+
+@media (max-width: 900px) {
+  .mzPullIndicator,
+  .mzSnackbar,
+  .mzSuccessBurst { left: 50%; }
+  .mzSpeedDial {
+    right: 18px;
+    bottom: calc(var(--flutter-bottom-height) + var(--flutter-safe-bottom) + 18px);
+  }
+  .mzSnackbar {
+    bottom: calc(var(--flutter-bottom-height) + var(--flutter-safe-bottom) + 18px);
+    width: min(420px, calc(100vw - 28px));
+  }
+  .mzSuccessBurst { top: 46%; }
+  .mzShortcutHint { display: none; }
+}
+
+@media (max-width: 620px) {
+  .mzSpeedDialFab { min-width: 58px; width: 58px; padding: 0; border-radius: 19px; }
+  .mzSpeedDialFab b { display: none; }
+  .mzSpeedDialActions button { min-width: 132px; height: 50px; }
+  .cloudMetricGrid article[role='button']::before { opacity: 0.72; transform: none; }
+  .cloudRows > article:hover,
+  .cloudRows > div:hover,
+  .cloudTransactionRow:hover,
+  .cloudCustomerRow:hover { transform: none; box-shadow: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mzRipple,
+  .mzViewEntering,
+  .mzSuccessBurst i,
+  .mezgebPrimaryAction:disabled::after { animation-duration: 1ms !important; }
+  .mzPullIndicator span { transform: none !important; }
+}
+
+@keyframes mzRippleOut {
+  0% { transform: scale(0); opacity: 0.65; }
+  100% { transform: scale(1); opacity: 0; }
+}
+@keyframes mzInteractiveViewIn {
+  0% { opacity: 0; transform: translateX(18px) scale(0.992); }
+  100% { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes mzSpin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+@keyframes mzFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes mzParticle {
+  0% { opacity: 0; transform: translate(0, 0) rotate(0deg) scale(0.4); }
+  16% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--x), var(--y)) rotate(260deg) scale(1); }
+}
