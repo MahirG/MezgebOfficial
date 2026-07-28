@@ -1,0 +1,232 @@
+/* Mezgeb Apple-inspired light palette with dark-yellow financial accent. */
+
+:root,
+body[data-mezgeb-theme='dark'] .productionAppPage,
+.cloudMezgebApp[data-mezgeb-theme='dark'] {
+  color-scheme: light;
+  --mz-primary: #b27a00;
+  --mz-primary-hover: #8a5e00;
+  --mz-primary-soft: #fff1bf;
+  --mz-bg: #f5f5f7;
+  --mz-surface: #ffffff;
+  --mz-surface-soft: #f0f0f2;
+  --mz-text: #000000;
+  --mz-muted: #515154;
+  --mz-border: #d2d2d7;
+  --mz-green: #18794e;
+  --mz-red: #b42318;
+  --mz-apple-blue: #0071e3;
+  --mz-apple-blue-hover: #0077ed;
+  --mz-yellow: #b27a00;
+  --mz-yellow-strong: #8a5e00;
+  --mz-yellow-soft: #fff1bf;
+  --mz-shadow: 0 1px 2px rgba(0, 0, 0, .04), 0 8px 24px rgba(0, 0, 0, .06);
+  --mz-shadow-raised: 0 14px 36px rgba(0, 0, 0, .14);
+}
+
+html:has(.productionAppPage),
+body:has(.productionAppPage),
+.productionAppPage,
+.productionAppPage .nativeAppShell,
+.cloudMezgebApp,
+.cloudWorkspace {
+  background: #f5f5f7 !important;
+  color: #000000 !important;
+}
+
+/* Make the application typography consistently black. */
+.productionAppPage h1,
+.productionAppPage h2,
+.productionAppPage h3,
+.productionAppPage h4,
+.productionAppPage h5,
+.productionAppPage h6,
+.productionAppPage p,
+.productionAppPage label,
+.productionAppPage strong,
+.productionAppPage b,
+.productionAppPage span,
+.productionAppPage small,
+.productionAppPage td,
+.productionAppPage th,
+.productionAppPage li,
+.productionAppPage input,
+.productionAppPage select,
+.productionAppPage textarea,
+.productionAppPage option,
+.mezgebMobileDrawer,
+.mezgebMobileDrawer *,
+.mezgebGlobalSearch,
+.mezgebGlobalSearch * {
+  color: #000000 !important;
+}
+
+.productionAppPage input::placeholder,
+.productionAppPage textarea::placeholder {
+  color: #6e6e73 !important;
+  opacity: 1;
+}
+
+/* Apple-style white and soft-gray surfaces. */
+.flutterNavRail,
+.flutterAppBar,
+.flutterBusinessPicker,
+.cloudMetricGrid article,
+.cloudPanel,
+.cloudForm,
+.cloudLedger,
+.cloudReportCard,
+.cloudDubeForms > *,
+.cloudTwoColumn > *,
+.cloudDubeLayout > *,
+.mezgebMobileDrawer,
+.mezgebGlobalSearch,
+.cloudDrawer {
+  background: #ffffff !important;
+  border-color: #d2d2d7 !important;
+  color: #000000 !important;
+}
+
+.cloudQuickActions button,
+.flutterRailFooter button,
+.flutterRailAvatar,
+.flutterIconButton:hover,
+.cloudRows > article:hover,
+.cloudRows > div:hover,
+.mezgebDrawerNavigation button:hover,
+.mezgebDrawerSettings > *:hover {
+  background: #f0f0f2 !important;
+  color: #000000 !important;
+}
+
+/* Dark yellow becomes the principal financial/action colour. */
+.flutterRailBrand span,
+.flutterMobileBrand,
+.flutterFab,
+.cloudForm button[type='submit'],
+.cloudForm button.primary,
+.cloudPrimaryButton,
+.cloudActionPrimary,
+.mezgebDrawerPrimaryAction {
+  background: #b27a00 !important;
+  color: #000000 !important;
+  border-color: #b27a00 !important;
+}
+
+.flutterFab:hover,
+.cloudForm button[type='submit']:hover,
+.cloudPrimaryButton:hover,
+.cloudActionPrimary:hover {
+  background: #8a5e00 !important;
+  color: #000000 !important;
+}
+
+.flutterRailBrand span,
+.flutterMobileBrand,
+.flutterFab,
+.flutterFab *,
+.cloudForm button[type='submit'],
+.cloudForm button[type='submit'] *,
+.cloudPrimaryButton,
+.cloudPrimaryButton * {
+  color: #000000 !important;
+}
+
+/* Main balance panel: dark yellow, black text, no white typography. */
+.cloudPrimaryMetric {
+  background:
+    radial-gradient(circle at 88% 10%, rgba(255, 255, 255, .28), transparent 13rem),
+    linear-gradient(135deg, #e0b323 0%, #c58a00 58%, #a66f00 100%) !important;
+  color: #000000 !important;
+  box-shadow: 0 18px 42px rgba(166, 111, 0, .22) !important;
+}
+
+.cloudPrimaryMetric,
+.cloudPrimaryMetric * {
+  color: #000000 !important;
+}
+
+.cloudPrimaryMetric > div span {
+  background: rgba(255, 255, 255, .35) !important;
+  color: #000000 !important;
+}
+
+/* Apple blue is reserved for links, focus and selected navigation. */
+.productionAppPage a:not(.flutterRailAvatar):not(.flutterAvatar),
+.cloudPanel header button,
+.cloudLedger header button,
+.mezgebSearchResults a {
+  color: #0071e3 !important;
+}
+
+.flutterNavRail nav button.active,
+.flutterBottomNav button.active {
+  color: #0071e3 !important;
+}
+
+.flutterNavRail nav button.active .flutterNavIndicator,
+.flutterBottomNav button.active .flutterNavIndicator {
+  background: #e8f2ff !important;
+  color: #0071e3 !important;
+}
+
+.flutterAvatar,
+.flutterRailAvatar {
+  background: #fff1bf !important;
+  color: #000000 !important;
+}
+
+.productionAppPage input:focus,
+.productionAppPage select:focus,
+.productionAppPage textarea:focus,
+.flutterBusinessPicker:focus-within {
+  border-color: #0071e3 !important;
+  box-shadow: 0 0 0 3px rgba(0, 113, 227, .16) !important;
+  outline: none !important;
+}
+
+/* Keep semantic values readable without returning to white text. */
+.cloudPositive,
+.cloudIncome,
+[data-tone='positive'] {
+  color: #18794e !important;
+}
+
+.cloudNegative,
+.cloudExpense,
+[data-tone='negative'] {
+  color: #b42318 !important;
+}
+
+/* Prevent the previous dark-mode switch from bringing back white text. */
+body[data-mezgeb-theme='dark'] .productionAppPage,
+body[data-mezgeb-theme='dark'] .productionAppPage *,
+.cloudMezgebApp[data-mezgeb-theme='dark'],
+.cloudMezgebApp[data-mezgeb-theme='dark'] * {
+  color-scheme: light;
+}
+
+body[data-mezgeb-theme='dark'] .productionAppPage h1,
+body[data-mezgeb-theme='dark'] .productionAppPage h2,
+body[data-mezgeb-theme='dark'] .productionAppPage h3,
+body[data-mezgeb-theme='dark'] .productionAppPage p,
+body[data-mezgeb-theme='dark'] .productionAppPage label,
+body[data-mezgeb-theme='dark'] .productionAppPage span,
+body[data-mezgeb-theme='dark'] .productionAppPage small,
+body[data-mezgeb-theme='dark'] .productionAppPage strong,
+body[data-mezgeb-theme='dark'] .productionAppPage input,
+body[data-mezgeb-theme='dark'] .productionAppPage select,
+body[data-mezgeb-theme='dark'] .productionAppPage textarea {
+  color: #000000 !important;
+}
+
+@media (max-width: 760px) {
+  .flutterBottomNav {
+    background: rgba(255, 255, 255, .94) !important;
+    border-color: #d2d2d7 !important;
+  }
+
+  .flutterAppBar {
+    background: rgba(255, 255, 255, .92) !important;
+  }
+}
