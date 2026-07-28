@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/server';
 import './app.css';
 import './cloud.css';
 import './clean-app.css';
+import './apple-palette.css';
 
 export const metadata: Metadata = {
   title: 'Biloo Mezgeb workspace',
