@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { AppFeedbackLayer } from '@/components/app-feedback-layer';
 import { MezgebApplication } from '@/components/mezgeb-application';
+import { MezgebFlutterShell } from '@/components/mezgeb-flutter-shell';
 import { MezgebMobileControlsGate } from '@/components/mezgeb-mobile-controls-gate';
 import { createClient } from '@/lib/supabase/server';
 import './app.css';
@@ -14,7 +15,7 @@ import './mobile-redesign.css';
 import './mobile-controls.css';
 import './mobile-shell-polish.css';
 import './mobile-header-account.css';
-import './prime-cinema.css';
+import './flutter-app.css';
 
 export const metadata: Metadata = {
   title: 'Biloo Mezgeb workspace',
@@ -132,7 +133,7 @@ export default async function MezgebAppPage({ searchParams }: { searchParams: Se
   }));
 
   return (
-    <main id="main-content" className="mezgebAppPage productionAppPage">
+    <main id="main-content" className="mezgebAppPage productionAppPage flutterMezgebPage">
       <section
         className="container nativeAppShell"
         id="mezgeb-application"
@@ -151,6 +152,11 @@ export default async function MezgebAppPage({ searchParams }: { searchParams: Se
           forceTour={params.tour === '1'}
         />
         <MezgebMobileControlsGate
+          userName={userName}
+          activeBusinessId={activeBusiness.id}
+          businesses={appBusinesses}
+        />
+        <MezgebFlutterShell
           userName={userName}
           activeBusinessId={activeBusiness.id}
           businesses={appBusinesses}
