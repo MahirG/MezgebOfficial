@@ -1,0 +1,1133 @@
+/* Mezgeb adaptive Flutter-style application interface. */
+
+:root {
+  --flutter-rail-width: 104px;
+  --flutter-appbar-height: 112px;
+  --flutter-bottom-height: 86px;
+  --flutter-safe-top: env(safe-area-inset-top, 0px);
+  --flutter-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --flutter-ease: cubic-bezier(0.2, 0, 0, 1);
+  --flutter-emphasized: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --flutter-spring: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.productionAppPage,
+.cloudMezgebApp {
+  --fl-primary: #d95d28;
+  --fl-on-primary: #ffffff;
+  --fl-primary-container: #ffdbcc;
+  --fl-on-primary-container: #3a0b00;
+  --fl-secondary: #5f5e72;
+  --fl-secondary-container: #e5e1fa;
+  --fl-tertiary: #006b62;
+  --fl-tertiary-container: #76f8e9;
+  --fl-error: #ba1a1a;
+  --fl-background: #f9f9fd;
+  --fl-surface: #f9f9fd;
+  --fl-surface-dim: #d9d9df;
+  --fl-surface-bright: #f9f9fd;
+  --fl-surface-container-lowest: #ffffff;
+  --fl-surface-container-low: #f3f3f9;
+  --fl-surface-container: #ededf3;
+  --fl-surface-container-high: #e7e7ed;
+  --fl-surface-container-highest: #e1e1e7;
+  --fl-on-surface: #1a1b20;
+  --fl-on-surface-variant: #49464d;
+  --fl-outline: #7a757d;
+  --fl-outline-variant: #cbc4cc;
+  --fl-shadow: rgba(0, 0, 0, 0.18);
+  --fl-scrim: rgba(0, 0, 0, 0.48);
+  --fl-success: #126b4c;
+  --fl-success-container: #a9f2ce;
+  --fl-warning: #875300;
+  --fl-warning-container: #ffddb5;
+  --fl-radius-xs: 10px;
+  --fl-radius-sm: 14px;
+  --fl-radius-md: 20px;
+  --fl-radius-lg: 28px;
+  --fl-radius-xl: 34px;
+  --fl-elevation-1: 0 1px 2px rgba(24, 24, 30, 0.08), 0 1px 3px rgba(24, 24, 30, 0.05);
+  --fl-elevation-2: 0 2px 7px rgba(24, 24, 30, 0.09), 0 8px 18px rgba(24, 24, 30, 0.04);
+  --fl-elevation-3: 0 7px 22px rgba(24, 24, 30, 0.12), 0 2px 7px rgba(24, 24, 30, 0.06);
+}
+
+body[data-mezgeb-theme='dark'] .productionAppPage,
+.cloudMezgebApp[data-mezgeb-theme='dark'] {
+  --fl-primary: #ffb599;
+  --fl-on-primary: #5c1900;
+  --fl-primary-container: #7c2c08;
+  --fl-on-primary-container: #ffdbcc;
+  --fl-secondary: #c8c4dc;
+  --fl-secondary-container: #464559;
+  --fl-tertiary: #55dacc;
+  --fl-tertiary-container: #005049;
+  --fl-error: #ffb4ab;
+  --fl-background: #111217;
+  --fl-surface: #111217;
+  --fl-surface-dim: #111217;
+  --fl-surface-bright: #37383e;
+  --fl-surface-container-lowest: #0c0d12;
+  --fl-surface-container-low: #191a20;
+  --fl-surface-container: #1d1e24;
+  --fl-surface-container-high: #28292f;
+  --fl-surface-container-highest: #33343a;
+  --fl-on-surface: #e4e1e8;
+  --fl-on-surface-variant: #cec5ce;
+  --fl-outline: #978f98;
+  --fl-outline-variant: #4b454c;
+  --fl-shadow: rgba(0, 0, 0, 0.7);
+  --fl-scrim: rgba(0, 0, 0, 0.72);
+  --fl-success: #8bd8b4;
+  --fl-success-container: #005236;
+  --fl-warning: #ffba55;
+  --fl-warning-container: #663c00;
+  --fl-elevation-1: 0 1px 3px rgba(0, 0, 0, 0.34);
+  --fl-elevation-2: 0 4px 14px rgba(0, 0, 0, 0.4);
+  --fl-elevation-3: 0 10px 30px rgba(0, 0, 0, 0.48);
+}
+
+html:has(.productionAppPage),
+body:has(.productionAppPage) {
+  min-height: 100%;
+  margin: 0;
+  background: var(--fl-background, #f9f9fd) !important;
+  color: var(--fl-on-surface, #1a1b20);
+  overscroll-behavior: none;
+}
+
+body:has(.productionAppPage) {
+  overflow: hidden;
+  font-family: 'Plus Jakarta Sans', 'Noto Sans Ethiopic', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+
+body:has(.productionAppPage) .siteHeader,
+body:has(.productionAppPage) .siteFooter,
+body:has(.productionAppPage) .skipLink,
+body:has(.productionAppPage) .mezgebRouteProgress {
+  display: none !important;
+}
+
+.productionAppPage,
+.productionAppPage .nativeAppShell,
+.cloudMezgebApp {
+  width: 100% !important;
+  max-width: none !important;
+  min-height: 100dvh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: var(--fl-background) !important;
+  color: var(--fl-on-surface) !important;
+  box-shadow: none !important;
+}
+
+.cloudSidebar,
+.cloudTopbar {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  clip-path: inset(50%) !important;
+}
+
+.cloudWorkspace {
+  position: relative !important;
+  width: 100% !important;
+  height: 100dvh !important;
+  min-height: 0 !important;
+  padding: var(--flutter-appbar-height) 0 32px var(--flutter-rail-width) !important;
+  overflow: auto !important;
+  background:
+    radial-gradient(circle at 80% 2%, color-mix(in srgb, var(--fl-primary) 9%, transparent), transparent 30rem),
+    var(--fl-background) !important;
+  scrollbar-width: thin;
+  scrollbar-color: var(--fl-outline-variant) transparent;
+  scroll-behavior: smooth;
+}
+
+.cloudWorkspace::-webkit-scrollbar { width: 8px; }
+.cloudWorkspace::-webkit-scrollbar-thumb { border-radius: 999px; background: var(--fl-outline-variant); }
+
+.cloudContent {
+  width: min(100%, 1480px) !important;
+  min-height: calc(100dvh - var(--flutter-appbar-height)) !important;
+  margin: 0 auto !important;
+  padding: 28px clamp(24px, 3vw, 48px) 64px !important;
+  background: transparent !important;
+  animation: flutterPageEnter 420ms var(--flutter-emphasized) both;
+}
+
+.flutterChrome { color: var(--fl-on-surface); }
+
+.flutterNavRail {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 1400;
+  display: flex;
+  width: var(--flutter-rail-width);
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 10px 18px;
+  border-right: 1px solid var(--fl-outline-variant);
+  background: color-mix(in srgb, var(--fl-surface-container-low) 92%, transparent);
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+}
+
+.flutterRailBrand {
+  display: grid;
+  width: 72px;
+  min-height: 72px;
+  place-items: center;
+  gap: 3px;
+  padding: 8px 4px;
+  border: 0;
+  border-radius: 24px;
+  background: transparent;
+  color: var(--fl-on-surface);
+  cursor: pointer;
+}
+
+.flutterRailBrand span {
+  display: grid;
+  width: 43px;
+  height: 43px;
+  place-items: center;
+  border-radius: 15px;
+  background: var(--fl-primary);
+  color: var(--fl-on-primary);
+  box-shadow: var(--fl-elevation-2);
+  font-family: 'Noto Sans Ethiopic', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+}
+
+.flutterRailBrand strong { font-size: 0.66rem; font-weight: 760; letter-spacing: -0.01em; }
+
+.flutterNavRail nav {
+  display: flex;
+  width: 100%;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+.flutterNavRail nav button,
+.flutterBottomNav button {
+  border: 0;
+  background: transparent;
+  color: var(--fl-on-surface-variant);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.flutterNavRail nav button {
+  display: grid;
+  width: 82px;
+  min-height: 68px;
+  place-items: center;
+  align-content: center;
+  gap: 4px;
+  border-radius: 22px;
+  transition: background 180ms var(--flutter-ease), color 180ms var(--flutter-ease), transform 180ms var(--flutter-spring);
+}
+
+.flutterNavIndicator {
+  display: grid;
+  width: 58px;
+  height: 34px;
+  place-items: center;
+  border-radius: 999px;
+  transition: background 220ms var(--flutter-emphasized), color 220ms var(--flutter-emphasized), transform 220ms var(--flutter-spring);
+}
+
+.flutterNavRail nav button small,
+.flutterBottomNav button small {
+  font-size: 0.67rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+}
+
+.flutterNavRail nav button.active,
+.flutterBottomNav button.active { color: var(--fl-on-surface); }
+.flutterNavRail nav button.active .flutterNavIndicator,
+.flutterBottomNav button.active .flutterNavIndicator {
+  background: var(--fl-secondary-container);
+  color: var(--fl-on-secondary-container, #1c1b2b);
+}
+
+.flutterNavRail nav button:hover { background: var(--fl-surface-container-high); }
+.flutterNavRail nav button:active,
+.flutterBottomNav button:active { transform: scale(0.94); }
+
+.flutterRailFooter {
+  display: grid;
+  place-items: center;
+  gap: 12px;
+}
+
+.flutterRailFooter button,
+.flutterRailAvatar {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: var(--fl-surface-container-high);
+  color: var(--fl-on-surface);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.flutterRailAvatar,
+.flutterAvatar {
+  background: var(--fl-tertiary-container);
+  color: var(--fl-on-tertiary-container, #00201d);
+  font-weight: 800;
+}
+
+.flutterAppBar {
+  position: fixed;
+  inset: 0 0 auto var(--flutter-rail-width);
+  z-index: 1300;
+  display: flex;
+  min-height: var(--flutter-appbar-height);
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: calc(18px + var(--flutter-safe-top)) clamp(24px, 3vw, 48px) 16px;
+  border-bottom: 1px solid color-mix(in srgb, var(--fl-outline-variant) 76%, transparent);
+  background: color-mix(in srgb, var(--fl-surface) 88%, transparent);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+}
+
+.flutterAppBarLeading { display: flex; min-width: 0; align-items: center; gap: 14px; }
+.flutterAppBarLeading > div { min-width: 0; }
+.flutterAppBarLeading span {
+  display: block;
+  overflow: hidden;
+  color: var(--fl-on-surface-variant);
+  font-size: 0.76rem;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.flutterAppBarLeading h1 {
+  margin: 3px 0 0;
+  color: var(--fl-on-surface);
+  font-size: clamp(1.6rem, 2vw, 2.15rem);
+  font-weight: 720;
+  letter-spacing: -0.045em;
+  line-height: 1.08;
+}
+
+.flutterMobileBrand {
+  display: none;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 0;
+  border-radius: 16px;
+  background: var(--fl-primary);
+  color: var(--fl-on-primary);
+  box-shadow: var(--fl-elevation-2);
+  font-family: 'Noto Sans Ethiopic', sans-serif;
+  font-size: 1.18rem;
+  font-weight: 800;
+}
+
+.flutterAppBarActions { display: flex; align-items: center; gap: 8px; }
+.flutterIconButton,
+.flutterAvatar {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  color: var(--fl-on-surface-variant);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 180ms var(--flutter-ease), transform 180ms var(--flutter-spring);
+}
+.flutterIconButton { background: transparent; }
+.flutterIconButton:hover { background: var(--fl-surface-container-high); }
+.flutterIconButton:active,
+.flutterAvatar:active { transform: scale(0.92); }
+.flutterMenuButton { display: none; }
+
+.flutterBusinessPicker {
+  position: relative;
+  display: grid;
+  min-width: 220px;
+  height: 56px;
+  grid-template-columns: minmax(0, 1fr) 18px;
+  align-items: center;
+  padding: 7px 15px 7px 17px;
+  border-radius: 18px;
+  background: var(--fl-surface-container-low);
+  color: var(--fl-on-surface);
+  transition: background 180ms var(--flutter-ease), box-shadow 180ms var(--flutter-ease);
+}
+.flutterBusinessPicker:hover { background: var(--fl-surface-container-high); }
+.flutterBusinessPicker span {
+  position: absolute;
+  top: 7px;
+  left: 17px;
+  color: var(--fl-on-surface-variant);
+  font-size: 0.58rem;
+  font-weight: 650;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.flutterBusinessPicker select {
+  width: 100%;
+  min-width: 0;
+  padding: 14px 20px 0 0;
+  border: 0;
+  outline: 0;
+  appearance: none;
+  background: transparent;
+  color: var(--fl-on-surface);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+.flutterBusinessPicker svg { grid-column: 2; }
+
+.flutterBottomNav { display: none; }
+
+.flutterFab {
+  position: fixed;
+  right: 34px;
+  bottom: 30px;
+  z-index: 1350;
+  display: flex;
+  min-width: 138px;
+  height: 58px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 19px;
+  background: var(--fl-primary-container);
+  color: var(--fl-on-primary-container);
+  box-shadow: var(--fl-elevation-3);
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 760;
+  cursor: pointer;
+  transition: transform 190ms var(--flutter-spring), box-shadow 190ms var(--flutter-ease), filter 190ms var(--flutter-ease);
+}
+.flutterFab:hover { filter: brightness(1.02); box-shadow: 0 12px 32px var(--fl-shadow); transform: translateY(-2px); }
+.flutterFab:active { transform: scale(0.94); }
+
+/* The legacy mobile controls remain mounted only as the data-aware drawer/search engine. */
+.mezgebMobileControls {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 1700 !important;
+  width: 100% !important;
+  pointer-events: none !important;
+}
+.mezgebMobileHeader,
+.mezgebMobileSearchBar,
+.mezgebMobileTopActionOverlay { display: none !important; }
+.mezgebMobileBackdrop,
+.mezgebSearchBackdrop,
+.mezgebMobileDrawer,
+.mezgebGlobalSearch { pointer-events: auto !important; }
+
+.mezgebMobileBackdrop,
+.mezgebSearchBackdrop {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 1750 !important;
+  border: 0 !important;
+  background: var(--fl-scrim) !important;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  animation: flutterFadeIn 180ms ease both;
+}
+
+.mezgebMobileDrawer {
+  position: fixed !important;
+  inset: 12px 12px 12px auto !important;
+  z-index: 1760 !important;
+  display: flex !important;
+  width: min(420px, calc(100vw - 24px)) !important;
+  max-height: calc(100dvh - 24px) !important;
+  flex-direction: column !important;
+  padding: 20px !important;
+  overflow: auto !important;
+  border: 1px solid var(--fl-outline-variant) !important;
+  border-radius: 30px !important;
+  background: var(--fl-surface-container-low) !important;
+  color: var(--fl-on-surface) !important;
+  box-shadow: var(--fl-elevation-3) !important;
+  animation: flutterDrawerIn 320ms var(--flutter-emphasized) both;
+}
+
+.mezgebMobileDrawer > header {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 14px !important;
+  padding: 2px 2px 16px !important;
+  border-bottom: 0 !important;
+}
+.mezgebDrawerBrand { display: flex !important; align-items: center !important; gap: 12px !important; }
+.mezgebDrawerBrand svg { display: none !important; }
+.mezgebDrawerBrand::before {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  content: 'መ';
+  border-radius: 17px;
+  background: var(--fl-primary);
+  color: var(--fl-on-primary);
+  font-family: 'Noto Sans Ethiopic', sans-serif;
+  font-size: 1.24rem;
+  font-weight: 800;
+}
+.mezgebDrawerBrand strong { color: var(--fl-on-surface) !important; font-size: 1rem !important; }
+.mezgebDrawerBrand small { color: var(--fl-on-surface-variant) !important; font-size: 0.7rem !important; }
+.mezgebMobileDrawer > header > button {
+  display: grid !important;
+  width: 44px !important;
+  height: 44px !important;
+  place-items: center !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: var(--fl-surface-container-high) !important;
+  color: var(--fl-on-surface) !important;
+  font-size: 1.4rem !important;
+}
+
+.mezgebDrawerBusiness {
+  display: block !important;
+  padding: 15px 16px !important;
+  border: 0 !important;
+  border-radius: 20px !important;
+  background: var(--fl-secondary-container) !important;
+  color: var(--fl-on-surface) !important;
+}
+.mezgebDrawerBusiness > span,
+.mezgebDrawerBusiness small { color: var(--fl-on-surface-variant) !important; font-size: 0.66rem !important; }
+.mezgebDrawerBusiness select {
+  width: 100% !important;
+  margin: 5px 0 !important;
+  border: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  color: var(--fl-on-surface) !important;
+  font: inherit !important;
+  font-weight: 740 !important;
+}
+
+.mezgebDrawerNavigation {
+  display: grid !important;
+  gap: 5px !important;
+  margin: 16px 0 !important;
+}
+.mezgebDrawerNavigation button,
+.mezgebDrawerSettings > * {
+  display: grid !important;
+  min-height: 56px !important;
+  grid-template-columns: 38px minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 7px 12px !important;
+  border: 0 !important;
+  border-radius: 17px !important;
+  background: transparent !important;
+  color: var(--fl-on-surface) !important;
+  text-decoration: none !important;
+  text-align: left !important;
+}
+.mezgebDrawerNavigation button:hover,
+.mezgebDrawerSettings > *:hover { background: var(--fl-surface-container-high) !important; }
+.mezgebDrawerNavigation i,
+.mezgebDrawerSettings i {
+  display: grid !important;
+  width: 38px !important;
+  height: 38px !important;
+  place-items: center !important;
+  border-radius: 13px !important;
+  background: var(--fl-surface-container-high) !important;
+  color: var(--fl-primary) !important;
+  font-style: normal !important;
+}
+.mezgebDrawerNavigation span { font-size: 0.82rem !important; font-weight: 690 !important; }
+.mezgebDrawerNavigation b,
+.mezgebDrawerSettings b { color: var(--fl-on-surface-variant) !important; }
+.mezgebDrawerSettings { display: grid !important; gap: 4px !important; }
+.mezgebDrawerSettings select { border: 0 !important; background: transparent !important; color: inherit !important; }
+.mezgebMobileDrawer footer {
+  margin-top: auto !important;
+  padding: 16px 4px 2px !important;
+  color: var(--fl-on-surface-variant) !important;
+  font-size: 0.68rem !important;
+}
+
+.mezgebGlobalSearch {
+  position: fixed !important;
+  top: max(28px, calc(var(--flutter-safe-top) + 16px)) !important;
+  left: 50% !important;
+  z-index: 1760 !important;
+  width: min(720px, calc(100vw - 28px)) !important;
+  max-height: min(720px, calc(100dvh - 56px)) !important;
+  overflow: hidden !important;
+  transform: translateX(-50%) !important;
+  border: 1px solid var(--fl-outline-variant) !important;
+  border-radius: 30px !important;
+  background: var(--fl-surface-container-low) !important;
+  color: var(--fl-on-surface) !important;
+  box-shadow: var(--fl-elevation-3) !important;
+  animation: flutterSearchIn 260ms var(--flutter-emphasized) both;
+}
+.mezgebGlobalSearch > header {
+  display: grid !important;
+  min-height: 76px !important;
+  grid-template-columns: 32px minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 12px 18px !important;
+  border-bottom: 1px solid var(--fl-outline-variant) !important;
+}
+.mezgebGlobalSearch input {
+  width: 100% !important;
+  border: 0 !important;
+  outline: 0 !important;
+  background: transparent !important;
+  color: var(--fl-on-surface) !important;
+  font: inherit !important;
+  font-size: 0.96rem !important;
+}
+.mezgebGlobalSearch > header button {
+  min-height: 40px !important;
+  padding: 0 16px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: var(--fl-surface-container-high) !important;
+  color: var(--fl-on-surface) !important;
+}
+.mezgebSearchResults { max-height: calc(100dvh - 180px) !important; padding: 10px !important; overflow: auto !important; }
+.mezgebSearchResults > button {
+  display: grid !important;
+  width: 100% !important;
+  min-height: 64px !important;
+  grid-template-columns: 44px minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 12px !important;
+  padding: 8px 12px !important;
+  border: 0 !important;
+  border-radius: 18px !important;
+  background: transparent !important;
+  color: var(--fl-on-surface) !important;
+  text-align: left !important;
+}
+.mezgebSearchResults > button:hover { background: var(--fl-surface-container-high) !important; }
+.mezgebSearchResults > button i {
+  display: grid !important;
+  width: 44px !important;
+  height: 44px !important;
+  place-items: center !important;
+  border-radius: 15px !important;
+  background: var(--fl-secondary-container) !important;
+  color: var(--fl-on-surface) !important;
+  font-style: normal !important;
+}
+.mezgebSearchResults strong { color: var(--fl-on-surface) !important; }
+.mezgebSearchResults small { color: var(--fl-on-surface-variant) !important; }
+.mezgebGlobalSearch > footer { color: var(--fl-on-surface-variant) !important; }
+
+/* Dashboard */
+.cloudMetricGrid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.65fr) minmax(250px, 0.68fr) minmax(250px, 0.68fr) !important;
+  gap: 16px !important;
+}
+.cloudMetricGrid article {
+  position: relative !important;
+  min-width: 0 !important;
+  min-height: 176px !important;
+  padding: 24px !important;
+  overflow: hidden !important;
+  border: 1px solid transparent !important;
+  border-radius: var(--fl-radius-lg) !important;
+  background: var(--fl-surface-container-lowest) !important;
+  color: var(--fl-on-surface) !important;
+  box-shadow: var(--fl-elevation-1) !important;
+  animation: flutterCardUp 460ms var(--flutter-emphasized) both;
+}
+.cloudMetricGrid article:nth-child(2) { animation-delay: 45ms; }
+.cloudMetricGrid article:nth-child(3) { animation-delay: 90ms; }
+.cloudMetricGrid small {
+  color: var(--fl-on-surface-variant) !important;
+  font-size: 0.72rem !important;
+  font-weight: 670 !important;
+  letter-spacing: 0.015em !important;
+}
+.cloudMetricGrid strong {
+  display: block !important;
+  margin: 18px 0 10px !important;
+  color: var(--fl-on-surface) !important;
+  font-size: clamp(1.75rem, 3vw, 2.75rem) !important;
+  font-weight: 720 !important;
+  letter-spacing: -0.06em !important;
+  line-height: 1 !important;
+  font-variant-numeric: tabular-nums;
+}
+.cloudMetricGrid article > span { color: var(--fl-on-surface-variant) !important; font-size: 0.75rem !important; }
+.cloudPrimaryMetric {
+  min-height: 224px !important;
+  background:
+    radial-gradient(circle at 88% 10%, rgba(255, 255, 255, 0.26), transparent 13rem),
+    linear-gradient(135deg, #d94f18, #e96f31 58%, #f59d64) !important;
+  color: #ffffff !important;
+  box-shadow: 0 18px 46px rgba(183, 67, 20, 0.22) !important;
+}
+.cloudPrimaryMetric::after {
+  position: absolute;
+  right: -52px;
+  bottom: -78px;
+  width: 220px;
+  height: 220px;
+  content: '';
+  border: 30px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+}
+.cloudPrimaryMetric small,
+.cloudPrimaryMetric > span { color: rgba(255, 255, 255, 0.76) !important; }
+.cloudPrimaryMetric strong { color: #ffffff !important; font-size: clamp(2.6rem, 5vw, 4.5rem) !important; }
+.cloudPrimaryMetric > div {
+  position: relative;
+  z-index: 1;
+  display: flex !important;
+  gap: 10px !important;
+}
+.cloudPrimaryMetric > div span {
+  min-width: 148px;
+  padding: 12px 14px !important;
+  border-radius: 16px !important;
+  background: rgba(255, 255, 255, 0.13) !important;
+  color: rgba(255, 255, 255, 0.76) !important;
+  backdrop-filter: blur(10px);
+}
+.cloudPrimaryMetric > div b { display: block !important; margin-top: 3px !important; color: #fff !important; font-size: 0.82rem !important; }
+
+.cloudQuickActions {
+  display: grid !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 12px !important;
+  margin: 18px 0 !important;
+}
+.cloudQuickActions button {
+  display: flex !important;
+  min-width: 0 !important;
+  min-height: 76px !important;
+  align-items: center !important;
+  gap: 14px !important;
+  padding: 14px 18px !important;
+  border: 0 !important;
+  border-radius: 22px !important;
+  background: var(--fl-surface-container-low) !important;
+  color: var(--fl-on-surface) !important;
+  box-shadow: none !important;
+  font: inherit !important;
+  font-size: 0.78rem !important;
+  font-weight: 690 !important;
+  cursor: pointer;
+  transition: background 180ms var(--flutter-ease), transform 180ms var(--flutter-spring), box-shadow 180ms var(--flutter-ease);
+}
+.cloudQuickActions button:hover { background: var(--fl-surface-container-high) !important; box-shadow: var(--fl-elevation-1) !important; }
+.cloudQuickActions button:active { transform: scale(0.97); }
+.cloudQuickActions i {
+  display: grid !important;
+  flex: 0 0 auto;
+  width: 44px !important;
+  height: 44px !important;
+  place-items: center !important;
+  border-radius: 15px !important;
+  background: var(--fl-primary-container) !important;
+  color: var(--fl-on-primary-container) !important;
+  font-size: 1.15rem !important;
+  font-style: normal !important;
+}
+.cloudQuickActions button:nth-child(2) i { background: #ffe0e0 !important; color: #8f1d1d !important; }
+.cloudQuickActions button:nth-child(3) i { background: var(--fl-tertiary-container) !important; color: #00201d !important; }
+.cloudQuickActions button:nth-child(4) i { background: var(--fl-secondary-container) !important; color: #28263a !important; }
+
+.cloudDashboardGrid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) minmax(280px, 0.62fr) !important;
+  gap: 16px !important;
+}
+.cloudPanel,
+.cloudForm,
+.cloudLedger,
+.cloudReportCard,
+.cloudDubeForms > *,
+.cloudTwoColumn > *,
+.cloudDubeLayout > * {
+  border: 1px solid var(--fl-outline-variant) !important;
+  border-radius: var(--fl-radius-lg) !important;
+  background: var(--fl-surface-container-lowest) !important;
+  color: var(--fl-on-surface) !important;
+  box-shadow: var(--fl-elevation-1) !important;
+}
+.cloudPanel { min-width: 0 !important; padding: 22px !important; }
+.cloudPanel > header,
+.cloudForm > header,
+.cloudLedger > header {
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  margin-bottom: 14px !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+.cloudPanel header small,
+.cloudForm header small,
+.cloudLedger header small { color: var(--fl-primary) !important; font-size: 0.64rem !important; font-weight: 720 !important; letter-spacing: 0.06em !important; text-transform: uppercase; }
+.cloudPanel h3,
+.cloudForm h2,
+.cloudLedger h2 { margin: 3px 0 0 !important; color: var(--fl-on-surface) !important; font-size: 1.08rem !important; font-weight: 720 !important; letter-spacing: -0.025em !important; }
+.cloudPanel header button,
+.cloudLedger header button {
+  min-height: 40px !important;
+  padding: 0 15px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: var(--fl-secondary-container) !important;
+  color: var(--fl-on-surface) !important;
+  font: inherit !important;
+  font-size: 0.7rem !important;
+  font-weight: 680 !important;
+}
+
+.cloudRows { display: grid !important; gap: 6px !important; }
+.cloudRows > article,
+.cloudRows > div,
+.cloudTransactionRow,
+.cloudCustomerRow {
+  min-width: 0 !important;
+  padding: 13px 10px !important;
+  border: 0 !important;
+  border-radius: 17px !important;
+  background: transparent !important;
+  color: var(--fl-on-surface) !important;
+  transition: background 170ms var(--flutter-ease), transform 170ms var(--flutter-spring);
+}
+.cloudRows > article:hover,
+.cloudRows > div:hover { background: var(--fl-surface-container-low) !important; }
+.cloudRows strong { color: var(--fl-on-surface) !important; font-size: 0.78rem !important; }
+.cloudRows small,
+.cloudRows span { color: var(--fl-on-surface-variant) !important; font-size: 0.69rem !important; }
+.cloudRows b { font-variant-numeric: tabular-nums; }
+.cloudHealth { background: var(--fl-tertiary-container) !important; border-color: transparent !important; }
+.cloudHealth header > span {
+  display: grid !important;
+  width: 54px !important;
+  height: 54px !important;
+  place-items: center !important;
+  border-radius: 50% !important;
+  background: color-mix(in srgb, var(--fl-surface-container-lowest) 55%, transparent) !important;
+  color: var(--fl-on-surface) !important;
+  font-weight: 780 !important;
+}
+.cloudHealth p { color: color-mix(in srgb, var(--fl-on-surface) 78%, transparent) !important; font-size: 0.75rem !important; line-height: 1.6 !important; }
+.cloudHealth > div { border-color: color-mix(in srgb, var(--fl-on-surface) 14%, transparent) !important; }
+
+/* Forms and feature views */
+.cloudTwoColumn,
+.cloudDubeLayout,
+.cloudReportsGrid,
+.cloudOperationsGrid {
+  display: grid !important;
+  grid-template-columns: minmax(330px, 0.75fr) minmax(0, 1.25fr) !important;
+  gap: 18px !important;
+  align-items: start !important;
+}
+.cloudDubeLayout { grid-template-columns: minmax(330px, 0.7fr) minmax(0, 1.3fr) !important; }
+.cloudDubeForms { display: grid !important; gap: 18px !important; }
+.cloudForm,
+.cloudLedger { min-width: 0 !important; padding: 24px !important; }
+.cloudForm { position: sticky !important; top: 18px !important; }
+.cloudForm label,
+.cloudDrawer label {
+  display: grid !important;
+  gap: 7px !important;
+  margin-bottom: 14px !important;
+  color: var(--fl-on-surface-variant) !important;
+  font-size: 0.68rem !important;
+  font-weight: 650 !important;
+}
+.cloudForm input,
+.cloudForm select,
+.cloudForm textarea,
+.cloudLedger input,
+.cloudDrawer input,
+.cloudDrawer select,
+.cloudDrawer textarea {
+  width: 100% !important;
+  min-height: 52px !important;
+  padding: 0 16px !important;
+  border: 1px solid var(--fl-outline) !important;
+  border-radius: 16px !important;
+  outline: 0 !important;
+  background: transparent !important;
+  color: var(--fl-on-surface) !important;
+  font: inherit !important;
+  font-size: 0.8rem !important;
+  transition: border-color 160ms var(--flutter-ease), box-shadow 160ms var(--flutter-ease), background 160ms var(--flutter-ease);
+}
+.cloudForm textarea,
+.cloudDrawer textarea { min-height: 110px !important; padding-top: 14px !important; resize: vertical; }
+.cloudForm input:focus,
+.cloudForm select:focus,
+.cloudForm textarea:focus,
+.cloudLedger input:focus,
+.cloudDrawer input:focus,
+.cloudDrawer select:focus,
+.cloudDrawer textarea:focus {
+  border-color: var(--fl-primary) !important;
+  box-shadow: 0 0 0 2px var(--fl-primary) !important;
+  background: var(--fl-surface-container-lowest) !important;
+}
+.cloudFormGrid { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 12px !important; }
+.cloudSegment {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 4px !important;
+  margin-bottom: 18px !important;
+  padding: 4px !important;
+  border-radius: 18px !important;
+  background: var(--fl-surface-container) !important;
+}
+.cloudSegment button {
+  min-height: 46px !important;
+  border: 0 !important;
+  border-radius: 14px !important;
+  background: transparent !important;
+  color: var(--fl-on-surface-variant) !important;
+  font: inherit !important;
+  font-size: 0.74rem !important;
+  font-weight: 690 !important;
+}
+.cloudSegment button.active { background: var(--fl-surface-container-lowest) !important; color: var(--fl-on-surface) !important; box-shadow: var(--fl-elevation-1) !important; }
+.cloudSegment button.active.sale { color: var(--fl-success) !important; }
+.cloudSegment button.active.expense { color: var(--fl-error) !important; }
+.mezgebPrimaryAction {
+  width: 100% !important;
+  min-height: 54px !important;
+  border: 0 !important;
+  border-radius: 18px !important;
+  background: var(--fl-primary) !important;
+  color: var(--fl-on-primary) !important;
+  box-shadow: none !important;
+  font: inherit !important;
+  font-size: 0.8rem !important;
+  font-weight: 740 !important;
+  cursor: pointer;
+  transition: transform 170ms var(--flutter-spring), filter 170ms var(--flutter-ease), box-shadow 170ms var(--flutter-ease);
+}
+.mezgebPrimaryAction:hover { filter: brightness(1.04); box-shadow: var(--fl-elevation-2) !important; }
+.mezgebPrimaryAction:active { transform: scale(0.98); }
+.cloudSecureHint { display: block !important; margin-top: 10px !important; color: var(--fl-on-surface-variant) !important; text-align: center; font-size: 0.62rem !important; }
+.cloudCheck { display: flex !important; align-items: center !important; gap: 9px !important; }
+.cloudCheck input { width: 20px !important; min-height: 20px !important; accent-color: var(--fl-primary); }
+.cloudLedger > header input { width: min(250px, 46%) !important; min-height: 44px !important; }
+
+.mezgebNotice {
+  position: fixed !important;
+  right: 28px !important;
+  bottom: 102px !important;
+  z-index: 1600 !important;
+  display: flex !important;
+  min-width: 280px !important;
+  max-width: min(420px, calc(100vw - 32px)) !important;
+  min-height: 56px !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 16px !important;
+  padding: 10px 10px 10px 18px !important;
+  border: 0 !important;
+  border-radius: 18px !important;
+  background: var(--fl-on-surface) !important;
+  color: var(--fl-surface) !important;
+  box-shadow: var(--fl-elevation-3) !important;
+  animation: flutterSnackIn 320ms var(--flutter-emphasized) both;
+}
+.mezgebNotice button {
+  display: grid !important;
+  width: 38px !important;
+  height: 38px !important;
+  place-items: center !important;
+  border: 0 !important;
+  border-radius: 50% !important;
+  background: color-mix(in srgb, var(--fl-surface) 14%, transparent) !important;
+  color: var(--fl-surface) !important;
+}
+
+/* Dialogs, sheets and tours */
+.cloudOverlay,
+.mezgebOverlay,
+.mezgebTourBackdrop {
+  background: var(--fl-scrim) !important;
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+.cloudDrawer,
+.mezgebDrawer,
+.mezgebTourCard {
+  border: 1px solid var(--fl-outline-variant) !important;
+  border-radius: 30px !important;
+  background: var(--fl-surface-container-low) !important;
+  color: var(--fl-on-surface) !important;
+  box-shadow: var(--fl-elevation-3) !important;
+}
+
+@media (max-width: 1180px) {
+  .cloudMetricGrid { grid-template-columns: minmax(0, 1.5fr) repeat(2, minmax(210px, 0.75fr)) !important; }
+  .cloudDashboardGrid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .cloudHealth { grid-column: 1 / -1; }
+  .cloudQuickActions button { flex-direction: column !important; justify-content: center !important; gap: 7px !important; text-align: center !important; }
+}
+
+@media (max-width: 920px) {
+  :root { --flutter-rail-width: 0px; --flutter-appbar-height: 104px; }
+  .flutterNavRail { display: none; }
+  .flutterAppBar { left: 0; padding-inline: 18px; }
+  .flutterMobileBrand { display: grid; }
+  .flutterThemeButton { display: none; }
+  .flutterMenuButton { display: grid; }
+  .flutterBusinessPicker { min-width: 180px; }
+  .cloudWorkspace { padding-left: 0 !important; padding-bottom: calc(var(--flutter-bottom-height) + var(--flutter-safe-bottom) + 44px) !important; }
+  .cloudContent { padding: 22px 18px 48px !important; }
+  .flutterBottomNav {
+    position: fixed;
+    inset: auto 12px calc(10px + var(--flutter-safe-bottom)) 12px;
+    z-index: 1400;
+    display: grid;
+    height: var(--flutter-bottom-height);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: center;
+    padding: 8px 7px;
+    border: 1px solid var(--fl-outline-variant);
+    border-radius: 28px;
+    background: color-mix(in srgb, var(--fl-surface-container) 92%, transparent);
+    box-shadow: var(--fl-elevation-3);
+    backdrop-filter: blur(28px) saturate(160%);
+    -webkit-backdrop-filter: blur(28px) saturate(160%);
+  }
+  .flutterBottomNav button { display: grid; min-width: 0; height: 70px; place-items: center; align-content: center; gap: 4px; border-radius: 21px; }
+  .flutterBottomNav .flutterNavIndicator { width: 54px; height: 32px; }
+  .flutterFab { right: 22px; bottom: calc(var(--flutter-bottom-height) + var(--flutter-safe-bottom) + 22px); width: 58px; min-width: 58px; height: 58px; padding: 0; border-radius: 19px; }
+  .flutterFab span { display: none; }
+  .cloudMetricGrid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .cloudPrimaryMetric { grid-column: 1 / -1 !important; }
+  .cloudDashboardGrid { grid-template-columns: minmax(0, 1fr) !important; }
+  .cloudHealth { grid-column: auto; }
+  .cloudTwoColumn,
+  .cloudDubeLayout,
+  .cloudReportsGrid,
+  .cloudOperationsGrid { grid-template-columns: minmax(0, 1fr) !important; }
+  .cloudForm { position: static !important; }
+}
+
+@media (max-width: 640px) {
+  :root { --flutter-appbar-height: 96px; --flutter-bottom-height: 78px; }
+  .flutterAppBar { min-height: var(--flutter-appbar-height); gap: 8px; padding: calc(12px + var(--flutter-safe-top)) 14px 10px; }
+  .flutterAppBarLeading { gap: 10px; }
+  .flutterMobileBrand { width: 42px; height: 42px; border-radius: 14px; font-size: 1.05rem; }
+  .flutterAppBarLeading span { max-width: 39vw; font-size: 0.65rem; }
+  .flutterAppBarLeading h1 { font-size: 1.28rem; }
+  .flutterAppBarActions { gap: 2px; }
+  .flutterBusinessPicker { width: 42px; min-width: 42px; height: 42px; grid-template-columns: 1fr; padding: 0; border-radius: 50%; }
+  .flutterBusinessPicker span,
+  .flutterBusinessPicker select,
+  .flutterBusinessPicker svg { display: none; }
+  .flutterBusinessPicker::before { display: grid; place-items: center; content: '⌄'; color: var(--fl-on-surface); font-size: 1rem; }
+  .flutterIconButton,
+  .flutterAvatar { width: 42px; height: 42px; min-width: 42px; }
+  .flutterAvatar { display: none; }
+  .cloudContent { padding: 16px 12px 40px !important; }
+  .cloudMetricGrid { gap: 10px !important; }
+  .cloudMetricGrid article { min-height: 132px !important; padding: 18px !important; border-radius: 24px !important; }
+  .cloudMetricGrid strong { margin-top: 13px !important; font-size: clamp(1.4rem, 8vw, 2rem) !important; }
+  .cloudPrimaryMetric { min-height: 205px !important; }
+  .cloudPrimaryMetric strong { font-size: clamp(2.35rem, 13vw, 3.4rem) !important; }
+  .cloudPrimaryMetric > div { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cloudPrimaryMetric > div span { min-width: 0; padding: 10px !important; }
+  .cloudQuickActions { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: 7px !important; margin: 12px 0 !important; }
+  .cloudQuickActions button { min-height: 82px !important; padding: 8px 3px !important; border-radius: 19px !important; font-size: 0.61rem !important; }
+  .cloudQuickActions i { width: 40px !important; height: 40px !important; border-radius: 14px !important; }
+  .cloudPanel,
+  .cloudForm,
+  .cloudLedger { padding: 18px !important; border-radius: 24px !important; }
+  .cloudDashboardGrid { gap: 10px !important; }
+  .cloudFormGrid { grid-template-columns: minmax(0, 1fr) !important; gap: 0 !important; }
+  .cloudLedger > header { display: grid !important; }
+  .cloudLedger > header input { width: 100% !important; }
+  .flutterBottomNav { inset-inline: 7px; bottom: calc(6px + var(--flutter-safe-bottom)); height: var(--flutter-bottom-height); padding: 5px 3px; border-radius: 25px; }
+  .flutterBottomNav button { height: 66px; gap: 3px; }
+  .flutterBottomNav .flutterNavIndicator { width: 49px; height: 30px; }
+  .flutterBottomNav button small { font-size: 0.57rem; }
+  .flutterFab { right: 16px; bottom: calc(var(--flutter-bottom-height) + var(--flutter-safe-bottom) + 17px); width: 54px; min-width: 54px; height: 54px; border-radius: 18px; }
+  .mezgebMobileDrawer { inset: auto 7px 7px 7px !important; width: auto !important; max-height: min(88dvh, 760px) !important; border-radius: 30px 30px 25px 25px !important; animation-name: flutterSheetIn; }
+  .mezgebMobileDrawer::before { width: 42px; height: 4px; margin: -7px auto 12px; content: ''; border-radius: 999px; background: var(--fl-outline); }
+  .mezgebGlobalSearch { top: max(8px, var(--flutter-safe-top)) !important; width: calc(100vw - 14px) !important; max-height: calc(100dvh - max(16px, var(--flutter-safe-top))) !important; border-radius: 25px !important; }
+  .mezgebNotice { right: 10px !important; bottom: calc(var(--flutter-bottom-height) + var(--flutter-safe-bottom) + 18px) !important; left: 10px !important; min-width: 0 !important; width: auto !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes flutterPageEnter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes flutterCardUp {
+  from { opacity: 0; transform: translateY(14px) scale(0.985); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes flutterFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes flutterDrawerIn {
+  from { opacity: 0; transform: translateX(36px) scale(0.98); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes flutterSheetIn {
+  from { opacity: 0; transform: translateY(42px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes flutterSearchIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(-18px) scale(0.97); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+}
+@keyframes flutterSnackIn {
+  from { opacity: 0; transform: translateY(18px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
