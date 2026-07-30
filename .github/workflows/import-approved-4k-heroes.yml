@@ -1,0 +1,79 @@
+name: Import approved 4K marketing heroes
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/import-approved-4k-heroes.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  import-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download native Canva renders
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 3 --output /tmp/biloo-desktop.png 'https://s3.amazonaws.com/document-export.canva.com/RT4oY/DAHQ5PRT4oY/1/thumbnail/0001.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQYCGKMUHYGFFNMW3%2F20260730%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260730T201443Z&X-Amz-Expires=6190&X-Amz-Signature=a0f434c113c02a18e3d37160943bf954812139a54572de8fad3884999fbd37db&X-Amz-SignedHeaders=host&response-expires=Thu%2C%2030%20Jul%202026%2021%3A57%3A53%20GMT'
+          curl --fail --location --retry 3 --output /tmp/biloo-mobile.png 'https://s3.amazonaws.com/document-export.canva.com/rBf7Q/DAHQ5XrBf7Q/1/thumbnail/0001.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAQYCGKMUHYGFFNMW3%2F20260730%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260730T081554Z&X-Amz-Expires=49846&X-Amz-Signature=a4d6a0ee0127735791b21c271147f5310c69fca80cb1f248c018dd95e629d542&X-Amz-SignedHeaders=host&response-expires=Thu%2C%2030%20Jul%202026%2022%3A06%3A40%20GMT'
+
+      - name: Validate and encode permanent WebP assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m pip install --quiet Pillow
+          mkdir -p public/images
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+
+          specs = [
+              ('desktop', Path('/tmp/biloo-desktop.png'), Path('public/images/biloo-hero-desktop.webp'), (3000, 2000)),
+              ('mobile', Path('/tmp/biloo-mobile.png'), Path('public/images/biloo-hero-mobile.webp'), (1800, 3000)),
+          ]
+
+          for label, source, target, minimum in specs:
+              with Image.open(source) as image:
+                  image.load()
+                  width, height = image.size
+                  print(f'{label}: {width}x{height}')
+                  if width < minimum[0] or height < minimum[1]:
+                      raise SystemExit(
+                          f'{label} render is not native high resolution: {width}x{height}; '
+                          f'expected at least {minimum[0]}x{minimum[1]}'
+                      )
+                  image.convert('RGB').save(target, 'WEBP', quality=94, method=6)
+                  print(f'wrote {target} ({target.stat().st_size} bytes)')
+          PY
+
+      - name: Remove temporary routes and diagnostics
+        shell: bash
+        run: |
+          set -euo pipefail
+          git rm -r --ignore-unmatch \
+            app/images/biloo-hero-desktop.webp \
+            app/images/biloo-hero-mobile.webp \
+            app/api/internal/canva-asset-test \
+            .vercel-canva-resolution-check \
+            .vercel-responsive-hero-release \
+            .vercel-canva-resolution-check \
+            .github/workflows/import-approved-4k-heroes.yml
+
+      - name: Commit permanent assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/images/biloo-hero-desktop.webp public/images/biloo-hero-mobile.webp
+          git commit -m 'fix(marketing): embed permanent native 4K hero assets [skip ci]'
+          git push origin HEAD:main
