@@ -11,6 +11,7 @@ import './subscription-actions.css';
 import './biloo-brand.css';
 // Keep the mobile navigation contract last so legacy visual layers cannot distort it.
 import './mobile-footer-menu.css';
+// Final marketing presentation and interaction layer.
 import './marketing-shell.css';
 
 export const metadata: Metadata = {
