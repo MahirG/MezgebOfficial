@@ -1,19 +1,33 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { Logo } from './logo';
 
-const links = [
-  ['Product', '/#features'],
-  ['Built for Ethiopia', '/#ethiopia'],
+const primaryLinks = [
+  ['Home', '/'],
+  ['Features', '/#features'],
   ['Pricing', '/#pricing'],
+  ['About Us', '/#ethiopia']
+] as const;
+
+const resourceLinks = [
+  ['Help Center', '/help'],
   ['Security', '/security'],
-  ['Product updates', '/#updates']
+  ['Privacy', '/privacy']
 ] as const;
 
 export function SiteHeader() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const [resourcesOpen, setResourcesOpen] = useState(false);
+  const resourcesRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setOpen(false);
+    setResourcesOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     if (!open) return;
@@ -32,18 +46,64 @@ export function SiteHeader() {
     };
   }, [open]);
 
-  const closeMenu = () => setOpen(false);
+  useEffect(() => {
+    function closeResources(event: PointerEvent) {
+      if (resourcesRef.current && !resourcesRef.current.contains(event.target as Node)) {
+        setResourcesOpen(false);
+      }
+    }
+
+    window.addEventListener('pointerdown', closeResources);
+    return () => window.removeEventListener('pointerdown', closeResources);
+  }, []);
+
+  const closeMenu = () => {
+    setOpen(false);
+    setResourcesOpen(false);
+  };
 
   return (
     <header className={open ? 'siteHeader menuOpen' : 'siteHeader'}>
       <div className="container navShell">
         <div className="nav">
-          <Link href="/" aria-label="Biloo Mezgeb home" onClick={closeMenu}>
+          <Link className="navBrandLink" href="/" aria-label="Biloo Mezgeb home" onClick={closeMenu}>
             <Logo />
           </Link>
 
           <nav className="navLinks" aria-label="Primary navigation">
-            {links.map(([label, href]) => (
+            {primaryLinks.slice(0, 3).map(([label, href]) => (
+              <Link key={href} href={href}>
+                {label}
+              </Link>
+            ))}
+
+            <div className="navResource" ref={resourcesRef}>
+              <button
+                className="resourceTrigger"
+                type="button"
+                aria-expanded={resourcesOpen}
+                aria-controls="desktop-resource-menu"
+                onClick={() => setResourcesOpen((current) => !current)}
+              >
+                Resources
+                <svg viewBox="0 0 20 20" aria-hidden="true">
+                  <path d="m6 8 4 4 4-4" />
+                </svg>
+              </button>
+              <div
+                className={resourcesOpen ? 'resourceMenu resourceMenuOpen' : 'resourceMenu'}
+                id="desktop-resource-menu"
+              >
+                {resourceLinks.map(([label, href]) => (
+                  <Link key={href} href={href} onClick={() => setResourcesOpen(false)}>
+                    <span>{label}</span>
+                    <small>→</small>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {primaryLinks.slice(3).map(([label, href]) => (
               <Link key={href} href={href}>
                 {label}
               </Link>
@@ -52,10 +112,10 @@ export function SiteHeader() {
 
           <div className="navActions">
             <Link className="textButton desktopOnly" href="/auth/sign-in">
-              Sign in
+              Log in
             </Link>
             <Link className="button primary desktopOnly" href="/auth/sign-up">
-              Start 14-day trial
+              Get Started
             </Link>
             <button
               className="menuButton"
@@ -74,20 +134,32 @@ export function SiteHeader() {
 
         <div className="mobileMenu" id="mobile-navigation" aria-hidden={!open}>
           <nav aria-label="Mobile navigation">
-            {links.map(([label, href]) => (
+            {primaryLinks.map(([label, href]) => (
+              <Link key={href} href={href} onClick={closeMenu}>
+                <span>{label}</span>
+                <small>→</small>
+              </Link>
+            ))}
+          </nav>
+
+          <div className="mobileResourceGroup">
+            <p>Resources</p>
+            {resourceLinks.map(([label, href]) => (
               <Link key={href} href={href} onClick={closeMenu}>
                 {label}
               </Link>
             ))}
-          </nav>
+          </div>
+
           <div className="mobileMenuActions">
             <Link className="textButton" href="/auth/sign-in" onClick={closeMenu}>
-              Sign in
+              Log in
             </Link>
             <Link className="button primary" href="/auth/sign-up" onClick={closeMenu}>
-              Start 14-day trial
+              Get Started Free
             </Link>
           </div>
+
           <div className="mobileMenuMeta" aria-label="Product highlights">
             <span>Mobile-first</span>
             <span>ETB-ready</span>
