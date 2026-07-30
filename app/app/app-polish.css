@@ -1,0 +1,1051 @@
+/*
+ * Mezgeb production polish layer.
+ * Loaded last so the app has one predictable visual contract without
+ * replacing the live Supabase data engine or its interaction hooks.
+ */
+
+:root {
+  --mz-rail: 92px;
+  --mz-appbar: 82px;
+  --mz-bottom: 76px;
+  --mz-safe-bottom: env(safe-area-inset-bottom, 0px);
+
+  --mz-primary: #a86f00;
+  --mz-primary-hover: #865800;
+  --mz-primary-pressed: #684500;
+  --mz-primary-soft: #fff1c2;
+  --mz-accent: #006edb;
+  --mz-accent-hover: #005bb7;
+  --mz-accent-soft: #e8f3ff;
+
+  --mz-bg: #f5f6f8;
+  --mz-bg-elevated: #fafbfc;
+  --mz-surface: #ffffff;
+  --mz-surface-soft: #f0f2f5;
+  --mz-surface-hover: #eaedf1;
+  --mz-text: #101217;
+  --mz-text-soft: #2e323a;
+  --mz-muted: #676d78;
+  --mz-border: #dfe3e8;
+  --mz-border-strong: #c9cfd7;
+
+  --mz-green: #137a50;
+  --mz-green-soft: #e7f6ef;
+  --mz-red: #b42318;
+  --mz-red-soft: #fff0ee;
+  --mz-warning: #946200;
+  --mz-warning-soft: #fff5d8;
+
+  --mz-shadow-xs: 0 1px 2px rgba(16, 24, 40, .045);
+  --mz-shadow-sm: 0 2px 8px rgba(16, 24, 40, .055), 0 1px 2px rgba(16, 24, 40, .04);
+  --mz-shadow-md: 0 10px 30px rgba(16, 24, 40, .08), 0 2px 8px rgba(16, 24, 40, .04);
+  --mz-shadow-lg: 0 22px 60px rgba(16, 24, 40, .14), 0 6px 18px rgba(16, 24, 40, .07);
+
+  --mz-radius-xs: 10px;
+  --mz-radius-sm: 14px;
+  --mz-radius: 20px;
+  --mz-radius-lg: 26px;
+
+  --mz-ease: cubic-bezier(.2, .75, .2, 1);
+  --mz-spring: cubic-bezier(.2, .9, .25, 1.18);
+}
+
+body[data-mezgeb-theme='dark'] .productionAppPage,
+.cloudMezgebApp[data-mezgeb-theme='dark'] {
+  color-scheme: dark;
+  --mz-primary: #f0b947;
+  --mz-primary-hover: #ffc95f;
+  --mz-primary-pressed: #d89a24;
+  --mz-primary-soft: rgba(240, 185, 71, .15);
+  --mz-accent: #63a9ff;
+  --mz-accent-hover: #8bc0ff;
+  --mz-accent-soft: rgba(65, 145, 255, .16);
+
+  --mz-bg: #0e1014;
+  --mz-bg-elevated: #12151a;
+  --mz-surface: #181b21;
+  --mz-surface-soft: #21252c;
+  --mz-surface-hover: #292e37;
+  --mz-text: #f5f7fa;
+  --mz-text-soft: #d5d9e0;
+  --mz-muted: #9ea5b0;
+  --mz-border: #2d323a;
+  --mz-border-strong: #3c424d;
+
+  --mz-green: #72d4a7;
+  --mz-green-soft: rgba(75, 195, 139, .13);
+  --mz-red: #ff928a;
+  --mz-red-soft: rgba(255, 111, 101, .13);
+  --mz-warning: #f0c15d;
+  --mz-warning-soft: rgba(240, 193, 93, .13);
+
+  --mz-shadow-xs: 0 1px 2px rgba(0, 0, 0, .28);
+  --mz-shadow-sm: 0 4px 16px rgba(0, 0, 0, .22);
+  --mz-shadow-md: 0 14px 40px rgba(0, 0, 0, .3);
+  --mz-shadow-lg: 0 26px 70px rgba(0, 0, 0, .46);
+}
+
+html:has(.productionAppPage),
+body:has(.productionAppPage) {
+  min-height: 100%;
+  background: var(--mz-bg) !important;
+  color: var(--mz-text) !important;
+  overscroll-behavior: none;
+}
+
+body:has(.productionAppPage) {
+  overflow: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.productionAppPage,
+.productionAppPage .nativeAppShell,
+.cloudMezgebApp,
+.cloudWorkspace {
+  background: var(--mz-bg) !important;
+  color: var(--mz-text) !important;
+}
+
+.productionAppPage *,
+.productionAppPage *::before,
+.productionAppPage *::after {
+  box-sizing: border-box;
+}
+
+.productionAppPage button,
+.productionAppPage a,
+.productionAppPage input,
+.productionAppPage select,
+.productionAppPage textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.productionAppPage button,
+.productionAppPage a {
+  touch-action: manipulation;
+}
+
+.productionAppPage :focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--mz-accent) 34%, transparent) !important;
+  outline-offset: 2px;
+}
+
+.productionAppPage ::selection {
+  background: color-mix(in srgb, var(--mz-accent) 24%, transparent);
+}
+
+.cloudWorkspace {
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+  scrollbar-color: var(--mz-border-strong) transparent;
+}
+
+.cloudWorkspace::-webkit-scrollbar,
+.mezgebMobileDrawer::-webkit-scrollbar,
+.mezgebSearchResults::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.cloudWorkspace::-webkit-scrollbar-thumb,
+.mezgebMobileDrawer::-webkit-scrollbar-thumb,
+.mezgebSearchResults::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: 999px;
+  background: var(--mz-border-strong);
+  background-clip: padding-box;
+}
+
+/* Application shell */
+.flutterNavRail {
+  width: var(--mz-rail) !important;
+  padding: 15px 9px 17px !important;
+  border-right: 1px solid var(--mz-border) !important;
+  background: color-mix(in srgb, var(--mz-surface) 95%, transparent) !important;
+  box-shadow: 1px 0 0 rgba(255, 255, 255, .2);
+  backdrop-filter: blur(24px) saturate(135%);
+  -webkit-backdrop-filter: blur(24px) saturate(135%);
+}
+
+.flutterRailBrand {
+  width: 70px !important;
+  min-height: 66px !important;
+  border-radius: 19px !important;
+  transition: transform .2s var(--mz-ease), background .2s ease !important;
+}
+
+.flutterRailBrand:hover {
+  background: var(--mz-surface-soft) !important;
+  transform: translateY(-1px);
+}
+
+.flutterRailBrand:active {
+  transform: scale(.97);
+}
+
+.flutterRailBrand span,
+.flutterMobileBrand {
+  background: linear-gradient(145deg, #d5a328 0%, var(--mz-primary) 62%, #765000 100%) !important;
+  color: #161007 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .42), 0 8px 18px rgba(168, 111, 0, .2);
+}
+
+body[data-mezgeb-theme='dark'] .flutterRailBrand span,
+body[data-mezgeb-theme='dark'] .flutterMobileBrand {
+  color: #171006 !important;
+}
+
+.flutterNavRail nav {
+  gap: 5px !important;
+}
+
+.flutterNavRail nav button {
+  width: 72px !important;
+  min-height: 62px !important;
+  border-radius: 18px !important;
+  color: var(--mz-muted) !important;
+  transition: color .18s ease, background .18s ease, transform .18s var(--mz-ease) !important;
+}
+
+.flutterNavRail nav button:hover {
+  background: var(--mz-surface-soft) !important;
+  color: var(--mz-text) !important;
+  transform: translateY(-1px);
+}
+
+.flutterNavRail nav button:active {
+  transform: scale(.96);
+}
+
+.flutterNavIndicator {
+  transition: width .22s var(--mz-ease), background .22s ease, color .22s ease, transform .22s var(--mz-spring) !important;
+}
+
+.flutterNavRail nav button.active,
+.flutterBottomNav button.active {
+  color: var(--mz-accent) !important;
+}
+
+.flutterNavRail nav button.active .flutterNavIndicator,
+.flutterBottomNav button.active .flutterNavIndicator {
+  width: 52px !important;
+  background: var(--mz-accent-soft) !important;
+  color: var(--mz-accent) !important;
+  transform: translateY(-1px);
+}
+
+.flutterRailFooter button,
+.flutterRailAvatar,
+.flutterAvatar,
+.flutterIconButton {
+  border: 1px solid transparent !important;
+  color: var(--mz-muted) !important;
+  transition: transform .18s var(--mz-ease), background .18s ease, color .18s ease, border-color .18s ease !important;
+}
+
+.flutterRailFooter button:hover,
+.flutterRailAvatar:hover,
+.flutterAvatar:hover,
+.flutterIconButton:hover {
+  border-color: var(--mz-border) !important;
+  background: var(--mz-surface-soft) !important;
+  color: var(--mz-text) !important;
+  transform: translateY(-1px);
+}
+
+.flutterRailFooter button:active,
+.flutterRailAvatar:active,
+.flutterAvatar:active,
+.flutterIconButton:active {
+  transform: scale(.94);
+}
+
+.flutterRailAvatar,
+.flutterAvatar {
+  background: var(--mz-primary-soft) !important;
+  color: var(--mz-primary) !important;
+}
+
+.flutterAppBar {
+  inset: 0 0 auto var(--mz-rail) !important;
+  height: var(--mz-appbar) !important;
+  padding: 0 clamp(22px, 3vw, 46px) !important;
+  border-bottom: 1px solid color-mix(in srgb, var(--mz-border) 88%, transparent) !important;
+  background: color-mix(in srgb, var(--mz-surface) 88%, transparent) !important;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .35), 0 8px 24px rgba(16, 24, 40, .025);
+  backdrop-filter: blur(28px) saturate(145%);
+  -webkit-backdrop-filter: blur(28px) saturate(145%);
+}
+
+body[data-mezgeb-theme='dark'] .flutterAppBar {
+  box-shadow: 0 1px 0 rgba(255, 255, 255, .025), 0 10px 30px rgba(0, 0, 0, .12);
+}
+
+.flutterAppBarLeading span {
+  color: var(--mz-muted) !important;
+  letter-spacing: .005em;
+}
+
+.flutterAppBarLeading h1 {
+  color: var(--mz-text) !important;
+  font-size: clamp(1.35rem, 1.9vw, 1.78rem) !important;
+  font-weight: 780 !important;
+  letter-spacing: -.04em !important;
+}
+
+.flutterAppBarActions {
+  gap: 7px !important;
+}
+
+.flutterBusinessPicker {
+  width: min(232px, 24vw) !important;
+  height: 52px !important;
+  border: 1px solid var(--mz-border) !important;
+  border-radius: 16px !important;
+  background: var(--mz-surface) !important;
+  color: var(--mz-text) !important;
+  box-shadow: var(--mz-shadow-xs);
+  transition: border-color .18s ease, box-shadow .18s ease, transform .18s var(--mz-ease) !important;
+}
+
+.flutterBusinessPicker:hover {
+  border-color: var(--mz-border-strong) !important;
+  box-shadow: var(--mz-shadow-sm);
+  transform: translateY(-1px);
+}
+
+.flutterBusinessPicker:focus-within {
+  border-color: var(--mz-accent) !important;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--mz-accent) 14%, transparent) !important;
+}
+
+.flutterBusinessPicker span {
+  color: var(--mz-muted) !important;
+}
+
+.flutterBusinessPicker select {
+  color: var(--mz-text) !important;
+}
+
+.cloudWorkspace {
+  padding: var(--mz-appbar) 0 34px var(--mz-rail) !important;
+}
+
+.cloudContent {
+  width: min(100%, 1380px) !important;
+  padding: clamp(22px, 2.8vw, 40px) clamp(22px, 3.2vw, 48px) 76px !important;
+}
+
+/* Primary action */
+.flutterFab {
+  right: 30px !important;
+  bottom: 28px !important;
+  height: 56px !important;
+  min-width: 56px;
+  padding: 0 20px !important;
+  border: 1px solid rgba(92, 59, 0, .22) !important;
+  border-radius: 18px !important;
+  background: linear-gradient(145deg, #d6a62d 0%, var(--mz-primary) 64%, #7c5200 100%) !important;
+  color: #171006 !important;
+  box-shadow: 0 16px 34px rgba(137, 90, 0, .24), inset 0 1px 0 rgba(255, 255, 255, .42) !important;
+  transition: transform .2s var(--mz-spring), box-shadow .2s ease, filter .2s ease !important;
+}
+
+.flutterFab:hover {
+  filter: brightness(1.04);
+  box-shadow: 0 20px 42px rgba(137, 90, 0, .3), inset 0 1px 0 rgba(255, 255, 255, .48) !important;
+  transform: translateY(-3px) scale(1.015);
+}
+
+.flutterFab:active {
+  transform: translateY(0) scale(.96);
+  box-shadow: 0 8px 18px rgba(137, 90, 0, .22) !important;
+}
+
+.flutterFab,
+.flutterFab * {
+  color: #171006 !important;
+}
+
+/* Dashboard cards */
+.cloudMetricGrid {
+  gap: 15px !important;
+}
+
+.cloudMetricGrid article,
+.cloudPanel,
+.cloudForm,
+.cloudLedger,
+.cloudReportCard,
+.cloudDubeForms > *,
+.cloudTwoColumn > *,
+.cloudDubeLayout > * {
+  border: 1px solid var(--mz-border) !important;
+  background: var(--mz-surface) !important;
+  color: var(--mz-text) !important;
+  box-shadow: var(--mz-shadow-xs) !important;
+  transition: transform .22s var(--mz-ease), border-color .22s ease, box-shadow .22s ease, background .22s ease !important;
+}
+
+.cloudMetricGrid article:hover,
+.cloudPanel:hover,
+.cloudReportCard:hover {
+  border-color: var(--mz-border-strong) !important;
+  box-shadow: var(--mz-shadow-md) !important;
+  transform: translateY(-2px);
+}
+
+.cloudMetricGrid article {
+  min-height: 164px !important;
+  padding: 23px !important;
+  border-radius: var(--mz-radius) !important;
+  overflow: hidden;
+}
+
+.cloudMetricGrid small,
+.cloudMetricGrid article > span {
+  color: var(--mz-muted) !important;
+}
+
+.cloudMetricGrid strong {
+  color: var(--mz-text) !important;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.cloudPrimaryMetric {
+  position: relative;
+  min-height: 206px !important;
+  border-color: rgba(116, 77, 0, .16) !important;
+  background:
+    radial-gradient(circle at 90% 8%, rgba(255, 255, 255, .44), transparent 12rem),
+    radial-gradient(circle at 10% 110%, rgba(117, 78, 0, .2), transparent 15rem),
+    linear-gradient(135deg, #f3cf6b 0%, #d9a625 48%, #b47a00 100%) !important;
+  color: #171006 !important;
+  box-shadow: 0 18px 44px rgba(145, 95, 0, .2) !important;
+}
+
+.cloudPrimaryMetric::after {
+  position: absolute;
+  top: -62px;
+  right: -40px;
+  width: 190px;
+  height: 190px;
+  content: '';
+  border: 1px solid rgba(255, 255, 255, .34);
+  border-radius: 50%;
+  box-shadow: 0 0 0 28px rgba(255, 255, 255, .08), 0 0 0 58px rgba(255, 255, 255, .05);
+  pointer-events: none;
+}
+
+.cloudPrimaryMetric,
+.cloudPrimaryMetric * {
+  color: #171006 !important;
+}
+
+.cloudPrimaryMetric > div span {
+  border: 1px solid rgba(255, 255, 255, .3);
+  background: rgba(255, 255, 255, .28) !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.cloudQuickActions {
+  gap: 11px !important;
+  margin: 17px 0 !important;
+}
+
+.cloudQuickActions button {
+  min-height: 68px !important;
+  border: 1px solid var(--mz-border) !important;
+  border-radius: 18px !important;
+  background: var(--mz-surface) !important;
+  color: var(--mz-text) !important;
+  box-shadow: var(--mz-shadow-xs) !important;
+  transition: transform .18s var(--mz-ease), border-color .18s ease, background .18s ease, box-shadow .18s ease !important;
+}
+
+.cloudQuickActions button:hover {
+  border-color: color-mix(in srgb, var(--mz-primary) 46%, var(--mz-border)) !important;
+  background: var(--mz-bg-elevated) !important;
+  box-shadow: var(--mz-shadow-sm) !important;
+  transform: translateY(-2px);
+}
+
+.cloudQuickActions button:active {
+  transform: scale(.975);
+}
+
+.cloudQuickActions i,
+.mezgebDrawerNavigation i,
+.mezgebDrawerSettings i {
+  background: var(--mz-primary-soft) !important;
+  color: var(--mz-primary) !important;
+}
+
+.cloudDashboardGrid,
+.cloudTwoColumn,
+.cloudDubeLayout,
+.cloudReportsGrid,
+.cloudOperationsGrid {
+  gap: 15px !important;
+}
+
+.cloudPanel,
+.cloudForm,
+.cloudLedger {
+  padding: 22px !important;
+  border-radius: var(--mz-radius) !important;
+}
+
+.cloudPanel h3,
+.cloudForm h2,
+.cloudLedger h2 {
+  color: var(--mz-text) !important;
+  font-weight: 780 !important;
+  letter-spacing: -.025em;
+}
+
+.cloudPanel header small,
+.cloudForm header small,
+.cloudLedger header small {
+  color: var(--mz-primary) !important;
+}
+
+.cloudPanel header button,
+.cloudLedger header button {
+  border: 1px solid var(--mz-border) !important;
+  background: var(--mz-surface-soft) !important;
+  color: var(--mz-text) !important;
+  transition: background .16s ease, transform .16s var(--mz-ease), border-color .16s ease !important;
+}
+
+.cloudPanel header button:hover,
+.cloudLedger header button:hover {
+  border-color: var(--mz-border-strong) !important;
+  background: var(--mz-surface-hover) !important;
+  transform: translateY(-1px);
+}
+
+.cloudRows > article,
+.cloudRows > div,
+.cloudTransactionRow,
+.cloudCustomerRow {
+  border-radius: 14px !important;
+  transition: background .16s ease, transform .16s var(--mz-ease) !important;
+}
+
+.cloudRows > article:hover,
+.cloudRows > div:hover,
+.cloudTransactionRow:hover,
+.cloudCustomerRow:hover {
+  background: var(--mz-surface-soft) !important;
+  transform: translateX(2px);
+}
+
+.cloudRows strong {
+  color: var(--mz-text) !important;
+}
+
+.cloudRows small,
+.cloudRows span {
+  color: var(--mz-muted) !important;
+}
+
+.cloudHealth {
+  border-color: color-mix(in srgb, var(--mz-primary) 18%, var(--mz-border)) !important;
+  background: linear-gradient(135deg, var(--mz-primary-soft), var(--mz-surface)) !important;
+}
+
+/* Forms and transactional UI */
+.cloudForm label,
+.cloudDrawer label {
+  color: var(--mz-muted) !important;
+  font-weight: 680 !important;
+}
+
+.cloudForm input,
+.cloudForm select,
+.cloudForm textarea,
+.cloudLedger input,
+.cloudDrawer input,
+.cloudDrawer select,
+.cloudDrawer textarea,
+.mezgebGlobalSearch input {
+  border: 1px solid var(--mz-border) !important;
+  background: var(--mz-surface) !important;
+  color: var(--mz-text) !important;
+  caret-color: var(--mz-accent);
+  transition: border-color .16s ease, box-shadow .16s ease, background .16s ease !important;
+}
+
+.cloudForm input:hover,
+.cloudForm select:hover,
+.cloudForm textarea:hover,
+.cloudLedger input:hover,
+.cloudDrawer input:hover,
+.cloudDrawer select:hover,
+.cloudDrawer textarea:hover {
+  border-color: var(--mz-border-strong) !important;
+}
+
+.cloudForm input:focus,
+.cloudForm select:focus,
+.cloudForm textarea:focus,
+.cloudLedger input:focus,
+.cloudDrawer input:focus,
+.cloudDrawer select:focus,
+.cloudDrawer textarea:focus {
+  border-color: var(--mz-accent) !important;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--mz-accent) 14%, transparent) !important;
+}
+
+.cloudForm input::placeholder,
+.cloudForm textarea::placeholder,
+.cloudDrawer input::placeholder,
+.cloudDrawer textarea::placeholder,
+.mezgebGlobalSearch input::placeholder {
+  color: color-mix(in srgb, var(--mz-muted) 78%, transparent) !important;
+}
+
+.cloudSegment {
+  border: 1px solid var(--mz-border) !important;
+  background: var(--mz-surface-soft) !important;
+}
+
+.cloudSegment button {
+  color: var(--mz-muted) !important;
+  transition: background .16s ease, color .16s ease, transform .16s var(--mz-ease) !important;
+}
+
+.cloudSegment button.active {
+  background: var(--mz-surface) !important;
+  color: var(--mz-text) !important;
+  box-shadow: var(--mz-shadow-sm) !important;
+}
+
+.cloudSegment button:active {
+  transform: scale(.97);
+}
+
+.mezgebPrimaryAction,
+.cloudPrimaryButton,
+.cloudActionPrimary,
+.cloudForm button[type='submit'] {
+  border: 1px solid rgba(92, 59, 0, .18) !important;
+  background: linear-gradient(145deg, #d6a62d, var(--mz-primary)) !important;
+  color: #171006 !important;
+  box-shadow: 0 8px 20px rgba(137, 90, 0, .18), inset 0 1px 0 rgba(255, 255, 255, .35) !important;
+  transition: transform .18s var(--mz-spring), filter .18s ease, box-shadow .18s ease !important;
+}
+
+.mezgebPrimaryAction:hover,
+.cloudPrimaryButton:hover,
+.cloudActionPrimary:hover,
+.cloudForm button[type='submit']:hover {
+  filter: brightness(1.04);
+  box-shadow: 0 12px 26px rgba(137, 90, 0, .24), inset 0 1px 0 rgba(255, 255, 255, .42) !important;
+  transform: translateY(-2px);
+}
+
+.mezgebPrimaryAction:active,
+.cloudPrimaryButton:active,
+.cloudActionPrimary:active,
+.cloudForm button[type='submit']:active {
+  transform: scale(.98);
+}
+
+.mezgebPrimaryAction,
+.mezgebPrimaryAction *,
+.cloudPrimaryButton,
+.cloudPrimaryButton *,
+.cloudActionPrimary,
+.cloudActionPrimary *,
+.cloudForm button[type='submit'],
+.cloudForm button[type='submit'] * {
+  color: #171006 !important;
+}
+
+/* Drawers, search and overlays */
+.mezgebMobileBackdrop,
+.mezgebSearchBackdrop {
+  background: rgba(5, 8, 13, .46) !important;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  animation: mzFadeIn .2s ease both;
+}
+
+.mezgebMobileDrawer,
+.mezgebGlobalSearch,
+.cloudDrawer {
+  border: 1px solid var(--mz-border) !important;
+  background: color-mix(in srgb, var(--mz-surface) 96%, transparent) !important;
+  color: var(--mz-text) !important;
+  box-shadow: var(--mz-shadow-lg) !important;
+  backdrop-filter: blur(28px) saturate(135%);
+  -webkit-backdrop-filter: blur(28px) saturate(135%);
+}
+
+.mezgebMobileDrawer {
+  animation: mzDrawerIn .3s var(--mz-ease) both;
+}
+
+.mezgebGlobalSearch {
+  animation: mzSearchIn .24s var(--mz-ease) both;
+}
+
+.mezgebDrawerBrand::before {
+  background: linear-gradient(145deg, #d5a328, var(--mz-primary)) !important;
+  color: #171006 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .4);
+}
+
+.mezgebDrawerBusiness,
+.mezgebMobileDrawer > header > button,
+.mezgebGlobalSearch > header button {
+  background: var(--mz-surface-soft) !important;
+  color: var(--mz-text) !important;
+}
+
+.mezgebDrawerNavigation button,
+.mezgebDrawerSettings > * {
+  color: var(--mz-text) !important;
+  transition: background .16s ease, transform .16s var(--mz-ease) !important;
+}
+
+.mezgebDrawerNavigation button:hover,
+.mezgebDrawerSettings > *:hover {
+  background: var(--mz-surface-soft) !important;
+  transform: translateX(2px);
+}
+
+.mezgebSearchResults > button {
+  color: var(--mz-text) !important;
+  transition: background .16s ease, transform .16s var(--mz-ease) !important;
+}
+
+.mezgebSearchResults > button:hover {
+  background: var(--mz-surface-soft) !important;
+  transform: translateX(2px);
+}
+
+/* Semantic colours */
+.cloudPositive,
+.cloudIncome,
+[data-tone='positive'] {
+  color: var(--mz-green) !important;
+}
+
+.cloudNegative,
+.cloudExpense,
+[data-tone='negative'] {
+  color: var(--mz-red) !important;
+}
+
+.productionAppPage a:not(.flutterRailAvatar):not(.flutterAvatar) {
+  color: var(--mz-accent) !important;
+  text-underline-offset: 3px;
+}
+
+/* Motion */
+@keyframes mzFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes mzDrawerIn {
+  from { opacity: 0; transform: translateX(18px) scale(.985); }
+  to { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+@keyframes mzSearchIn {
+  from { opacity: 0; transform: translate(-50%, -10px) scale(.985); }
+  to { opacity: 1; transform: translate(-50%, 0) scale(1); }
+}
+
+@keyframes mzContentIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.cloudContent > * {
+  animation: mzContentIn .42s var(--mz-ease) both;
+}
+
+.cloudContent > *:nth-child(2) { animation-delay: .035s; }
+.cloudContent > *:nth-child(3) { animation-delay: .07s; }
+.cloudContent > *:nth-child(4) { animation-delay: .105s; }
+
+/* Tablet */
+@media (max-width: 1100px) and (min-width: 821px) {
+  :root {
+    --mz-rail: 82px;
+    --mz-appbar: 78px;
+  }
+
+  .flutterNavRail nav button {
+    width: 64px !important;
+  }
+
+  .flutterBusinessPicker {
+    width: 196px !important;
+  }
+
+  .cloudContent {
+    padding-inline: 24px !important;
+  }
+}
+
+/* Mobile app shell */
+@media (max-width: 820px) {
+  :root {
+    --mz-appbar: calc(68px + env(safe-area-inset-top, 0px));
+    --mz-bottom: 74px;
+  }
+
+  .flutterAppBar {
+    inset: 0 0 auto 0 !important;
+    height: var(--mz-appbar) !important;
+    padding: env(safe-area-inset-top, 0px) 12px 0 !important;
+    gap: 9px !important;
+  }
+
+  .flutterAppBarLeading {
+    gap: 10px !important;
+  }
+
+  .flutterMobileBrand {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px;
+    border-radius: 14px !important;
+  }
+
+  .flutterAppBarLeading h1 {
+    max-width: 42vw;
+    overflow: hidden;
+    font-size: 1.22rem !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .flutterIconButton,
+  .flutterAvatar {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+  }
+
+  .cloudWorkspace {
+    padding: var(--mz-appbar) 0 calc(var(--mz-bottom) + var(--mz-safe-bottom) + 24px) !important;
+  }
+
+  .cloudContent {
+    padding: 15px 13px 36px !important;
+  }
+
+  .flutterBottomNav {
+    inset: auto 9px calc(9px + var(--mz-safe-bottom)) 9px !important;
+    height: var(--mz-bottom) !important;
+    padding: 5px !important;
+    border: 1px solid color-mix(in srgb, var(--mz-border) 92%, transparent) !important;
+    border-radius: 24px !important;
+    background: color-mix(in srgb, var(--mz-surface) 91%, transparent) !important;
+    box-shadow: 0 14px 40px rgba(16, 24, 40, .16), 0 3px 10px rgba(16, 24, 40, .07) !important;
+    backdrop-filter: blur(28px) saturate(150%);
+    -webkit-backdrop-filter: blur(28px) saturate(150%);
+  }
+
+  body[data-mezgeb-theme='dark'] .flutterBottomNav {
+    box-shadow: 0 16px 44px rgba(0, 0, 0, .45) !important;
+  }
+
+  .flutterBottomNav button {
+    min-width: 0;
+    height: 64px !important;
+    border-radius: 18px !important;
+    transition: transform .16s var(--mz-ease), background .16s ease, color .16s ease !important;
+  }
+
+  .flutterBottomNav button:active {
+    transform: scale(.93);
+  }
+
+  .flutterBottomNav button small {
+    max-width: 100%;
+    overflow: hidden;
+    font-size: .6rem !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .flutterFab {
+    right: 16px !important;
+    bottom: calc(var(--mz-bottom) + var(--mz-safe-bottom) + 22px) !important;
+    width: 56px !important;
+    height: 56px !important;
+    padding: 0 !important;
+    border-radius: 18px !important;
+  }
+
+  .cloudMetricGrid {
+    gap: 10px !important;
+  }
+
+  .cloudMetricGrid article {
+    min-height: 138px !important;
+    padding: 18px !important;
+    border-radius: 19px !important;
+  }
+
+  .cloudPrimaryMetric {
+    min-height: 188px !important;
+  }
+
+  .cloudQuickActions {
+    gap: 9px !important;
+  }
+
+  .cloudQuickActions button {
+    min-height: 62px !important;
+    padding: 10px 12px !important;
+    border-radius: 16px !important;
+  }
+
+  .cloudPanel,
+  .cloudForm,
+  .cloudLedger {
+    padding: 18px !important;
+    border-radius: 19px !important;
+  }
+
+  .cloudRows > article,
+  .cloudRows > div,
+  .cloudTransactionRow,
+  .cloudCustomerRow {
+    min-height: 54px;
+    padding: 12px 9px !important;
+  }
+
+  .cloudForm input,
+  .cloudForm select,
+  .cloudLedger input,
+  .cloudDrawer input,
+  .cloudDrawer select {
+    min-height: 52px !important;
+    font-size: 16px !important;
+  }
+
+  .cloudForm textarea,
+  .cloudDrawer textarea {
+    font-size: 16px !important;
+  }
+
+  .mezgebPrimaryAction,
+  .cloudPrimaryButton,
+  .cloudActionPrimary,
+  .cloudForm button[type='submit'] {
+    min-height: 52px !important;
+  }
+
+  .mezgebMobileDrawer {
+    inset: auto 8px calc(8px + var(--mz-safe-bottom)) 8px !important;
+    border-radius: 26px !important;
+  }
+
+  .mezgebGlobalSearch {
+    top: max(10px, env(safe-area-inset-top, 0px)) !important;
+    width: calc(100vw - 18px) !important;
+    border-radius: 24px !important;
+  }
+}
+
+@media (max-width: 520px) {
+  .flutterAppBarActions {
+    gap: 2px !important;
+  }
+
+  .flutterAvatar {
+    display: none !important;
+  }
+
+  .cloudMetricGrid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .cloudPrimaryMetric {
+    grid-column: auto !important;
+  }
+
+  .cloudPrimaryMetric strong {
+    font-size: clamp(2.2rem, 12vw, 3.05rem) !important;
+  }
+
+  .cloudQuickActions {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .cloudQuickActions button {
+    align-items: center !important;
+    font-size: .7rem !important;
+  }
+
+  .cloudPrimaryMetric::after {
+    right: -72px;
+  }
+}
+
+@media (max-width: 360px) {
+  .flutterMobileBrand {
+    width: 39px !important;
+    height: 39px !important;
+    min-width: 39px;
+  }
+
+  .flutterAppBarLeading h1 {
+    max-width: 34vw;
+    font-size: 1.08rem !important;
+  }
+
+  .flutterIconButton {
+    width: 39px !important;
+    height: 39px !important;
+    min-width: 39px !important;
+  }
+
+  .cloudContent {
+    padding-inline: 10px !important;
+  }
+
+  .cloudMetricGrid article,
+  .cloudPanel,
+  .cloudForm,
+  .cloudLedger {
+    border-radius: 17px !important;
+  }
+}
+
+@media (hover: none) {
+  .cloudMetricGrid article:hover,
+  .cloudPanel:hover,
+  .cloudReportCard:hover,
+  .cloudQuickActions button:hover,
+  .cloudRows > article:hover,
+  .cloudRows > div:hover,
+  .cloudTransactionRow:hover,
+  .cloudCustomerRow:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .productionAppPage *,
+  .productionAppPage *::before,
+  .productionAppPage *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-delay: 0ms !important;
+    transition-duration: .01ms !important;
+  }
+}
