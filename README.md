@@ -6,6 +6,8 @@ Official Next.js application for an Ethiopian small-business ledger covering sal
 
 The marketing website and native `/app` workspace share one Biloo Mezgeb design system. Production Supabase authentication is connected to project `vcyzgoiconxjmntoreto`, and the protected account dashboard can create and load RLS-isolated business workspaces.
 
+The completed responsive marketing homepage replacement is tracked in the production branch and is ready for Vercel deployment.
+
 The visual application at `/app` still uses browser-local prototype transactions. Do not enter real financial data there until its ledger, Dube, receipts, inventory and reports are switched from local storage to the deployed `mezgeb_*` tables.
 
 ## Authentication routes
