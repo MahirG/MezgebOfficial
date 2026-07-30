@@ -14,6 +14,7 @@ import './x-mobile-footer.css';
 import './contrast-fix.css';
 import './app-navigation-premium.css';
 
+// Production marker: authenticated mobile navigation refinement.
 export const metadata: Metadata = {
   title: 'Mezgeb Business Workspace',
   description:
