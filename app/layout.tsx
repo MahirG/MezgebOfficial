@@ -7,9 +7,9 @@ import './globals.css';
 import './registration.css';
 import './experience.css';
 import './glassmorphic-shell.css';
-import './mobile-footer-menu.css';
 import './subscription-actions.css';
 import './biloo-brand.css';
+import './mobile-footer-menu.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
