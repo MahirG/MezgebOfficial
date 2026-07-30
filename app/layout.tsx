@@ -86,10 +86,21 @@ const jsonLd = {
   ]
 };
 
+const restoreMezgebTheme = `
+  try {
+    var savedTheme = localStorage.getItem('mezgeb-app-theme');
+    var preferredTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.body.dataset.mezgebTheme = savedTheme === 'dark' || savedTheme === 'light'
+      ? savedTheme
+      : preferredTheme;
+  } catch (error) {}
+`;
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body>
+      <body suppressHydrationWarning>
+        <script dangerouslySetInnerHTML={{ __html: restoreMezgebTheme }} />
         <a className="skipLink" href="#main-content">
           Skip to content
         </a>
