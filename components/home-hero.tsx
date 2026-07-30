@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+/* eslint-disable @next/next/no-img-element */
 import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { paymentMethods } from '@/lib/payment-methods';
@@ -15,7 +15,15 @@ const demoTransactions = [
   ['Dube payment', '+ ETB 2,000', 'Customer repayment']
 ] as const;
 
-const navigationHotspots = [
+const navigationLinks = [
+  { label: 'Home', href: '/' },
+  { label: 'Features', href: '/#features' },
+  { label: 'Pricing', href: '/#pricing' },
+  { label: 'Resources', href: '/help' },
+  { label: 'About Us', href: '/#ethiopia' }
+] as const;
+
+const desktopHotspots = [
   { label: 'Biloo Mezgeb home', href: '/', className: styles.brandHotspot },
   { label: 'Home', href: '/', className: styles.homeHotspot },
   { label: 'Features', href: '/#features', className: styles.featuresHotspot },
@@ -40,13 +48,25 @@ function PaymentBrand({ type }: { type: 'visa' | 'mastercard' }) {
   );
 }
 
-function PaymentSequence({ copy }: { copy: string }) {
+function PaymentSequence({ duplicate = false }: { duplicate?: boolean }) {
+  const tabIndex = duplicate ? -1 : undefined;
+
   return (
-    <div className={styles.marqueeGroup} aria-hidden={copy === 'duplicate'}>
-      <Link className={styles.paymentLink} href="/#pricing" aria-label="View Visa payment options">
+    <div className={styles.marqueeGroup} aria-hidden={duplicate || undefined}>
+      <Link
+        className={styles.paymentLink}
+        href="/#pricing"
+        aria-label="View Visa payment options"
+        tabIndex={tabIndex}
+      >
         <PaymentBrand type="visa" />
       </Link>
-      <Link className={styles.paymentLink} href="/#pricing" aria-label="View Mastercard payment options">
+      <Link
+        className={styles.paymentLink}
+        href="/#pricing"
+        aria-label="View Mastercard payment options"
+        tabIndex={tabIndex}
+      >
         <PaymentBrand type="mastercard" />
       </Link>
       {trustedPayments.map((method) => (
@@ -54,10 +74,10 @@ function PaymentSequence({ copy }: { copy: string }) {
           className={styles.paymentLink}
           href="/#pricing"
           aria-label={`View ${method.shortLabel} payment options`}
-          key={`${copy}-${method.code}`}
+          key={`${duplicate ? 'duplicate' : 'primary'}-${method.code}`}
+          tabIndex={tabIndex}
         >
           <span className={styles.paymentBrand}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={method.source}
               alt=""
@@ -75,7 +95,9 @@ function PaymentSequence({ copy }: { copy: string }) {
 
 export function HomeHero() {
   const [demoOpen, setDemoOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const menuCloseRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     document.body.dataset.exactMarketingHero = 'true';
@@ -103,22 +125,47 @@ export function HomeHero() {
     };
   }, [demoOpen]);
 
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    const focusFrame = window.requestAnimationFrame(() => menuCloseRef.current?.focus());
+
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key === 'Escape') setMenuOpen(false);
+    }
+
+    window.addEventListener('keydown', closeOnEscape);
+    return () => {
+      window.cancelAnimationFrame(focusFrame);
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [menuOpen]);
+
   return (
     <>
       <div className={styles.heroFrame} data-marketing-hero>
         <div className={styles.heroCanvas}>
-          <Image
-            className={styles.heroArtwork}
-            src="/images/biloo-hero-exact.webp?v=20260730"
-            alt="Biloo Mezgeb business management hero with an Ethiopian business owner presenting the mobile app"
-            fill
-            priority
-            unoptimized
-            sizes="(max-width: 900px) 100vw, 1536px"
-          />
+          <picture className={styles.heroPicture}>
+            <source
+              media="(max-width: 900px)"
+              srcSet="/images/biloo-hero-mobile.webp?v=20260730-4k"
+            />
+            <img
+              className={styles.heroArtwork}
+              src="/images/biloo-hero-desktop.webp?v=20260730-4k"
+              alt="Biloo Mezgeb business management platform presented by an Ethiopian business owner"
+              width="3840"
+              height="2560"
+              decoding="async"
+              fetchPriority="high"
+            />
+          </picture>
 
           <nav className={styles.desktopHotspots} aria-label="Hero navigation">
-            {navigationHotspots.map((item) => (
+            {desktopHotspots.map((item) => (
               <Link
                 className={`${styles.hotspot} ${item.className}`}
                 href={item.href}
@@ -139,21 +186,90 @@ export function HomeHero() {
             />
           </nav>
 
+          <nav className={styles.mobileHotspots} aria-label="Mobile hero navigation">
+            <Link
+              className={`${styles.hotspot} ${styles.mobileBrandHotspot}`}
+              href="/"
+              aria-label="Biloo Mezgeb home"
+            />
+            <button
+              className={`${styles.hotspot} ${styles.mobileMenuHotspot}`}
+              type="button"
+              aria-label="Open navigation menu"
+              aria-expanded={menuOpen}
+              aria-controls="biloo-mobile-menu"
+              onClick={() => setMenuOpen(true)}
+            />
+            <Link
+              className={`${styles.hotspot} ${styles.mobileTrialHotspot}`}
+              href="/auth/sign-up"
+              aria-label="Get Started Free"
+            />
+            <button
+              className={`${styles.hotspot} ${styles.mobileDemoHotspot}`}
+              type="button"
+              aria-label="Watch Demo"
+              onClick={() => setDemoOpen(true)}
+            />
+          </nav>
+
           <div className={styles.marqueeViewport} aria-label="Supported payment channels">
             <div className={styles.marqueeTrack}>
-              <PaymentSequence copy="primary" />
-              <PaymentSequence copy="duplicate" />
+              <PaymentSequence />
+              <PaymentSequence duplicate />
             </div>
           </div>
         </div>
-
-        <div className={styles.mobileActions}>
-          <Link href="/auth/sign-up">Get Started Free <span>→</span></Link>
-          <button type="button" onClick={() => setDemoOpen(true)}>
-            <span aria-hidden="true">▶</span> Watch Demo
-          </button>
-        </div>
       </div>
+
+      {menuOpen ? (
+        <div className={styles.mobileMenuLayer}>
+          <button
+            className={styles.mobileMenuBackdrop}
+            type="button"
+            aria-label="Close navigation menu"
+            onClick={() => setMenuOpen(false)}
+          />
+          <aside
+            className={styles.mobileMenuPanel}
+            id="biloo-mobile-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Biloo Mezgeb navigation"
+          >
+            <header>
+              <Link href="/" onClick={() => setMenuOpen(false)}>
+                <span aria-hidden="true">◎</span>
+                <strong>Biloo Mezgeb</strong>
+              </Link>
+              <button
+                ref={menuCloseRef}
+                type="button"
+                aria-label="Close navigation menu"
+                onClick={() => setMenuOpen(false)}
+              >
+                ×
+              </button>
+            </header>
+            <nav>
+              {navigationLinks.map((item) => (
+                <Link href={item.href} key={item.label} onClick={() => setMenuOpen(false)}>
+                  <span>{item.label}</span>
+                  <i aria-hidden="true">→</i>
+                </Link>
+              ))}
+            </nav>
+            <div className={styles.mobileMenuActions}>
+              <Link href="/auth/sign-in" onClick={() => setMenuOpen(false)}>
+                Log in
+              </Link>
+              <Link href="/auth/sign-up" onClick={() => setMenuOpen(false)}>
+                Get Started
+              </Link>
+            </div>
+          </aside>
+        </div>
+      ) : null}
 
       {demoOpen ? (
         <div className={styles.demoLayer}>
