@@ -1,47 +1,66 @@
-/* Standard mobile header navigation.
- * The hamburger stays inside the sticky top header, uses exactly three lines,
- * and has no decorative button background. Desktop navigation is unchanged.
+/* Premium, standards-based mobile navigation.
+ * The trigger remains visually minimal: three balanced lines with no visible
+ * container. The 48px invisible hit area preserves accessibility and touch
+ * accuracy, while the opened menu behaves like a clean native navigation sheet.
  */
 
 @media (max-width: 900px) {
+  :root {
+    --mobile-menu-ink: #111827;
+    --mobile-menu-muted: #667085;
+    --mobile-menu-accent: #0b72f0;
+    --mobile-menu-line: rgba(17, 24, 39, 0.09);
+  }
+
   body {
     padding-bottom: 0;
   }
 
+  /* Invisible 48px touch target; only the three lines are visible. */
   .siteHeader .menuButton {
     position: relative !important;
     inset: auto !important;
     z-index: 174;
     display: inline-grid !important;
-    width: 44px !important;
-    min-width: 44px !important;
-    height: 44px !important;
-    place-items: center;
+    width: 48px !important;
+    min-width: 48px !important;
+    height: 48px !important;
+    min-height: 48px !important;
+    place-items: center !important;
+    flex: 0 0 48px;
     padding: 0 !important;
+    overflow: visible !important;
     border: 0 !important;
-    border-radius: 0 !important;
-    outline-offset: 3px;
+    border-radius: 12px !important;
+    outline: 0 !important;
     background: transparent !important;
-    color: var(--glass-ink, #07111f) !important;
+    color: var(--mobile-menu-ink) !important;
     box-shadow: none !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
+    isolation: isolate;
     transform: none !important;
+    transition: color 180ms ease, opacity 140ms ease !important;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  .siteHeader .menuButton:hover,
-  .siteHeader .menuButton:active,
-  .siteHeader .menuButton:focus-visible,
+  .siteHeader .menuButton:hover {
+    color: var(--mobile-menu-accent) !important;
+  }
+
+  .siteHeader .menuButton:active {
+    opacity: 0.68;
+  }
+
   .siteHeader .menuButton[aria-expanded='true'] {
-    border: 0 !important;
-    background: transparent !important;
-    color: var(--glass-ink, #07111f) !important;
-    box-shadow: none !important;
-    transform: none !important;
+    color: var(--mobile-menu-ink) !important;
   }
 
   .siteHeader .menuButton:focus-visible {
-    outline: 2px solid color-mix(in srgb, var(--glass-blue, #0b72f0) 48%, transparent) !important;
+    outline: 2px solid color-mix(in srgb, var(--mobile-menu-accent) 55%, transparent) !important;
+    outline-offset: 1px !important;
+    background: transparent !important;
+    box-shadow: none !important;
   }
 
   .siteHeader .menuButton::before,
@@ -52,54 +71,132 @@
 
   .siteHeader .menuButton span {
     position: absolute !important;
-    left: 10px !important;
-    width: 24px !important;
+    left: 11px !important;
+    width: 26px !important;
     height: 2px !important;
+    margin: 0 !important;
+    border: 0 !important;
     border-radius: 999px !important;
     background: currentColor !important;
+    box-shadow: none !important;
     opacity: 1;
+    transform: translate3d(0, 0, 0) rotate(0deg) !important;
+    transform-origin: 50% 50%;
     transition:
-      top 180ms ease,
-      transform 180ms ease,
-      opacity 140ms ease !important;
+      top 240ms cubic-bezier(.2, .8, .2, 1),
+      transform 240ms cubic-bezier(.2, .8, .2, 1),
+      opacity 150ms ease,
+      background-color 180ms ease !important;
   }
 
   .siteHeader .menuButton span:nth-child(1) {
-    top: 14px !important;
+    top: 15px !important;
   }
 
   .siteHeader .menuButton span:nth-child(2) {
-    top: 21px !important;
+    top: 23px !important;
   }
 
   .siteHeader .menuButton span:nth-child(3) {
-    top: 28px !important;
+    top: 31px !important;
   }
 
+  /* A controlled, symmetrical close transition. */
   .siteHeader .menuButton[aria-expanded='true'] span:nth-child(1) {
-    top: 21px !important;
+    top: 23px !important;
     transform: rotate(45deg) !important;
   }
 
   .siteHeader .menuButton[aria-expanded='true'] span:nth-child(2) {
     opacity: 0 !important;
-    transform: scaleX(0.45) !important;
+    transform: scaleX(0.35) !important;
   }
 
   .siteHeader .menuButton[aria-expanded='true'] span:nth-child(3) {
-    top: 21px !important;
+    top: 23px !important;
     transform: rotate(-45deg) !important;
   }
 
+  /* Clean navigation sheet positioned directly below the sticky header. */
   .mobileMenu {
-    top: 88px !important;
+    top: 86px !important;
+    right: 12px !important;
     bottom: auto !important;
-    max-height: calc(100dvh - 106px) !important;
+    left: 12px !important;
+    gap: 10px !important;
+    max-height: calc(100dvh - 102px) !important;
+    padding: 10px !important;
+    overflow-y: auto !important;
+    border: 1px solid var(--mobile-menu-line) !important;
+    border-radius: 24px !important;
+    background: rgba(255, 255, 255, 0.98) !important;
+    box-shadow: 0 24px 70px rgba(15, 23, 42, 0.18) !important;
+    backdrop-filter: blur(24px) saturate(150%) !important;
+    -webkit-backdrop-filter: blur(24px) saturate(150%) !important;
+    transform: translateY(-10px) scale(0.985) !important;
     transform-origin: top right !important;
+    transition:
+      opacity 180ms ease,
+      visibility 180ms ease,
+      transform 240ms cubic-bezier(.2, .8, .2, 1) !important;
   }
 
   .siteHeader.menuOpen .mobileMenu {
     transform: translateY(0) scale(1) !important;
+  }
+
+  .mobileMenu nav {
+    gap: 2px !important;
+  }
+
+  .mobileMenu nav a {
+    position: relative;
+    min-height: 54px !important;
+    padding: 0 14px !important;
+    border-radius: 15px !important;
+    color: var(--mobile-menu-ink) !important;
+    font-size: 0.96rem !important;
+    font-weight: 680 !important;
+    letter-spacing: -0.015em;
+    transition: background-color 160ms ease, color 160ms ease, transform 160ms ease !important;
+  }
+
+  .mobileMenu nav a::after {
+    content: '›' !important;
+    color: #98a2b3 !important;
+    font-size: 1.28rem !important;
+    font-weight: 400 !important;
+    line-height: 1 !important;
+  }
+
+  .mobileMenu nav a:hover,
+  .mobileMenu nav a:focus-visible {
+    background: #f3f6fa !important;
+    color: var(--mobile-menu-accent) !important;
+    transform: translateX(2px);
+  }
+
+  .mobileMenuActions {
+    grid-template-columns: 1fr 1.15fr !important;
+    gap: 8px !important;
+    padding-top: 10px;
+    border-top: 1px solid var(--mobile-menu-line);
+  }
+
+  .mobileMenuActions .button,
+  .mobileMenuActions .textButton {
+    min-height: 48px !important;
+    border-radius: 14px !important;
+  }
+
+  .mobileMenuMeta {
+    display: none !important;
+  }
+
+  .menuBackdrop {
+    background: rgba(15, 23, 42, 0.28) !important;
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
   }
 
   .siteFooter {
@@ -109,36 +206,48 @@
 
 @media (max-width: 430px) {
   .siteHeader .menuButton {
-    width: 42px !important;
-    min-width: 42px !important;
-    height: 42px !important;
+    width: 46px !important;
+    min-width: 46px !important;
+    height: 46px !important;
+    min-height: 46px !important;
+    flex-basis: 46px;
   }
 
   .siteHeader .menuButton span {
-    left: 9px !important;
+    left: 10px !important;
   }
 
   .siteHeader .menuButton span:nth-child(1) {
-    top: 13px !important;
+    top: 14px !important;
   }
 
   .siteHeader .menuButton span:nth-child(2) {
-    top: 20px !important;
+    top: 22px !important;
   }
 
   .siteHeader .menuButton span:nth-child(3) {
-    top: 27px !important;
+    top: 30px !important;
   }
 
   .siteHeader .menuButton[aria-expanded='true'] span:nth-child(1),
   .siteHeader .menuButton[aria-expanded='true'] span:nth-child(3) {
-    top: 20px !important;
+    top: 22px !important;
+  }
+
+  .mobileMenu {
+    top: 82px !important;
+    right: 9px !important;
+    left: 9px !important;
+    max-height: calc(100dvh - 94px) !important;
+    border-radius: 21px !important;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .siteHeader .menuButton,
   .siteHeader .menuButton span,
-  .mobileMenu {
+  .mobileMenu,
+  .mobileMenu nav a {
     transition-duration: 0.01ms !important;
   }
 }
