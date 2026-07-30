@@ -1,115 +1,143 @@
-/* Mobile navigation dock: keeps the hamburger close to the user's thumb and
-   opens the glass menu upward from the footer edge. Desktop navigation is unchanged. */
+/* Standard mobile header navigation.
+ * The hamburger stays inside the sticky top header, uses exactly three lines,
+ * and has no decorative button background. Desktop navigation is unchanged.
+ */
 
 @media (max-width: 900px) {
   body {
-    padding-bottom: calc(86px + env(safe-area-inset-bottom));
-  }
-
-  .menuButton {
-    position: fixed;
-    right: 16px;
-    bottom: calc(16px + env(safe-area-inset-bottom));
-    z-index: 174;
-    display: block;
-    width: 112px;
-    height: 54px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 999px;
-    color: #f8fbff;
-    background: linear-gradient(145deg, rgba(7, 17, 32, 0.94), rgba(14, 35, 64, 0.9));
-    box-shadow:
-      0 20px 50px rgba(5, 15, 30, 0.32),
-      inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(24px) saturate(160%);
-    -webkit-backdrop-filter: blur(24px) saturate(160%);
-    transition:
-      transform 180ms ease,
-      box-shadow 180ms ease,
-      background 180ms ease;
-  }
-
-  .menuButton:hover,
-  .menuButton:focus-visible {
-    transform: translateY(-2px);
-    box-shadow:
-      0 24px 58px rgba(5, 15, 30, 0.38),
-      0 0 0 4px rgba(11, 114, 240, 0.14),
-      inset 0 1px 0 rgba(255, 255, 255, 0.24);
-  }
-
-  .menuButton::after {
-    content: 'Menu';
-    position: absolute;
-    top: 50%;
-    right: 20px;
-    transform: translateY(-50%);
-    font-size: 0.78rem;
-    font-weight: 800;
-    letter-spacing: 0.02em;
-  }
-
-  .menuButton[aria-expanded='true'] {
-    background: linear-gradient(145deg, #0b72f0, #0757c7);
-  }
-
-  .menuButton[aria-expanded='true']::after {
-    content: 'Close';
-  }
-
-  .menuButton span {
-    left: 18px;
-    width: 21px;
-    background: currentColor;
-  }
-
-  .mobileMenu {
-    top: auto;
-    bottom: calc(84px + env(safe-area-inset-bottom));
-    max-height: calc(100dvh - 116px - env(safe-area-inset-bottom));
-    transform: translateY(18px) scale(0.985);
-    transform-origin: bottom right;
-  }
-
-  .siteHeader.menuOpen .mobileMenu {
-    transform: translateY(0) scale(1);
-  }
-
-  .siteFooter {
-    padding-bottom: calc(36px + env(safe-area-inset-bottom));
-  }
-
-  /* The authenticated workspace already has its own bottom navigation. Keep
-     the public menu dock above it so both controls remain usable. */
-  body:has(.productionAppPage) {
     padding-bottom: 0;
   }
 
-  body:has(.productionAppPage) .menuButton {
-    bottom: calc(82px + env(safe-area-inset-bottom));
+  .siteHeader .menuButton {
+    position: relative !important;
+    inset: auto !important;
+    z-index: 174;
+    display: inline-grid !important;
+    width: 44px !important;
+    min-width: 44px !important;
+    height: 44px !important;
+    place-items: center;
+    padding: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    outline-offset: 3px;
+    background: transparent !important;
+    color: var(--glass-ink, #07111f) !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    transform: none !important;
   }
 
-  body:has(.productionAppPage) .mobileMenu {
-    bottom: calc(150px + env(safe-area-inset-bottom));
-    max-height: calc(100dvh - 178px - env(safe-area-inset-bottom));
+  .siteHeader .menuButton:hover,
+  .siteHeader .menuButton:active,
+  .siteHeader .menuButton:focus-visible,
+  .siteHeader .menuButton[aria-expanded='true'] {
+    border: 0 !important;
+    background: transparent !important;
+    color: var(--glass-ink, #07111f) !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  .siteHeader .menuButton:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--glass-blue, #0b72f0) 48%, transparent) !important;
+  }
+
+  .siteHeader .menuButton::before,
+  .siteHeader .menuButton::after {
+    content: none !important;
+    display: none !important;
+  }
+
+  .siteHeader .menuButton span {
+    position: absolute !important;
+    left: 10px !important;
+    width: 24px !important;
+    height: 2px !important;
+    border-radius: 999px !important;
+    background: currentColor !important;
+    opacity: 1;
+    transition:
+      top 180ms ease,
+      transform 180ms ease,
+      opacity 140ms ease !important;
+  }
+
+  .siteHeader .menuButton span:nth-child(1) {
+    top: 14px !important;
+  }
+
+  .siteHeader .menuButton span:nth-child(2) {
+    top: 21px !important;
+  }
+
+  .siteHeader .menuButton span:nth-child(3) {
+    top: 28px !important;
+  }
+
+  .siteHeader .menuButton[aria-expanded='true'] span:nth-child(1) {
+    top: 21px !important;
+    transform: rotate(45deg) !important;
+  }
+
+  .siteHeader .menuButton[aria-expanded='true'] span:nth-child(2) {
+    opacity: 0 !important;
+    transform: scaleX(0.45) !important;
+  }
+
+  .siteHeader .menuButton[aria-expanded='true'] span:nth-child(3) {
+    top: 21px !important;
+    transform: rotate(-45deg) !important;
+  }
+
+  .mobileMenu {
+    top: 88px !important;
+    bottom: auto !important;
+    max-height: calc(100dvh - 106px) !important;
+    transform-origin: top right !important;
+  }
+
+  .siteHeader.menuOpen .mobileMenu {
+    transform: translateY(0) scale(1) !important;
+  }
+
+  .siteFooter {
+    padding-bottom: 36px;
   }
 }
 
 @media (max-width: 430px) {
-  .menuButton {
-    right: 12px;
-    bottom: calc(12px + env(safe-area-inset-bottom));
-    width: 104px;
-    height: 52px;
+  .siteHeader .menuButton {
+    width: 42px !important;
+    min-width: 42px !important;
+    height: 42px !important;
   }
 
-  body:has(.productionAppPage) .menuButton {
-    bottom: calc(78px + env(safe-area-inset-bottom));
+  .siteHeader .menuButton span {
+    left: 9px !important;
+  }
+
+  .siteHeader .menuButton span:nth-child(1) {
+    top: 13px !important;
+  }
+
+  .siteHeader .menuButton span:nth-child(2) {
+    top: 20px !important;
+  }
+
+  .siteHeader .menuButton span:nth-child(3) {
+    top: 27px !important;
+  }
+
+  .siteHeader .menuButton[aria-expanded='true'] span:nth-child(1),
+  .siteHeader .menuButton[aria-expanded='true'] span:nth-child(3) {
+    top: 20px !important;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .menuButton,
+  .siteHeader .menuButton span,
   .mobileMenu {
     transition-duration: 0.01ms !important;
   }
