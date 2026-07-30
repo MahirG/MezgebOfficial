@@ -9,6 +9,7 @@ import './experience.css';
 import './glassmorphic-shell.css';
 import './subscription-actions.css';
 import './biloo-brand.css';
+// Keep the mobile navigation contract last so legacy visual layers cannot distort it.
 import './mobile-footer-menu.css';
 
 export const metadata: Metadata = {
