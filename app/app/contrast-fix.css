@@ -1,0 +1,169 @@
+/* Final brand-safe contrast contract for the authenticated Mezgeb workspace.
+ * This layer is intentionally loaded last so legacy white-text declarations
+ * cannot leak onto white/light surfaces. Dark mode continues to use the same
+ * semantic variables and therefore keeps light text on dark surfaces.
+ */
+
+:root {
+  --mz-on-primary: #171006;
+}
+
+/* Every standard content surface inherits the brand text colour. */
+.productionAppPage .cloudContent,
+.productionAppPage .cloudContent :is(
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  span,
+  small,
+  strong,
+  b,
+  label,
+  legend,
+  li,
+  dt,
+  dd,
+  td,
+  th,
+  button,
+  input,
+  select,
+  textarea,
+  option
+),
+.productionAppPage .mezgebMobileDrawer :is(
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  span,
+  small,
+  strong,
+  b,
+  label,
+  li,
+  button,
+  input,
+  select,
+  textarea,
+  option
+),
+.productionAppPage .mezgebGlobalSearch :is(
+  h1,
+  h2,
+  h3,
+  p,
+  span,
+  small,
+  strong,
+  b,
+  label,
+  button,
+  input
+),
+.productionAppPage .cloudDrawer :is(
+  h1,
+  h2,
+  h3,
+  p,
+  span,
+  small,
+  strong,
+  b,
+  label,
+  button,
+  input,
+  select,
+  textarea,
+  option
+) {
+  color: var(--mz-text) !important;
+}
+
+/* Keep all neutral cards and controls paired with the correct surface colour. */
+.productionAppPage :is(
+  .cloudPanel,
+  .cloudForm,
+  .cloudLedger,
+  .cloudReportCard,
+  .cloudDubeForms > *,
+  .cloudTwoColumn > *,
+  .cloudDubeLayout > *,
+  .cloudMetricGrid article:not(.cloudPrimaryMetric),
+  .cloudQuickActions button,
+  .cloudDrawer,
+  .mezgebMobileDrawer,
+  .mezgebGlobalSearch,
+  .flutterBusinessPicker
+) {
+  background-color: var(--mz-surface) !important;
+  color: var(--mz-text) !important;
+}
+
+/* Secondary and explanatory copy follows the muted brand token. */
+.productionAppPage .cloudContent small,
+.productionAppPage .cloudMetricGrid article > span,
+.productionAppPage .cloudRows small,
+.productionAppPage .cloudRows span,
+.productionAppPage .cloudForm label,
+.productionAppPage .cloudDrawer label,
+.productionAppPage .flutterBusinessPicker span,
+.productionAppPage .mezgebDrawerBrand small {
+  color: var(--mz-muted) !important;
+}
+
+/* Brand eyebrow and section labels remain gold. */
+.productionAppPage .cloudPanel header small,
+.productionAppPage .cloudForm header small,
+.productionAppPage .cloudLedger header small,
+.productionAppPage .cloudQuickActions i,
+.productionAppPage .mezgebDrawerNavigation i,
+.productionAppPage .mezgebDrawerSettings i {
+  color: var(--mz-primary) !important;
+}
+
+/* Gold financial surfaces and primary actions use dark ink for strong contrast. */
+.productionAppPage .cloudPrimaryMetric,
+.productionAppPage .cloudPrimaryMetric *,
+.productionAppPage .flutterFab,
+.productionAppPage .flutterFab *,
+.productionAppPage .mezgebPrimaryAction,
+.productionAppPage .mezgebPrimaryAction *,
+.productionAppPage .cloudPrimaryButton,
+.productionAppPage .cloudPrimaryButton *,
+.productionAppPage .cloudActionPrimary,
+.productionAppPage .cloudActionPrimary *,
+.productionAppPage .cloudForm button[type='submit'],
+.productionAppPage .cloudForm button[type='submit'] * {
+  color: var(--mz-on-primary) !important;
+}
+
+/* Restore semantic and interactive colours after the neutral contrast reset. */
+.productionAppPage :is(.cloudPositive, .cloudIncome, [data-tone='positive']) {
+  color: var(--mz-green) !important;
+}
+
+.productionAppPage :is(.cloudNegative, .cloudExpense, [data-tone='negative']) {
+  color: var(--mz-red) !important;
+}
+
+.productionAppPage a:not(.flutterRailAvatar):not(.flutterAvatar) {
+  color: var(--mz-accent) !important;
+}
+
+.productionAppPage :is(input, textarea)::placeholder {
+  color: var(--mz-muted) !important;
+  opacity: 1;
+}
+
+/* Native select menus must remain readable in both themes. */
+.productionAppPage select,
+.productionAppPage option {
+  background: var(--mz-surface) !important;
+  color: var(--mz-text) !important;
+}
