@@ -7,12 +7,12 @@ import { createClient } from '@/lib/supabase/server';
 import './app.css';
 import './cloud.css';
 import './clean-app.css';
-import './apple-palette.css';
+import './app-polish.css';
 
 export const metadata: Metadata = {
-  title: 'Biloo Mezgeb workspace',
+  title: 'Mezgeb Business Workspace',
   description:
-    'Record secure business transactions, Dube customer credit, receipts and reports in Biloo Mezgeb.'
+    'Manage transactions, Dube customer credit, receipts and business reports securely in Mezgeb.'
 };
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>;
@@ -129,7 +129,7 @@ export default async function MezgebAppPage({ searchParams }: { searchParams: Se
       <section
         className="container nativeAppShell"
         id="mezgeb-application"
-        aria-label="Biloo Mezgeb application"
+        aria-label="Mezgeb business application"
       >
         <MezgebApplication
           userId={user.id}
