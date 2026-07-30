@@ -13,33 +13,49 @@
   aspect-ratio: 3 / 2;
   overflow: hidden;
   border-radius: clamp(18px, 2.2vw, 34px);
-  background: #eef5ff;
+  background: #eaf3ff;
   box-shadow: 0 28px 90px rgba(18, 64, 135, 0.16);
 }
 
+.heroPicture {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
 .heroArtwork {
+  display: block;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   object-position: center;
   user-select: none;
+  -webkit-user-drag: none;
 }
 
-.desktopHotspots {
+.desktopHotspots,
+.mobileHotspots {
   position: absolute;
   inset: 0;
   z-index: 3;
   pointer-events: none;
 }
 
+.mobileHotspots { display: none; }
+
 .hotspot {
   position: absolute;
   display: block;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
   border: 0;
   border-radius: 16px;
   background: transparent;
   cursor: pointer;
   pointer-events: auto;
   -webkit-tap-highlight-color: transparent;
-  transition: background 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  transition: background 160ms ease, box-shadow 160ms ease, transform 160ms ease;
 }
 
 .hotspot:hover {
@@ -47,37 +63,45 @@
   box-shadow: inset 0 0 0 1px rgba(0, 113, 227, 0.12);
 }
 
-.hotspot:active { transform: scale(0.985); }
+.hotspot:active {
+  transform: scale(0.975);
+  background: rgba(0, 113, 227, 0.13);
+}
 
 .hotspot:focus-visible {
   outline: 3px solid #0071e3;
   outline-offset: 2px;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.24);
 }
 
-.brandHotspot { left: 4.6%; top: 2.8%; width: 15.5%; height: 6.6%; }
-.homeHotspot { left: 29.4%; top: 2.9%; width: 5.2%; height: 6.4%; }
-.featuresHotspot { left: 35.9%; top: 2.9%; width: 6.2%; height: 6.4%; }
-.pricingHotspot { left: 43.8%; top: 2.9%; width: 5.4%; height: 6.4%; }
-.resourcesHotspot { left: 50.8%; top: 2.9%; width: 9.2%; height: 6.4%; }
-.aboutHotspot { left: 60.8%; top: 2.9%; width: 7.2%; height: 6.4%; }
-.loginHotspot { left: 78.2%; top: 2.9%; width: 5.6%; height: 6.4%; }
-.getStartedHotspot { left: 84.6%; top: 2.8%; width: 10.4%; height: 6.6%; }
-.freeTrialHotspot { left: 4.9%; top: 71.2%; width: 16.2%; height: 6.8%; }
-.demoHotspot { left: 23.7%; top: 71.2%; width: 11.2%; height: 6.8%; }
+.brandHotspot { left: 4.5%; top: 2.5%; width: 17.2%; height: 7.3%; }
+.homeHotspot { left: 29.1%; top: 2.6%; width: 5.7%; height: 7.1%; }
+.featuresHotspot { left: 36.1%; top: 2.6%; width: 6.6%; height: 7.1%; }
+.pricingHotspot { left: 44.3%; top: 2.6%; width: 5.7%; height: 7.1%; }
+.resourcesHotspot { left: 51.3%; top: 2.6%; width: 9.2%; height: 7.1%; }
+.aboutHotspot { left: 61.4%; top: 2.6%; width: 7.6%; height: 7.1%; }
+.loginHotspot { left: 78.7%; top: 2.6%; width: 5.6%; height: 7.1%; }
+.getStartedHotspot { left: 84.8%; top: 2.5%; width: 10.5%; height: 7.3%; }
+.freeTrialHotspot { left: 4.7%; top: 72.1%; width: 18.1%; height: 7.5%; }
+.demoHotspot { left: 24.7%; top: 72.1%; width: 13.2%; height: 7.5%; }
+
+.mobileBrandHotspot { left: 3.2%; top: 1.6%; width: 50%; height: 7.8%; }
+.mobileMenuHotspot { right: 3.2%; top: 1.6%; width: 13%; height: 7.8%; }
+.mobileTrialHotspot { left: 4.7%; top: 61.4%; width: 42.2%; height: 7.4%; }
+.mobileDemoHotspot { left: 4.7%; top: 69.9%; width: 42.2%; height: 7.4%; }
 
 .marqueeViewport {
   position: absolute;
   left: 5.05%;
-  right: 11.7%;
-  bottom: 3.95%;
+  right: 9.35%;
+  bottom: 3.25%;
   z-index: 4;
   display: flex;
-  height: 11.15%;
+  height: 10.9%;
   align-items: center;
   overflow: hidden;
   border-radius: clamp(12px, 1.6vw, 22px);
-  background: rgba(255, 255, 255, 0.98);
+  background: rgba(255, 255, 255, 0.985);
   box-shadow: 0 12px 36px rgba(20, 57, 108, 0.08);
   mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent);
@@ -92,7 +116,9 @@
 }
 
 .marqueeViewport:hover .marqueeTrack,
-.marqueeViewport:focus-within .marqueeTrack { animation-play-state: paused; }
+.marqueeViewport:focus-within .marqueeTrack {
+  animation-play-state: paused;
+}
 
 .marqueeGroup {
   display: flex;
@@ -110,12 +136,15 @@
   justify-content: center;
   border-radius: 14px;
   transition: transform 160ms ease, background 160ms ease;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .paymentLink:hover {
   transform: translateY(-2px);
   background: #f5f8ff;
 }
+
+.paymentLink:active { transform: scale(0.97); }
 
 .paymentLink:focus-visible {
   outline: 3px solid rgba(0, 113, 227, 0.32);
@@ -151,7 +180,10 @@
   letter-spacing: -0.06em;
 }
 
-.mastercard { min-height: 40px; gap: 0; }
+.mastercard {
+  min-height: 40px;
+  gap: 0;
+}
 
 .mastercard i {
   width: clamp(29px, 2.45vw, 38px);
@@ -165,8 +197,6 @@
   background: #ff9f0a;
   opacity: 0.92;
 }
-
-.mobileActions { display: none; }
 
 .srOnly {
   position: absolute;
@@ -185,100 +215,144 @@
 }
 
 :global([class*='releaseBar']) { display: none !important; }
+:global(body[data-exact-marketing-hero='true'] .siteHeader) { display: none !important; }
 
-@media (min-width: 901px) {
-  :global(body[data-exact-marketing-hero='true'] .siteHeader) { display: none; }
+.mobileMenuLayer {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: grid;
+  justify-items: end;
 }
 
-@media (max-width: 900px) {
-  .heroFrame {
-    display: grid;
-    width: calc(100vw - 24px);
-    gap: 14px;
-  }
-
-  .heroCanvas {
-    aspect-ratio: 3 / 2;
-    border-radius: 20px;
-  }
-
-  .desktopHotspots { display: none; }
-
-  .marqueeViewport {
-    position: relative;
-    inset: auto;
-    width: 100%;
-    height: 82px;
-    margin-top: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.06);
-    border-radius: 18px;
-  }
-
-  .marqueeGroup { gap: 28px; padding: 0 18px; }
-  .paymentLink { min-width: 112px; }
-
-  .mobileActions {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-
-  .mobileActions a,
-  .mobileActions button {
-    display: inline-flex;
-    min-height: 52px;
-    align-items: center;
-    justify-content: center;
-    gap: 9px;
-    border-radius: 15px;
-    font-size: 0.92rem;
-    font-weight: 800;
-  }
-
-  .mobileActions a {
-    background: #0877e9;
-    color: #fff;
-    box-shadow: 0 14px 28px rgba(0, 113, 227, 0.22);
-  }
-
-  .mobileActions button {
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    background: #fff;
-    color: #111827;
-  }
-
-  .mobileActions button span {
-    display: grid;
-    width: 30px;
-    height: 30px;
-    place-items: center;
-    border-radius: 50%;
-    background: #eef5ff;
-    color: #0877e9;
-    font-size: 0.72rem;
-  }
+.mobileMenuBackdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(6, 18, 38, 0.58);
+  backdrop-filter: blur(12px);
 }
 
-@media (max-width: 560px) {
-  .heroCanvas,
-  .marqueeViewport {
-    width: calc(100% + 24px);
-    margin-left: -12px;
-    border-radius: 14px;
-  }
-
-  .mobileActions { grid-template-columns: 1fr; }
+.mobileMenuPanel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: min(88vw, 420px);
+  height: 100%;
+  grid-template-rows: auto 1fr auto;
+  padding: max(18px, env(safe-area-inset-top)) 18px max(20px, env(safe-area-inset-bottom));
+  background: rgba(255, 255, 255, 0.98);
+  color: #07152c;
+  box-shadow: -28px 0 80px rgba(4, 20, 50, 0.28);
+  animation: menu-slide-in 220ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .marqueeTrack { animation: none; }
-  .hotspot, .paymentLink { transition: none; }
+@keyframes menu-slide-in {
+  from { transform: translateX(100%); opacity: 0.6; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.mobileMenuPanel header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #e6ebf2;
+}
+
+.mobileMenuPanel header > a {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  color: #07152c;
+}
+
+.mobileMenuPanel header > a span {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border-radius: 13px;
+  background: linear-gradient(145deg, #1683f4, #0059d8);
+  color: #fff;
+  font-size: 1.45rem;
+  font-weight: 900;
+}
+
+.mobileMenuPanel header > a strong {
+  font-size: 1.05rem;
+  letter-spacing: -0.02em;
+}
+
+.mobileMenuPanel header > button {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: #edf3fb;
+  color: #07152c;
+  font-size: 1.7rem;
+}
+
+.mobileMenuPanel > nav {
+  display: grid;
+  align-content: start;
+  gap: 5px;
+  padding: 24px 0;
+}
+
+.mobileMenuPanel > nav a {
+  display: flex;
+  min-height: 58px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  border-radius: 15px;
+  color: #101b2d;
+  font-size: 1.02rem;
+  font-weight: 750;
+  transition: background 160ms ease, transform 160ms ease;
+}
+
+.mobileMenuPanel > nav a:hover,
+.mobileMenuPanel > nav a:focus-visible {
+  background: #eef5ff;
+}
+
+.mobileMenuPanel > nav a:active { transform: scale(0.985); }
+.mobileMenuPanel > nav a i { color: #0877e9; font-style: normal; }
+
+.mobileMenuActions {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 10px;
+}
+
+.mobileMenuActions a {
+  display: inline-flex;
+  min-height: 54px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #dce4ef;
+  border-radius: 15px;
+  color: #101b2d;
+  font-weight: 800;
+}
+
+.mobileMenuActions a:last-child {
+  border-color: #0877e9;
+  background: #0877e9;
+  color: #fff;
+  box-shadow: 0 14px 30px rgba(0, 113, 227, 0.24);
 }
 
 .demoLayer {
   position: fixed;
   inset: 0;
-  z-index: 1000;
+  z-index: 1300;
   display: grid;
   place-items: center;
   padding: 24px;
@@ -368,7 +442,6 @@
 
 .demoRail b,
 .demoRailActive { background: #0877e9; }
-
 .demoContent { min-width: 0; padding: 24px; }
 
 .demoTopline {
@@ -449,7 +522,6 @@
 }
 
 .demoTransaction div { display: grid; flex: 1; gap: 3px; }
-
 .demoFooter { border-top: 1px solid #e5e7eb; }
 
 .demoFooter a {
@@ -459,12 +531,60 @@
   color: #fff;
 }
 
+@media (max-width: 900px) {
+  .heroFrame {
+    width: min(100vw, 680px);
+  }
+
+  .heroCanvas {
+    aspect-ratio: 941 / 1672;
+    border-radius: clamp(0px, 4vw, 30px);
+    box-shadow: 0 22px 70px rgba(18, 64, 135, 0.17);
+  }
+
+  .desktopHotspots { display: none; }
+  .mobileHotspots { display: block; }
+
+  .marqueeViewport {
+    left: 1.7%;
+    right: 1.7%;
+    bottom: 4.35%;
+    height: 10.55%;
+    border-radius: clamp(15px, 4vw, 26px);
+    box-shadow: none;
+  }
+
+  .marqueeTrack { animation-duration: 18s; }
+  .marqueeGroup { gap: 24px; padding: 0 16px; }
+  .paymentLink { min-width: 108px; min-height: 50px; }
+  .paymentBrand img { max-width: 36px; height: 25px; }
+  .paymentBrand strong { font-size: 0.82rem; }
+  .visa { font-size: 1.45rem; }
+  .mastercard i { width: 32px; height: 32px; }
+}
+
+@media (max-width: 560px) {
+  .heroFrame { width: 100vw; }
+  .heroCanvas { border-radius: 0 0 24px 24px; }
+  .marqueeGroup { gap: 18px; padding: 0 12px; }
+  .paymentLink { min-width: 96px; }
+  .mobileMenuPanel { width: 92vw; }
+}
+
 @media (max-width: 680px) {
   .demoLayer { padding: 10px; }
   .demoDialog { border-radius: 20px; }
   .demoWorkspace { grid-template-columns: 1fr; }
   .demoRail { display: none; }
   .demoMetrics { grid-template-columns: 1fr; }
-  .demoHeader, .demoFooter { align-items: flex-start; }
+  .demoHeader,
+  .demoFooter { align-items: flex-start; }
   .demoFooter { flex-direction: column; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marqueeTrack { animation: none; }
+  .hotspot,
+  .paymentLink,
+  .mobileMenuPanel { transition: none; animation: none; }
 }
