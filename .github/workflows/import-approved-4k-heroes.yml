@@ -5,6 +5,9 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/import-approved-4k-heroes.yml'
+  pull_request_target:
+    branches: [main]
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
 
 permissions:
@@ -14,9 +17,10 @@ jobs:
   import-assets:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
+      - name: Check out production branch
         uses: actions/checkout@v4
         with:
+          ref: main
           fetch-depth: 0
 
       - name: Download native Canva renders
@@ -65,7 +69,6 @@ jobs:
             app/api/internal/canva-asset-test \
             .vercel-canva-resolution-check \
             .vercel-responsive-hero-release \
-            .vercel-canva-resolution-check \
             .github/workflows/import-approved-4k-heroes.yml
 
       - name: Commit permanent assets
