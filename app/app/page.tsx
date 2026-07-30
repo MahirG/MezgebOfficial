@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { MezgebApplication } from '@/components/mezgeb-application';
+import { MezgebExperienceEnhancements } from '@/components/mezgeb-experience-enhancements';
 import { MezgebFlutterShell } from '@/components/mezgeb-flutter-shell';
 import { MezgebMobileControlsGate } from '@/components/mezgeb-mobile-controls-gate';
 import { createClient } from '@/lib/supabase/server';
@@ -8,6 +9,7 @@ import './app.css';
 import './cloud.css';
 import './clean-app.css';
 import './app-polish.css';
+import './experience.css';
 
 export const metadata: Metadata = {
   title: 'Mezgeb Business Workspace',
@@ -153,6 +155,7 @@ export default async function MezgebAppPage({ searchParams }: { searchParams: Se
           activeBusinessId={activeBusiness.id}
           businesses={appBusinesses}
         />
+        <MezgebExperienceEnhancements />
       </section>
     </main>
   );
