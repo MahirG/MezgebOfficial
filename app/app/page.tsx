@@ -10,6 +10,7 @@ import './cloud.css';
 import './clean-app.css';
 import './app-polish.css';
 import './experience.css';
+import './x-mobile-footer.css';
 
 export const metadata: Metadata = {
   title: 'Mezgeb Business Workspace',
