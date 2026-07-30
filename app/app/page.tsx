@@ -12,6 +12,7 @@ import './app-polish.css';
 import './experience.css';
 import './x-mobile-footer.css';
 import './contrast-fix.css';
+import './app-navigation-premium.css';
 
 export const metadata: Metadata = {
   title: 'Mezgeb Business Workspace',
