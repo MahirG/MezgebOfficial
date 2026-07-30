@@ -1,5 +1,12 @@
 /* Lightweight application feedback and input-mode affordances. */
 
+html:has(body[data-mezgeb-theme='dark'] .productionAppPage),
+body[data-mezgeb-theme='dark']:has(.productionAppPage) {
+  background: #0e1014 !important;
+  color: #f5f7fa !important;
+  color-scheme: dark;
+}
+
 .mezgebConnectionStatus {
   position: fixed;
   top: calc(var(--mz-appbar) + 12px);
