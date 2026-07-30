@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 
 type ConnectionState = 'online' | 'offline' | 'restored';
 
+const workspaceLabels = ['Home', 'Ledger', 'Receipts', 'Dube', 'Reports', 'Operations'];
+
 function isEditableTarget(target: EventTarget | null) {
   if (!(target instanceof HTMLElement)) return false;
   return Boolean(
@@ -38,6 +40,34 @@ export function MezgebExperienceEnhancements() {
   const restoredTimer = useRef<number | null>(null);
 
   useEffect(() => {
+    const searchButtons = document.querySelectorAll<HTMLButtonElement>(
+      '.flutterIconButton[aria-label="Search workspace"], .mezgebMobileSearchBar button'
+    );
+    searchButtons.forEach((button) => {
+      button.setAttribute('aria-keyshortcuts', 'Control+K Meta+K');
+      button.title = 'Search workspace (Ctrl/⌘ K)';
+    });
+
+    const saleButtons = document.querySelectorAll<HTMLButtonElement>(
+      '.flutterFab, .cloudQuickActions button:first-child'
+    );
+    saleButtons.forEach((button) => {
+      button.setAttribute('aria-keyshortcuts', 'Alt+N');
+      button.title = 'New sale (Alt+N)';
+    });
+
+    const navigationButtons = document.querySelectorAll<HTMLButtonElement>(
+      '.flutterNavRail nav button, .cloudSidebar nav button'
+    );
+    navigationButtons.forEach((button, index) => {
+      const destinationIndex = index % workspaceLabels.length;
+      const shortcut = `Alt+${destinationIndex + 1}`;
+      button.setAttribute('aria-keyshortcuts', shortcut);
+      button.title = `${workspaceLabels[destinationIndex]} (${shortcut})`;
+    });
+  }, []);
+
+  useEffect(() => {
     const setInputMode = (mode: 'keyboard' | 'pointer') => {
       document.body.dataset.mezgebInput = mode;
     };
@@ -66,7 +96,7 @@ export function MezgebExperienceEnhancements() {
         const index = Number(event.key) - 1;
         if (activateWorkspaceView(index)) {
           event.preventDefault();
-          setAnnouncement(`Workspace section ${event.key} opened`);
+          setAnnouncement(`${workspaceLabels[index]} opened`);
         }
       }
     };
