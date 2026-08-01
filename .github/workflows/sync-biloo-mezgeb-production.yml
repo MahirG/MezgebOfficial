@@ -18,12 +18,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Mezgeb Vercel deployment mirror
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           ref: main
 
       - name: Checkout canonical Biloo Mezgeb source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: MahirG/biloo_group
           ref: biloo-mezgeb-production
